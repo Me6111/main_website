@@ -9,7 +9,7 @@ import Img_2_1 from './Img_2_1.png';
 import Img_2_2 from './Img_2_2.png';
 import Img_2_3 from './Img_2_3.png';
 
-import myStack_0 from './myStack_0.jpg';
+import myStack_0 from './mystack_0.jpg';
 
 
 
