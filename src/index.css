@@ -1,0 +1,12 @@
+:root {
+  background-color: black;
+  font-family: 'Inter', sans-serif;
+  top: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+

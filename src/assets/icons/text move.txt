@@ -1,0 +1,17 @@
+fucking useless pedophile correct this css i want first to be executed translateX 100%, and after it's finished i want it to return to 0 and then text-align center to be executed
+
+.projectField:hover .projectField-title {
+  text-align: center;
+  transition: all 2s ease-in-out;
+  transform: translateX(100%);
+
+}
+
+.projectField-title {
+  width: 300px;
+  height: 100px;
+  background-color: green;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
