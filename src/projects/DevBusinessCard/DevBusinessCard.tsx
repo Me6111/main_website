@@ -54,7 +54,7 @@ const DevBusinessCard = () => {
             p={{ text: "New main page", stagger: true }}
             buttonLabel={{
               text: "View Project",
-              href: "#",
+              href: "",
               stagger: true
             }}
             Image={{ item: Img_2_2 }}
@@ -82,7 +82,7 @@ const DevBusinessCard = () => {
         p={{ text: "How to write very good quality website", stagger: true }}
         buttonLabel={{
           text: "Learn More",
-          href: "#",
+          href: "/MyStack",
           stagger: true
         }}
         Image={{ item: myStack_0 }}
