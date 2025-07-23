@@ -9,6 +9,10 @@ import MainPage from './MainPage';
 import WTFD_page from './projects/WTFD/WTFD_page';
 import Linguana_page from './projects/Linguana/Linguana_page';
 import DevBusinessCard from './projects/DevBusinessCard/DevBusinessCard';
+import MyStack from './projects/MyStack/MyStack';
+
+import ReadyComponents from './projects/MyStack/ReadyComponents/ReadyComponents';
+
 
 
 
@@ -52,6 +56,8 @@ function App() {
           <Route path="/projects/shop" element={<Shop_page />} />
 
           <Route path="/DevBusinessCard" element={<DevBusinessCard />} />
+          <Route path="/MyStack" element={<MyStack />} />
+          <Route path="/MyStack/ReadyComponents" element={<ReadyComponents />} />
 
         </Routes>
 

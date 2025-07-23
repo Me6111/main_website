@@ -1,0 +1,76 @@
+.LearnMoreButton {
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    height: 60px;
+    width: 175px;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Verdana, sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+}
+  
+.LearnMoreButton:hover {
+    color: black;
+}
+  
+.LearnMoreButton::before,
+.LearnMoreButton::after {
+    content: "";
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+  
+.LearnMoreButton:hover::before {
+    transform: translateY(0);
+    transition: transform 0s ease-out;
+    opacity: 0;
+}
+  
+.LearnMoreButton::before {
+    transform: translateY(-100%);
+    transition: transform 0.2s ease-out;
+}
+  
+.LearnMoreButton::after {
+    transform: translateY(100%);
+    transition: transform 0s ease-out;
+}
+  
+.LearnMoreButton:hover::after {
+    transform: translateY(0);
+    transition: transform 0.2s ease-out;
+}
+  
+
+
+  
+.LearnMore-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0.9);
+}
+
+
+
+
+

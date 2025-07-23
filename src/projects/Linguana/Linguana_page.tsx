@@ -15,6 +15,8 @@ const Linguana_page = () => {
         header1={{ text: "Linguana", stagger: true }} 
         p={{ text: "Language learning through intelligent tech", stagger: true }} 
         HeaderFading={true} 
+        CenteredHeader={true}
+
 
       />
       <SectionScreen

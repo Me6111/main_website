@@ -17,7 +17,7 @@
   transition-delay: 0.4s;
 }
 
-.stagger-container.is-visible .stagger-item.LearnMore-button {
+.stagger-container.is-visible .stagger-item.LearnMoreButton {
   transition-delay: 0.6s;
 }
 
@@ -111,98 +111,6 @@
 
 
 
-  .sectionScreen .LearnMore-button {
-    background-color: transparent;
-    border: 2px solid #ffffff;
-    padding: 0;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    height: 60px;
-    width: 175px;
-    display: flex;
-    text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, Verdana, sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.9);
-    opacity: 0;
-  }
-  
-  .sectionScreen .LearnMore-button:hover {
-    color: black;
-  }
-  
-  .sectionScreen .LearnMore-button::before,
-  .sectionScreen .LearnMore-button::after {
-    content: "";
-    background-color: rgb(255, 255, 255);
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    pointer-events: none;
-    z-index: -1;
-  }
-  
-  .sectionScreen .LearnMore-button:hover::before {
-    transform: translateY(0);
-    transition: transform 0s ease-out;
-    opacity: 0;
-  }
-  
-  .sectionScreen .LearnMore-button::before {
-    transform: translateY(-100%);
-    transition: transform 0.2s ease-out;
-  }
-  
-  .sectionScreen .LearnMore-button::after {
-    transform: translateY(100%);
-    transition: transform 0s ease-out;
-  }
-  
-  .sectionScreen .LearnMore-button:hover::after {
-    transform: translateY(0);
-    transition: transform 0.2s ease-out;
-  }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  .sectionScreen .LearnMore-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transform: scaleX(0.9);
-}
-
-
-
-
-
-
 
 
 
@@ -266,3 +174,64 @@
   width: 100%;
   height: 100%;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sectionScreen.CenteredHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.sectionScreen.CenteredHeader .header {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+  color: white;
+  background: rgba(0, 0, 0, 0);
+  
+  display: flex;
+  justify-content: center; 
+  align-items: flex-end; 
+  
+  padding-bottom: 300px; 
+  
+  text-align: center;
+}
+
+.sectionScreen.CenteredHeader .header1 {
+  transform: scaleX(0.9) scaleY(1);
+  width: 100%;
+  font-size: 50px;
+  font-weight: 0;
+  font-family: Arial, Verdana, sans-serif;
+  text-transform: uppercase;
+}
+.sectionScreen.CenteredHeader p {
+  font-size: 20px;
+}
+
+.sectionScreen.CenteredHeader .stagger-container.is-visible .stagger-item.image-item {
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out;
+  transition-delay: 0.8s;
+}
+

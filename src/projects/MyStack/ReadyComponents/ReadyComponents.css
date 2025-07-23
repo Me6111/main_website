@@ -1,0 +1,131 @@
+/*
+
+#sectionScreen-readyComponents .sectionScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sectionScreen-readyComponents .header {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+    color: white;
+    background: rgba(0, 0, 0, 0);
+    
+    display: flex;
+    justify-content: center; 
+    align-items: flex-end; 
+    
+    padding-bottom: 300px; 
+    
+    text-align: center;
+}
+
+#sectionScreen-readyComponents .header1 {
+    transform: scaleX(0.9) scaleY(1);
+    width: 100%;
+    font-size: 50px;
+    font-weight: 0;
+    font-family: Arial, Verdana, sans-serif;
+    text-transform: uppercase;
+}
+#sectionScreen-readyComponents p {
+    font-size: 20px;
+}
+  
+
+  
+
+  
+#sectionScreen-readyComponents .stagger-container.is-visible .stagger-item.image-item {
+    opacity: 0.9;
+    transform: translateY(0); 
+   
+    transition: opacity 0.8s ease-out;
+    transition-delay: 0.8s;
+
+}
+  
+  
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.SectionScreen_2 {
+    background-color: green;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sectionScreen-button-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 3rem 1rem;
+  background-color: #f9f9f9;
+  background-color: rgb(157, 157, 157);
+
+  height: auto;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+#sectionScreen-button-1 .LearnMoreButton {
+    opacity: 1;
+}
+
+.code-block {
+  width: 100%;
+  max-width: 600px;
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+

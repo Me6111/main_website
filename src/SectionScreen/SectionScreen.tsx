@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, ReactNode } from 'react';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import './SectionScreen.css';
 
+import LearnMoreButton from './LearnMoreButton/LearnMoreButton';
+
 interface SectionScreenProps {
   id: string;
   Image: { item: string; stagger?: boolean };
@@ -9,6 +11,7 @@ interface SectionScreenProps {
   p?: { text: string; stagger?: boolean };
   buttonLabel?: { text: string; stagger?: boolean; href: string };
   HeaderFading?: boolean;
+  CenteredHeader?: boolean; 
   childrenSections?: ReactNode[];
 }
 
@@ -21,6 +24,7 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
       p,
       buttonLabel,
       HeaderFading = false,
+      CenteredHeader = false, 
       childrenSections = [],
     },
     propRef
@@ -83,8 +87,10 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
       setCurrentIndex((prev) => (prev + 1) % childrenSections.length);
     };
 
+    const containerClass = `sectionScreen${CenteredHeader ? ' CenteredHeader' : ''}`; // ✅ Dynamic class
+
     return (
-      <div className="sectionScreen" ref={sectionRef} id={`sectionScreen-${id}`}>
+      <div className={containerClass} ref={sectionRef} id={`sectionScreen-${id}`}>
         <div className="stagger-container">
           <div
             className="header"
@@ -112,14 +118,12 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
                 </p>
               )}
             </div>
-            {buttonLabel?.text && buttonLabel?.href && (
-              <a
-                href={buttonLabel.href}
-                className={buttonLabel.stagger ? 'stagger-item LearnMore-button' : 'LearnMore-button'}
-              >
-                {buttonLabel.text}
-              </a>
-            )}
+
+            <LearnMoreButton
+              text={buttonLabel?.text}
+              href={buttonLabel?.href}
+              stagger={buttonLabel?.stagger}
+            />
           </div>
 
           <div className="image">
@@ -135,7 +139,9 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
 
         {childrenSections.length > 0 && (
           <div className="slider-wrapper">
-            <button className="slider-arrow left" onClick={goToPrev}>&#10094;</button>
+            <button className="slider-arrow left" onClick={goToPrev}>
+              &#10094;
+            </button>
             <div className="nested-sections-container" ref={sliderRef}>
               {childrenSections.map((child, index) => (
                 <div key={index} className="nested-section">
@@ -143,7 +149,9 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
                 </div>
               ))}
             </div>
-            <button className="slider-arrow right" onClick={goToNext}>&#10095;</button>
+            <button className="slider-arrow right" onClick={goToNext}>
+              &#10095;
+            </button>
           </div>
         )}
       </div>
