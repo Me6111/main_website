@@ -25,7 +25,7 @@ const MyStack = () => {
         id="readyComponents"
         Image={{item: ReadyComponentsMain, stagger: true}}
         header1={{ text: "Ready Components", stagger: true }} 
-        p={{ text: "How to create the best websites", stagger: true }} 
+        p={{ text: "just copy and paste", stagger: true }} 
         buttonLabel={{
           text: "Explore",
           href: "/MyStack/ReadyComponents",

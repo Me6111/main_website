@@ -3,7 +3,7 @@ import './DevBusinessCard.css';
 
 import SectionScreen from '../../SectionScreen/SectionScreen';
 
-import Img_1 from './Img_1.jpg';
+import Img_1 from './Img_1.png';
 
 import Img_2_1 from './Img_2_1.png';
 import Img_2_2 from './Img_2_2.png';

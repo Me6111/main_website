@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionScreen from './SectionScreen/SectionScreen';
 
-import profileImage from './assets/images/main_1.png';
+import profileImage from './assets/images/Img_1.png';
 import designImg from './assets/images/designImg.png';
 import constructionImg from './assets/images/constructionImg.png';
 import expandingImg from './assets/images/expandingImg.png';
