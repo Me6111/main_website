@@ -8,11 +8,19 @@ interface CopyIconProps {
 }
 
 const CopyIcon: React.FC<CopyIconProps> = ({ copied, size = 14, showLabel = true }) => {
-  const squareSize = size * 0.54;
-  const cornerRadius = size * 0.083;
+  const squareSize = size * 0.5;
+  const cornerRadius = size * 0.1;
 
-  const Square = ({ translateX, translateY }: { translateX: number; translateY: number }) => (
-    <g transform={`translate(${translateX}, ${translateY})`}>
+  const Square = ({
+    translateX,
+    translateY,
+    id,
+  }: {
+    translateX: number;
+    translateY: number;
+    id: string;
+  }) => (
+    <g id={id} transform={`translate(${translateX}, ${translateY})`}>
       <rect
         x={-squareSize / 2}
         y={-squareSize / 2}
@@ -20,9 +28,7 @@ const CopyIcon: React.FC<CopyIconProps> = ({ copied, size = 14, showLabel = true
         height={squareSize}
         rx={cornerRadius}
         ry={cornerRadius}
-        stroke="currentColor"
-        fill="none"
-        strokeWidth={1}
+        className="copy-square-rect"
       />
     </g>
   );
@@ -30,21 +36,18 @@ const CopyIcon: React.FC<CopyIconProps> = ({ copied, size = 14, showLabel = true
   return (
     <button className="copy-button" type="button" aria-pressed={copied}>
       <svg
+        className="copy-icon-svg"
         width={size}
         height={size}
         viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
         aria-hidden="true"
       >
         {copied ? (
-          <polyline points="20 6 9 17 4 12" strokeWidth={2} /> // Thinner stroke for polyline
+          <polyline className="copy-check" points="20 6 9 17 4 12" />
         ) : (
           <g transform="translate(12,12)">
-            <Square translateX={-4} translateY={-4} />
-            <Square translateX={4} translateY={4} />
+            <Square id="CopyIconSquare1" translateX={2} translateY={-1.5} />
+            <Square id="CopyIconSquare2" translateX={-2} translateY={1.5} />
           </g>
         )}
       </svg>

@@ -66,31 +66,14 @@
 
 
 
-.SectionScreen_2 {
-    background-color: green;
+
+
+
+
+.readyComponents-slider {
+    display: flex;
+    flex-direction: row;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #sectionScreen-button-1 {

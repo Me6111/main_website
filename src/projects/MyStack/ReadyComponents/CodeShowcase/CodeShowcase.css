@@ -1,0 +1,17 @@
+.live-preview {
+    border: 1px, solid rgb(0, 0, 0);
+    padding: 50px;
+}
+
+.live-preview-section {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.live-preview-section-title {
+    margin: 0;
+}
+
+.code-sections {
+    display: flex;
+    flex-direction: row;
+}

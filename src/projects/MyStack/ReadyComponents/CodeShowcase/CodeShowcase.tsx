@@ -1,27 +1,56 @@
 import React from 'react';
+import './CodeShowcase.css';
+
 import CodeBlock from './CodeBlock'; // adjust path accordingly
+import CodeLivePreview from './CodeLivePreview';
 
 interface ShowcaseProps {
-  initialCode: string;
-  renderComponent: (code: string) => React.ReactNode;
+  Name: string;
+  ComponentUsageCodeRaw: string;
+  ComponentDefinitionCodeRaw: string;
+  ComponentStyleCodeRaw: string;
+
   language?: string;
+  dependencies?: { [key: string]: any };
 }
 
 const CodeShowcase: React.FC<ShowcaseProps> = ({
-  initialCode,
-  renderComponent,
+  Name,
+  ComponentUsageCodeRaw,
+  ComponentDefinitionCodeRaw,
+  ComponentStyleCodeRaw,
+
   language = 'tsx',
+  dependencies = {},
 }) => {
   return (
-    <div className="showcase-block">
-      <div
-        className="live-preview"
-        style={{ border: '1px solid #333', padding: 10, marginBottom: 20 }}
-      >
-        {renderComponent(initialCode)}
+    <div className="CodeShowcase">
+      <h2 className="section-title">{Name}</h2>
+
+
+      <div className="live-preview">
+        <CodeLivePreview code={ComponentUsageCodeRaw} dependencies={dependencies} />
       </div>
 
-      <CodeBlock code={initialCode} language={language} />
+
+      <div className="code-sections">
+        <div className="live-preview-section">
+          <h2 className="live-preview-section-title">Usage</h2>
+          <CodeBlock code={ComponentUsageCodeRaw} language={language} />
+        </div>
+
+        <div className="live-preview-section">
+          <h2 className="live-preview-section-title">Definition</h2>
+          <CodeBlock code={ComponentDefinitionCodeRaw} language={language} />
+        </div>
+
+        <div className="live-preview-section">
+          <h2 className="live-preview-section-title">Style</h2>
+          <CodeBlock code={ComponentStyleCodeRaw} language={language} />
+        </div>
+
+      </div>
+
     </div>
   );
 };
