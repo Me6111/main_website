@@ -1,43 +1,36 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import CopyIcon from '../../../../CopyIcon/CopyIcon';
+import CopyButton from '../../../../CopyButton/CopyButton';
 import './CodeBlock.css';
 
 interface CodeBlockProps {
-  code: string;
+  code: string | unknown;
   language: string;
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code, language }) => {
-  const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLDivElement>(null);
+  const safeCode = typeof code === 'string' ? code.trim() : '';
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
+  const getTextToCopy = () => {
+    if (!codeRef.current) return '';
+    return codeRef.current.textContent || '';
   };
 
   return (
     <div className="code-block-wrapper">
       <div className="code-block-header">
         <span className="language-label">{language}</span>
-        <button
-          className="copy-button"
-          onClick={handleCopy}
-          aria-label="Copy code"
-          title="Copy code"
-          type="button"
-        >
-          <CopyIcon copied={copied} size={18} />
-        </button>
+        <CopyButton getTextToCopy={getTextToCopy} size={18} />
       </div>
 
-      <SyntaxHighlighter language={language} style={vscDarkPlus} showLineNumbers>
-        {code.trim()}
-      </SyntaxHighlighter>
+      <div ref={codeRef}>
+        <SyntaxHighlighter language={language} style={vscDarkPlus} showLineNumbers>
+          {safeCode}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 };

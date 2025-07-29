@@ -1,7 +1,3 @@
-const LearnMoreButtonUsage = () => (
-  <LearnMoreButton
-    text="Explore"
-    href="#"
-    stagger={false}
-  />
-);
+export default `
+  <LearnMoreButton text="Explore" href="#" stagger={false} />
+`;

@@ -1,27 +1,36 @@
 import React from 'react';
-
 import './ReadyComponents.css';
 
 import SectionScreen from '../../../SectionScreen/SectionScreen';
-import CodeShowcase from './CodeShowcase/CodeShowcase';
-
-import LearnMoreButtonUsageCodeRaw from './LearnMoreButtonUsage.tsx?raw';
-import LearnMoreButtonSourceCode from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.tsx?raw';
-import ComponentStyleCodeRaw from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.css?raw';
-
-
-
 import ReadyComponentsMain from './ReadyComponentsMain.png';
+import Slider from './Slider/Slider';
 
+import LearnMoreButtonSourceCodeRaw from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.tsx?raw';
+import LearnMoreButtonStyleCodeRaw from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.css?raw';
 import LearnMoreButton from '../../../SectionScreen/LearnMoreButton/LearnMoreButton';
 
-declare global {
-  interface Window {
-    Babel: any;
-  }
-}
+import CopyButtonSourceCodeRaw from '../../../CopyButton/CopyButton.tsx?raw';
+import CopyButtonStyleCodeRaw from '../../../CopyButton/CopyButton.css?raw';
+import CopyButton from '../../../CopyButton/CopyButton';
 
 const ReadyComponents = () => {
+  const contentData = [
+    {
+      name: 'CopyButton',
+      usage: `<CopyButton codeToCopy="Hello World!" size={18} />`,
+      definition: CopyButtonSourceCodeRaw,
+      style: CopyButtonStyleCodeRaw,
+      Component: () => <CopyButton codeToCopy="Hello World!" size={18} />,
+    },
+    {
+      name: 'LearnMoreButton',
+      usage: '<LearnMoreButton text="Explore" href="#" stagger={false} />',
+      definition: LearnMoreButtonSourceCodeRaw,
+      style: LearnMoreButtonStyleCodeRaw,
+      Component: LearnMoreButton,
+    },
+  ];
+
   return (
     <main>
       <SectionScreen
@@ -33,25 +42,7 @@ const ReadyComponents = () => {
         CenteredHeader={true}
       />
 
-
-
-    <div className="readyComponents-slider">
-      <div className="sectionScreen" id="sectionScreen-button-1">
-        <div className="content-wrapper">
-          <CodeShowcase
-            Name={"LearnMoreButton"}
-            ComponentUsageCodeRaw={LearnMoreButtonUsageCodeRaw}
-            ComponentDefinitionCodeRaw={LearnMoreButtonSourceCode}
-            ComponentStyleCodeRaw={ComponentStyleCodeRaw}
-            dependencies={{ LearnMoreButton }}
-          />
-        </div>
-      </div>
-
-
-
-    </div>
-
+      <Slider contentData={contentData} />
     </main>
   );
 };

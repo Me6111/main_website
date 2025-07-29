@@ -23,7 +23,7 @@ const MyStack = () => {
       />
       <SectionScreen
         id="readyComponents"
-        Image={{item: ReadyComponentsMain, stagger: true}}
+        Image={{item: ReadyComponentsMain, stagger: false}}
         header1={{ text: "Ready Components", stagger: true }} 
         p={{ text: "just copy and paste", stagger: true }} 
         buttonLabel={{

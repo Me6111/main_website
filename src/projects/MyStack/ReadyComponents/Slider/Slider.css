@@ -1,0 +1,70 @@
+/* Main container wrapping everything */
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 120vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  /* The absolutely positioned container for nav buttons */
+  .slider-nav-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* allows clicks through except the buttons themselves */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  /* Nav buttons on left and right */
+  .nav-button {
+    pointer-events: all;
+    background-color: #000000;
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    font-size: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    user-select: none;
+    z-index: 20;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background-color: #ffffff;
+    color: black;
+    opacity: 1;
+  }
+  
+  /* Outer slider window: only shows 1 slide at a time */
+  .readyComponents-slider {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Inner sliding track */
+  .slider-track {
+    display: flex;
+    transition: transform 1s ease-in-out;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Each slide */
+  .content-wrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: rgb(159, 159, 159);
+    flex-shrink: 0;
+  }
+  
