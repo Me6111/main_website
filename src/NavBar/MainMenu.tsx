@@ -6,7 +6,13 @@ const MainMenu = () => {
 
   const toggleSidebar = () => setIsOpen(prev => !prev);
 
-  const items = ['Stack', 'Updates', 'Courses', 'Reviews', 'Shop'];
+  const items = [
+    { label: 'Stack', href: '/mystack' },
+    { label: 'Updates', href: '/updates' },
+    { label: 'Courses', href: '/courses' },
+    { label: 'Reviews', href: '/reviews' },
+    { label: 'Shop', href: '/shop' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,13 +36,14 @@ const MainMenu = () => {
         <div className="sidebar-optionsList">
           {isOpen &&
             items.map((item, index) => (
-              <div
-                key={`${item}-${isOpen}`}
+              <a
+                key={`${item.label}-${isOpen}`}
+                href={item.href}
                 className="sidebar-optionsList-item"
                 style={{ animationDelay: `${(index + 1) * 0.1}s` }}
               >
-                {item}
-              </div>
+                {item.label}
+              </a>
             ))}
         </div>
       </aside>

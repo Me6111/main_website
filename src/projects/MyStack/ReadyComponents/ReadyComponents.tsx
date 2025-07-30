@@ -17,10 +17,10 @@ const ReadyComponents = () => {
   const contentData = [
     {
       name: 'CopyButton',
-      usage: `<CopyButton codeToCopy="Hello World!" size={18} />`,
+      usage: `<CopyButton textToCopy="Hello World!" size={18} />`,
       definition: CopyButtonSourceCodeRaw,
       style: CopyButtonStyleCodeRaw,
-      Component: () => <CopyButton codeToCopy="Hello World!" size={18} />,
+      Component: () => <CopyButton textToCopy="Hello World!" size={18} />, 
     },
     {
       name: 'LearnMoreButton',
@@ -41,7 +41,6 @@ const ReadyComponents = () => {
         HeaderFading={true}
         CenteredHeader={true}
       />
-
       <Slider contentData={contentData} />
     </main>
   );

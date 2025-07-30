@@ -42,7 +42,7 @@
 
 
 .code-block {
-  width: 100%;
+  width: auto;
   max-width: 600px;
   background-color: #1e1e1e;
   color: #dcdcdc;
