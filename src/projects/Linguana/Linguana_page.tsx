@@ -1,6 +1,6 @@
 import './Linguana_page.css';
 
-import SectionScreen from '../../SectionScreen/SectionScreen';
+import SectionScreen from '../../components/SectionScreen/SectionScreen';
 
 
 import Img_1 from './Img_1.png';

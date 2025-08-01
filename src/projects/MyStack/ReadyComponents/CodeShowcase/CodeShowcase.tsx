@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import './CodeShowcase.css';
-import CodeBlock from './CodeBlock';
+import CodeBlock from '../../../../components/CodeBlock/CodeBlock';
 
 interface ShowcaseProps {
   Name: string;
@@ -8,7 +8,8 @@ interface ShowcaseProps {
   ComponentDefinitionCodeRaw: string | unknown;
   ComponentStyleCodeRaw: string | unknown;
   language?: string;
-  dependencies?: { [key: string]: React.FC<any> };
+  dependencies?: { [key: string]: React.FC<any> | React.ReactElement };
+  ComponentInstance?: React.ReactNode; // ✅ Added
 }
 
 const CodeShowcase: React.FC<ShowcaseProps> = ({
@@ -18,6 +19,7 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
   ComponentStyleCodeRaw,
   language = 'tsx',
   dependencies = {},
+  ComponentInstance, // ✅ Added
 }) => {
   const safeCode = (code: string | unknown) =>
     typeof code === 'string' ? code : String(code ?? '');
@@ -34,35 +36,52 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
   const styleCode = safeCode(ComponentStyleCodeRaw);
 
   const LivePreviewComponent = useMemo(() => {
+    if (ComponentInstance) {
+      return () => <>{ComponentInstance}</>; // ✅ Use directly if provided
+    }
+
     try {
       const usageMatch = usageCodeRaw.match(/^<([A-Z][A-Za-z0-9]*)\b/);
       if (!usageMatch) throw new Error('Could not extract component name.');
 
       const ComponentName = usageMatch[1];
-      const Component = dependencies[ComponentName];
-      if (!Component) throw new Error(`Component "${ComponentName}" not found.`);
+      const ComponentOrElement = dependencies[ComponentName];
+      if (!ComponentOrElement) throw new Error(`Component "${ComponentName}" not found.`);
 
-      const propsString = usageCodeRaw.replace(/^<\w+|\s*\/?>$/g, '').trim();
+      if (React.isValidElement(ComponentOrElement)) {
+        return () => ComponentOrElement;
+      }
+
+      const propsString = usageCodeRaw
+        .replace(new RegExp(`^<${ComponentName}\\s*|\\s*\/?>$`, 'g'), '')
+        .trim();
 
       const props: Record<string, any> = {};
-      propsString.split(/\s+/).forEach((pair) => {
-        const [key, valueRaw] = pair.split('=');
-        if (!key) return;
-        const cleanValue = valueRaw?.replace(/^['"]|['"]$/g, '');
-        props[key] =
-          cleanValue === 'false'
-            ? false
-            : cleanValue === 'true'
-            ? true
-            : cleanValue;
-      });
+      const propRegex = /(\w+)=({([^}]*)}|["']([^"']*)["'])/g;
+      let match;
+      while ((match = propRegex.exec(propsString)) !== null) {
+        const key = match[1];
+        const valueRaw = match[3] ?? match[4] ?? '';
 
-      return () => <Component {...props} />;
+        let value: any = valueRaw;
+        try {
+          value = new Function(`return (${valueRaw})`)();
+        } catch {
+          if (valueRaw === 'true') value = true;
+          else if (valueRaw === 'false') value = false;
+          else if (!isNaN(Number(valueRaw))) value = Number(valueRaw);
+          else value = valueRaw;
+        }
+
+        props[key] = value;
+      }
+
+      return () => React.createElement(ComponentOrElement as React.FC<any>, props);
     } catch (e) {
       console.error('Render error:', e);
       return () => <div style={{ color: 'red' }}>Error rendering component.</div>;
     }
-  }, [usageCodeRaw, dependencies]);
+  }, [ComponentInstance, usageCodeRaw, dependencies]); // ✅ Added ComponentInstance
 
   return (
     <div className="CodeShowcase">

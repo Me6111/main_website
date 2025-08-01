@@ -1,5 +1,5 @@
 .live-preview {
-    border: 1px, solid rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0); /* fixed comma typo */
     padding: 50px;
 }
 
@@ -8,10 +8,18 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
 .live-preview-section-title {
     margin: 0;
 }
 
 .code-sections {
-
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;      /* keep children in a single row */
+    overflow-x: auto;       /* enable horizontal scrolling */
+    overflow-y: hidden;     /* disable vertical scrolling */
+    gap: 1rem;              /* spacing between code blocks */
+    padding: 1rem;
+    white-space: nowrap;    /* prevent children from wrapping */
 }

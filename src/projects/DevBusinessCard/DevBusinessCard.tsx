@@ -1,7 +1,6 @@
-import React from 'react';
 import './DevBusinessCard.css';
 
-import SectionScreen from '../../SectionScreen/SectionScreen';
+import SectionScreen from '../../components/SectionScreen/SectionScreen';
 
 import Img_1 from './Img_1.png';
 

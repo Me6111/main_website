@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionScreen from './SectionScreen/SectionScreen';
+import SectionScreen from './components/SectionScreen/SectionScreen';
 
 import profileImage from './assets/images/Img_1.png';
 import designImg from './assets/images/designImg.png';

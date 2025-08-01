@@ -2,7 +2,7 @@ import React from 'react';
 import './MyStack.css';
 
 
-import SectionScreen from '../../SectionScreen/SectionScreen';
+import SectionScreen from '../../components/SectionScreen/SectionScreen';
 
 
 import mystack_0 from './mystack_0.jpg';

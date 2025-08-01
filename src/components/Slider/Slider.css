@@ -26,7 +26,7 @@
   /* Nav buttons on left and right */
   .nav-button {
     pointer-events: all;
-    background-color: #000000;
+    background-color: black;
     color: white;
     border: 2px solid white;
     border-radius: 10px;
@@ -45,11 +45,7 @@
     opacity: 1;
   }
   
-  /* Outer slider window: only shows 1 slide at a time */
-  .readyComponents-slider {
-    width: 100%;
-    height: 100%;
-  }
+ 
   
   /* Inner sliding track */
   .slider-track {
@@ -60,7 +56,7 @@
   }
   
   /* Each slide */
-  .content-wrapper {
+  .slider-slide {
     width: 100%;
     height: 100%;
     box-sizing: border-box;

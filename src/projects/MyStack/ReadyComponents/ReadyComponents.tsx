@@ -1,34 +1,76 @@
 import React from 'react';
 import './ReadyComponents.css';
 
-import SectionScreen from '../../../SectionScreen/SectionScreen';
+import SectionScreen from '../../../components/SectionScreen/SectionScreen';
 import ReadyComponentsMain from './ReadyComponentsMain.png';
-import Slider from './Slider/Slider';
+import Slider from '../../../components/Slider/Slider';
+import CodeShowcase from './CodeShowcase/CodeShowcase';
 
-import LearnMoreButtonSourceCodeRaw from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.tsx?raw';
-import LearnMoreButtonStyleCodeRaw from '../../../SectionScreen/LearnMoreButton/LearnMoreButton.css?raw';
-import LearnMoreButton from '../../../SectionScreen/LearnMoreButton/LearnMoreButton';
+import LearnMoreButtonSourceCodeRaw from '../../../components/LearnMoreButton/LearnMoreButton.tsx?raw';
+import LearnMoreButtonStyleCodeRaw from '../../../components/LearnMoreButton/LearnMoreButton.css?raw';
+import LearnMoreButton from '../../../components/LearnMoreButton/LearnMoreButton';
 
-import CopyButtonSourceCodeRaw from '../../../CopyButton/CopyButton.tsx?raw';
-import CopyButtonStyleCodeRaw from '../../../CopyButton/CopyButton.css?raw';
-import CopyButton from '../../../CopyButton/CopyButton';
+import CopyButtonSourceCodeRaw from '../../../components/CopyButton/CopyButton.tsx?raw';
+import CopyButtonStyleCodeRaw from '../../../components/CopyButton/CopyButton.css?raw';
+import CopyButton from '../../../components/CopyButton/CopyButton';
+
+import CodeBlockSourceCodeRaw from '../../../components/CodeBlock/CodeBlock.tsx?raw';
+import CodeBlockStyleCodeRaw from '../../../components/CodeBlock/CodeBlock.css?raw';
+import CodeBlock from '../../../components/CodeBlock/CodeBlock';
+
+import SliderSourceCodeRaw from '../../../components/Slider/Slider.tsx?raw';
+import SliderStyleCodeRaw from '../../../components/Slider/Slider.css?raw';
 
 const ReadyComponents = () => {
-  const contentData = [
-    {
-      name: 'CopyButton',
-      usage: `<CopyButton textToCopy="Hello World!" size={18} />`,
-      definition: CopyButtonSourceCodeRaw,
-      style: CopyButtonStyleCodeRaw,
-      Component: () => <CopyButton textToCopy="Hello World!" size={18} />, 
-    },
-    {
-      name: 'LearnMoreButton',
-      usage: '<LearnMoreButton text="Explore" href="#" stagger={false} />',
-      definition: LearnMoreButtonSourceCodeRaw,
-      style: LearnMoreButtonStyleCodeRaw,
-      Component: LearnMoreButton,
-    },
+  // Prepare slides as an array of React elements
+  const renderedSlides: React.ReactNode[] = [
+    <CodeShowcase
+      key="CopyButton"
+      Name="CopyButton"
+      ComponentUsageCodeRaw={`<CopyButton textToCopy="Hello World!" size={18} />`}
+      ComponentDefinitionCodeRaw={CopyButtonSourceCodeRaw}
+      ComponentStyleCodeRaw={CopyButtonStyleCodeRaw}
+      dependencies={{ React, CopyButton }}
+    />,
+    <CodeShowcase
+      key="LearnMoreButton"
+      Name="LearnMoreButton"
+      ComponentUsageCodeRaw={`<LearnMoreButton text="learn more" href="#" stagger={false} />`}
+      ComponentDefinitionCodeRaw={LearnMoreButtonSourceCodeRaw}
+      ComponentStyleCodeRaw={LearnMoreButtonStyleCodeRaw}
+      dependencies={{ React, LearnMoreButton }}
+    />,
+    <CodeShowcase
+      key="CodeBlock"
+      Name="CodeBlock"
+      ComponentUsageCodeRaw={`<CodeBlock code="console.log('Hello')" language="tsx" />`}
+      ComponentDefinitionCodeRaw={CodeBlockSourceCodeRaw}
+      ComponentStyleCodeRaw={CodeBlockStyleCodeRaw}
+      dependencies={{ React, CodeBlock }}
+    />,
+    <CodeShowcase
+      key="Slider"
+      Name="Slider"
+      ComponentInstance={
+        <Slider
+          slides={[
+            <div key={1}>1</div>,
+            <div key={2}>2</div>,
+            <div key={3}>3</div>,
+          ]}
+        />
+      }
+      ComponentUsageCodeRaw={`<Slider
+  slides={[
+    <div key={1}>1</div>,
+    <div key={2}>2</div>,
+    <div key={3}>3</div>,
+  ]}
+/>`}
+      ComponentDefinitionCodeRaw={SliderSourceCodeRaw}
+      ComponentStyleCodeRaw={SliderStyleCodeRaw}
+      dependencies={{ React, Slider }}
+    />,
   ];
 
   return (
@@ -41,7 +83,8 @@ const ReadyComponents = () => {
         HeaderFading={true}
         CenteredHeader={true}
       />
-      <Slider contentData={contentData} />
+      {/* Pass the array of React elements as slides */}
+      <Slider slides={renderedSlides} />
     </main>
   );
 };

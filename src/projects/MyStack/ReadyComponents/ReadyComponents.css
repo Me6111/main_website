@@ -1,4 +1,11 @@
-.readyComponents-slider .LearnMoreButton {
+.CodeShowcase .LearnMoreButton {
+    opacity: 1;
+    transform: translateY(0%);
+}
+  
+
+
+.CodeShowcase .Slider {
     opacity: 1;
     transform: translateY(0%);
 }
