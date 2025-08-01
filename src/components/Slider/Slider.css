@@ -1,66 +1,61 @@
-/* Main container wrapping everything */
+/* Base styles for any slider instance */
 .slider-container {
-    position: relative;
-    width: 100%;
-    height: 120vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  /* The absolutely positioned container for nav buttons */
-  .slider-nav-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* allows clicks through except the buttons themselves */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-  }
-  
-  /* Nav buttons on left and right */
-  .nav-button {
-    pointer-events: all;
-    background-color: black;
-    color: white;
-    border: 2px solid white;
-    border-radius: 10px;
-    font-size: 2rem;
-    padding: 1rem;
-    cursor: pointer;
-    user-select: none;
-    z-index: 20;
-    opacity: 0.8;
-    transition: all 0.3s ease;
-  }
-  
-  .nav-button:hover {
-    background-color: #ffffff;
-    color: black;
-    opacity: 1;
-  }
-  
- 
-  
-  /* Inner sliding track */
-  .slider-track {
-    display: flex;
-    transition: transform 1s ease-in-out;
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* Each slide */
-  .slider-slide {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    background-color: rgb(159, 159, 159);
-    flex-shrink: 0;
-  }
-  
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 1s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-slide {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  background-color: rgb(159, 159, 159);
+  flex-shrink: 0;
+}
+
+/* Navigation container and buttons */
+.slider-nav-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.nav-button {
+  pointer-events: all;
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  user-select: none;
+  z-index: 20;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: white;
+  color: black;
+  opacity: 1;
+}
+

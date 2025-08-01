@@ -22,7 +22,6 @@ import SliderSourceCodeRaw from '../../../components/Slider/Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../../components/Slider/Slider.css?raw';
 
 const ReadyComponents = () => {
-  // Prepare slides as an array of React elements
   const renderedSlides: React.ReactNode[] = [
     <CodeShowcase
       key="CopyButton"
@@ -53,6 +52,7 @@ const ReadyComponents = () => {
       Name="Slider"
       ComponentInstance={
         <Slider
+          id="inner-slider-showcase"
           slides={[
             <div key={1}>1</div>,
             <div key={2}>2</div>,
@@ -61,6 +61,7 @@ const ReadyComponents = () => {
         />
       }
       ComponentUsageCodeRaw={`<Slider
+  id="inner-slider-showcase"
   slides={[
     <div key={1}>1</div>,
     <div key={2}>2</div>,
@@ -83,8 +84,8 @@ const ReadyComponents = () => {
         HeaderFading={true}
         CenteredHeader={true}
       />
-      {/* Pass the array of React elements as slides */}
-      <Slider slides={renderedSlides} />
+      {/* Outer slider with unique ID */}
+      <Slider id="ready-components-slider" slides={renderedSlides} />
     </main>
   );
 };

@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import './Slider.css';
 
 type SliderProps = {
-  slides?: React.ReactNode[]; // Make slides optional
+  slides?: React.ReactNode[];
+  id?: string; // New optional id prop
 };
 
-const Slider: React.FC<SliderProps> = ({ slides = [] }) => { // Default to empty array
+const Slider: React.FC<SliderProps> = ({ slides = [], id }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -22,11 +23,11 @@ const Slider: React.FC<SliderProps> = ({ slides = [] }) => { // Default to empty
   }
 
   if (slides.length === 0) {
-    return <div className="slider-container">No slides available.</div>;
+    return <div id={id} className="slider-container">No slides available.</div>;
   }
 
   return (
-    <div className="slider-container">
+    <div id={id} className="slider-container">
       <div className="slider-nav-container">
         <button className="nav-button left" onClick={handlePrev}>
           &lt;

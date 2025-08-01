@@ -5,8 +5,16 @@
   
 
 
-.CodeShowcase .Slider {
-    opacity: 1;
-    transform: translateY(0%);
+
+#inner-slider-showcase .slider-container {
+  height: 100%; /* Allow parent container (CodeShowcase) to control height */
 }
-  
+
+#inner-slider-showcase .slider-slide {
+  background-color: green;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+}
