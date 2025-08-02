@@ -21,6 +21,10 @@ import CodeBlock from '../../../components/CodeBlock/CodeBlock';
 import SliderSourceCodeRaw from '../../../components/Slider/Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../../components/Slider/Slider.css?raw';
 
+import MainMenuSourceCodeRaw from '../../../components/MainMenu/MainMenu.tsx?raw';
+import MainMenuStyleCodeRaw from '../../../components/MainMenu/MainMenu.css?raw';
+import MainMenu from '../../../components/MainMenu/MainMenu';
+
 const ReadyComponents = () => {
   const renderedSlides: React.ReactNode[] = [
     <CodeShowcase
@@ -72,7 +76,32 @@ const ReadyComponents = () => {
       ComponentStyleCodeRaw={SliderStyleCodeRaw}
       dependencies={{ React, Slider }}
     />,
+
+
+
+<CodeShowcase
+  key="MainMenu"
+  Name="MainMenu"
+  ComponentUsageCodeRaw={`<MainMenu items={[
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Team', href: '/team' },
+  { label: 'Calendar', href: '/calendar' },
+  { label: 'Settings', href: '/settings' }
+]} />`}
+  ComponentDefinitionCodeRaw={MainMenuSourceCodeRaw}
+  ComponentStyleCodeRaw={MainMenuStyleCodeRaw}
+  dependencies={{ React, MainMenu }}
+/>
+
+
+
+
   ];
+
+
+
+
 
   return (
     <main>

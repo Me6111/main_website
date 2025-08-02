@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './NavBar.css';
-import MainMenu from './MainMenu';
+import MainMenu from '../MainMenu/MainMenu';
 
 interface Section {
   id: string;

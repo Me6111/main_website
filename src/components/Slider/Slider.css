@@ -49,13 +49,11 @@
   cursor: pointer;
   user-select: none;
   z-index: 20;
-  opacity: 0.8;
   transition: all 0.3s ease;
 }
 
 .nav-button:hover {
   background-color: white;
   color: black;
-  opacity: 1;
 }
 
