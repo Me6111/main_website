@@ -82,17 +82,22 @@ const ReadyComponents = () => {
 <CodeShowcase
   key="MainMenu"
   Name="MainMenu"
-  ComponentUsageCodeRaw={`<MainMenu items={[
-  { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Team', href: '/team' },
-  { label: 'Calendar', href: '/calendar' },
-  { label: 'Settings', href: '/settings' }
-]} />`}
+  ComponentUsageCodeRaw={`<MainMenu 
+    items={[
+      { label: 'Dashboard', href: '/dashboard' },
+      { label: 'Projects', href: '/projects' },
+      { label: 'Team', href: '/team' },
+      { label: 'Calendar', href: '/calendar' },
+      { label: 'Settings', href: '/settings' }
+    ]} 
+    portalTarget={document.body}
+  
+    />`}
   ComponentDefinitionCodeRaw={MainMenuSourceCodeRaw}
   ComponentStyleCodeRaw={MainMenuStyleCodeRaw}
   dependencies={{ React, MainMenu }}
 />
+
 
 
 

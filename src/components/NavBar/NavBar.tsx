@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import './NavBar.css';
 import MainMenu from '../MainMenu/MainMenu';
 
@@ -16,8 +17,6 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
-
-    //console.log("Scrolled to:", currentScrollY, "pixels");
 
     if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
       setShowContent(false);
@@ -42,12 +41,21 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const menuItems = [
+    { label: 'Stack', href: '/mystack' },
+    { label: 'Updates', href: '/updates' },
+    { label: 'Courses', href: '/courses' },
+    { label: 'Reviews', href: '/reviews' },
+    { label: 'Shop', href: '/shop' },
+  ];
 
-  return (
+  // JSX content to portal
+  const navBarContent = (
     <nav className={`NavBar ${hidden ? 'NavBar-hidden' : ''}`}>
       <div className={`NavBar-courtain ${curtainHidden ? 'NavBar-courtain-hidden' : ''}`} />
       <div className={`NavBar-inner ${showContent ? 'fade-in' : 'fade-out'}`}>
-        <div className="NavBar-Title"> <a href='/'> Hello </a> 
+        <div className="NavBar-Title">
+          <a href="/">Hello</a>
         </div>
         <ul>
           {sections.map((section) => (
@@ -58,10 +66,12 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
             </li>
           ))}
         </ul>
-        <MainMenu />
+        <MainMenu items={menuItems} />
       </div>
     </nav>
   );
+
+  return ReactDOM.createPortal(navBarContent, document.body);
 };
 
 export default NavBar;
