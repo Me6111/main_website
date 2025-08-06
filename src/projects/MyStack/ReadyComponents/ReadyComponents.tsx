@@ -83,20 +83,36 @@ const ReadyComponents = () => {
   key="MainMenu"
   Name="MainMenu"
   ComponentUsageCodeRaw={`<MainMenu 
-    items={[
+    Sidebar_items={[
       { label: 'Dashboard', href: '/dashboard' },
       { label: 'Projects', href: '/projects' },
       { label: 'Team', href: '/team' },
       { label: 'Calendar', href: '/calendar' },
       { label: 'Settings', href: '/settings' }
-    ]} 
-    portalTarget={document.body}
-  
-    />`}
+    ]}
+    Sidebar_portalTarget={document.body}
+    Sidebar_closeByClick={false}
+    Sidebar_closeByScroll={false}
+/>`}
   ComponentDefinitionCodeRaw={MainMenuSourceCodeRaw}
   ComponentStyleCodeRaw={MainMenuStyleCodeRaw}
+  ComponentInstance={
+    <MainMenu
+      Sidebar_items={[
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Projects', href: '/projects' },
+        { label: 'Team', href: '/team' },
+        { label: 'Calendar', href: '/calendar' },
+        { label: 'Settings', href: '/settings' }
+      ]}
+      Sidebar_portalTarget={document.body}
+      Sidebar_closeByClick={false}
+      Sidebar_closeByScroll={false}
+    />
+  }
   dependencies={{ React, MainMenu }}
 />
+
 
 
 

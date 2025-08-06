@@ -9,31 +9,42 @@ type MenuItem = {
 };
 
 type MainMenuProps = {
-  items: MenuItem[];
-  portalTarget?: Element; // Optional portal target for Sidebar
+  Sidebar_items: MenuItem[];
+  Sidebar_portalTarget?: Element;
+  Sidebar_closeByClick?: boolean;
+  Sidebar_closeByScroll?: boolean;
 };
 
-const MainMenu: React.FC<MainMenuProps> = ({ items, portalTarget }) => {
+const MainMenu: React.FC<MainMenuProps> = ({
+  Sidebar_items,
+  Sidebar_portalTarget,
+  Sidebar_closeByClick = false,
+  Sidebar_closeByScroll = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(prev => !prev);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (isOpen) setIsOpen(false);
+      if (Sidebar_closeByScroll && isOpen) setIsOpen(false);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isOpen]);
+    if (Sidebar_closeByScroll) {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [isOpen, Sidebar_closeByScroll]);
 
   return (
     <div className="MainMenu">
       <HamburgerButton isOpen={isOpen} toggle={toggleSidebar} />
       <Sidebar
         isOpen={isOpen}
-        items={items}
+        items={Sidebar_items}
         onClose={() => setIsOpen(false)}
-        portalTarget={portalTarget} // Pass down the optional portalTarget
+        portalTarget={Sidebar_portalTarget}
+        closeByClick={Sidebar_closeByClick}
+        closeByScroll={Sidebar_closeByScroll}
       />
     </div>
   );
