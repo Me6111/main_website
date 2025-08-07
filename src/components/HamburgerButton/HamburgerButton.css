@@ -26,6 +26,8 @@
   scale: 0.2;
 }
 
+/* Remove all hover effects here - no :hover selectors on .hamburger-menu */
+
 .hamburger-menu::before,
 .hamburger-menu::after,
 .hamburger-menu input {
@@ -42,7 +44,7 @@
 .hamburger-menu input {
   appearance: none;
   outline: none;
-  pointer-events: none;
+  /* pointer-events: none; */  /* removed pointer-events:none to allow clicks */
   height: var(--bar-height);
 }
 

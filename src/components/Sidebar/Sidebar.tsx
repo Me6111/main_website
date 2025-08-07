@@ -1,3 +1,4 @@
+// Sidebar.tsx
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './Sidebar.css';
@@ -7,8 +8,8 @@ type SidebarProps = {
   items: { label: string; href: string }[] | undefined | null;
   onClose: () => void;
   portalTarget?: Element;
-  closeByClick?: boolean;  // new prop, default true
-  closeByScroll?: boolean; // new prop, default false
+  closeByClick?: boolean;
+  closeByScroll?: boolean;
 };
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -26,11 +27,13 @@ const Sidebar: React.FC<SidebarProps> = ({
     if (!isOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        closeByClick &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+
+      // Don't close if clicking on hamburger menu
+      const isHamburgerClick = (target as HTMLElement)?.closest('.hamburger-menu');
+      const isOutside = sidebarRef.current && !sidebarRef.current.contains(target);
+
+      if (closeByClick && isOutside && !isHamburgerClick) {
         onClose();
       }
     };

@@ -68,7 +68,6 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
         </ul>
         <MainMenu 
           Sidebar_items={menuItems} 
-          Sidebar_portalTarget={document.body} 
           Sidebar_closeByClick={true} 
           Sidebar_closeByScroll={true} 
         />
