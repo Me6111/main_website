@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './NavBar.css';
+
+import Logo from '../Logo/Logo';
+import NavOptions from '../NavOptions/NavOptions'; 
 import MainMenu from '../MainMenu/MainMenu';
 
 interface Section {
@@ -9,7 +12,30 @@ interface Section {
   href: string;
 }
 
-const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
+type MainMenuButtonProps = {};
+const MainMenuButton: React.FC<MainMenuButtonProps> = () => {
+  const menuItems = [
+    { label: 'Stack', href: '/mystack' },
+    { label: 'Updates', href: '/updates' },
+    { label: 'Courses', href: '/courses' },
+    { label: 'Reviews', href: '/reviews' },
+    { label: 'Shop', href: '/shop' },
+  ];
+  return (
+    <MainMenu
+      Sidebar_items={menuItems}
+      Sidebar_closeByClick={true}
+      Sidebar_closeByScroll={true}
+    />
+  );
+};
+
+interface NavBarProps {
+  sections: Section[];
+  portalTarget?: HTMLElement; // optional prop for portal target, defaults to document.body
+}
+
+const NavBar: React.FC<NavBarProps> = ({ sections, portalTarget = document.body }) => {
   const [hidden, setHidden] = useState(false);
   const [showContent, setShowContent] = useState(true);
   const [curtainHidden, setCurtainHidden] = useState(false);
@@ -26,12 +52,7 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
       setTimeout(() => setShowContent(true), 300);
     }
 
-    if (currentScrollY > 740) {
-      setCurtainHidden(true);
-    } else {
-      setCurtainHidden(false);
-    }
-
+    setCurtainHidden(currentScrollY > 740);
     lastScrollY.current = currentScrollY;
   };
 
@@ -41,41 +62,18 @@ const NavBar: React.FC<{ sections: Section[] }> = ({ sections }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = [
-    { label: 'Stack', href: '/mystack' },
-    { label: 'Updates', href: '/updates' },
-    { label: 'Courses', href: '/courses' },
-    { label: 'Reviews', href: '/reviews' },
-    { label: 'Shop', href: '/shop' },
-  ];
-
-  // JSX content to portal
   const navBarContent = (
     <nav className={`NavBar ${hidden ? 'NavBar-hidden' : ''}`}>
       <div className={`NavBar-courtain ${curtainHidden ? 'NavBar-courtain-hidden' : ''}`} />
       <div className={`NavBar-inner ${showContent ? 'fade-in' : 'fade-out'}`}>
-        <div className="NavBar-Title">
-          <a href="/">Hello</a>
-        </div>
-        <ul>
-          {sections.map((section) => (
-            <li className="nav-item" key={section.id} id={`nav-item-${section.id}`}>
-              <a href={section.href}>
-                {section.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <MainMenu 
-          Sidebar_items={menuItems} 
-          Sidebar_closeByClick={true} 
-          Sidebar_closeByScroll={true} 
-        />
+        <Logo />
+        <NavOptions sections={sections} />
+        <MainMenuButton />
       </div>
     </nav>
   );
 
-  return ReactDOM.createPortal(navBarContent, document.body);
+  return ReactDOM.createPortal(navBarContent, portalTarget);
 };
 
 export default NavBar;

@@ -9,7 +9,7 @@ interface ShowcaseProps {
   ComponentStyleCodeRaw: string | unknown;
   language?: string;
   dependencies?: { [key: string]: React.FC<any> | React.ReactElement };
-  ComponentInstance?: React.ReactNode; // ✅ Added
+  ComponentInstance?: React.ReactNode; 
 }
 
 const CodeShowcase: React.FC<ShowcaseProps> = ({
@@ -19,7 +19,7 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
   ComponentStyleCodeRaw,
   language = 'tsx',
   dependencies = {},
-  ComponentInstance, // ✅ Added
+  ComponentInstance,
 }) => {
   const safeCode = (code: string | unknown) =>
     typeof code === 'string' ? code : String(code ?? '');
@@ -37,7 +37,7 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
 
   const LivePreviewComponent = useMemo(() => {
     if (ComponentInstance) {
-      return () => <>{ComponentInstance}</>; // ✅ Use directly if provided
+      return () => <>{ComponentInstance}</>;
     }
 
     try {
@@ -81,7 +81,7 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
       console.error('Render error:', e);
       return () => <div style={{ color: 'red' }}>Error rendering component.</div>;
     }
-  }, [ComponentInstance, usageCodeRaw, dependencies]); // ✅ Added ComponentInstance
+  }, [ComponentInstance, usageCodeRaw, dependencies]);
 
   return (
     <div className="CodeShowcase">

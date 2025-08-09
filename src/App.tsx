@@ -38,7 +38,8 @@ function App() {
     <Router>
       <div className='mainContainer'>
         
-        <NavBar sections={sections} />
+        <NavBar sections={sections} portalTarget={document.body} />
+
         
         
         <Routes>

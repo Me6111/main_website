@@ -1,0 +1,18 @@
+.NavBar-Title {
+    display: inline-block;
+    text-align: center;
+    padding: 0 10px;
+    transform: scaleX(1) scaleY(0.8);
+}
+
+.NavBar-Title a {
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 18px;
+    margin-right: 25px;
+    
+    font-size: 40px !important;
+    text-decoration: none;
+    font-weight: 400; /* Lighter weight */
+
+}

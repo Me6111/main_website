@@ -6,122 +6,39 @@ import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider/Slider';
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
-import LearnMoreButtonSourceCodeRaw from '../../../components/LearnMoreButton/LearnMoreButton.tsx?raw';
-import LearnMoreButtonStyleCodeRaw from '../../../components/LearnMoreButton/LearnMoreButton.css?raw';
-import LearnMoreButton from '../../../components/LearnMoreButton/LearnMoreButton';
 
-import CopyButtonSourceCodeRaw from '../../../components/CopyButton/CopyButton.tsx?raw';
-import CopyButtonStyleCodeRaw from '../../../components/CopyButton/CopyButton.css?raw';
-import CopyButton from '../../../components/CopyButton/CopyButton';
 
-import CodeBlockSourceCodeRaw from '../../../components/CodeBlock/CodeBlock.tsx?raw';
-import CodeBlockStyleCodeRaw from '../../../components/CodeBlock/CodeBlock.css?raw';
-import CodeBlock from '../../../components/CodeBlock/CodeBlock';
+import NavOptionConfig from '../../../components/NavOption/NavOption.config';
+import LearnMoreButtonConfig from '../../../components/LearnMoreButton/LearnMoreButton.config';
+import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
+import NavBarConfig from '../../../components/NavBar/NavBar.config';
+import SliderConfig from '../../../components/Slider/Slider.config';
 
-import SliderSourceCodeRaw from '../../../components/Slider/Slider.tsx?raw';
-import SliderStyleCodeRaw from '../../../components/Slider/Slider.css?raw';
+import CopyButton from '../../../components/CopyButton/CopyButton.config';
+import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
-import MainMenuSourceCodeRaw from '../../../components/MainMenu/MainMenu.tsx?raw';
-import MainMenuStyleCodeRaw from '../../../components/MainMenu/MainMenu.css?raw';
-import MainMenu from '../../../components/MainMenu/MainMenu';
+
+
+
+
+
+
+
 
 const ReadyComponents = () => {
   const renderedSlides: React.ReactNode[] = [
-    <CodeShowcase
-      key="CopyButton"
-      Name="CopyButton"
-      ComponentUsageCodeRaw={`<CopyButton textToCopy="Hello World!" size={18} />`}
-      ComponentDefinitionCodeRaw={CopyButtonSourceCodeRaw}
-      ComponentStyleCodeRaw={CopyButtonStyleCodeRaw}
-      dependencies={{ React, CopyButton }}
-    />,
-    <CodeShowcase
-      key="LearnMoreButton"
-      Name="LearnMoreButton"
-      ComponentUsageCodeRaw={`<LearnMoreButton text="learn more" href="#" stagger={false} />`}
-      ComponentDefinitionCodeRaw={LearnMoreButtonSourceCodeRaw}
-      ComponentStyleCodeRaw={LearnMoreButtonStyleCodeRaw}
-      dependencies={{ React, LearnMoreButton }}
-    />,
-    <CodeShowcase
-      key="CodeBlock"
-      Name="CodeBlock"
-      ComponentUsageCodeRaw={`<CodeBlock code="console.log('Hello')" language="tsx" />`}
-      ComponentDefinitionCodeRaw={CodeBlockSourceCodeRaw}
-      ComponentStyleCodeRaw={CodeBlockStyleCodeRaw}
-      dependencies={{ React, CodeBlock }}
-    />,
-    <CodeShowcase
-      key="Slider"
-      Name="Slider"
-      ComponentInstance={
-        <Slider
-          id="inner-slider-showcase"
-          slides={[
-            <div key={1}>1</div>,
-            <div key={2}>2</div>,
-            <div key={3}>3</div>,
-          ]}
-        />
-      }
-      ComponentUsageCodeRaw={`<Slider
-  id="inner-slider-showcase"
-  slides={[
-    <div key={1}>1</div>,
-    <div key={2}>2</div>,
-    <div key={3}>3</div>,
-  ]}
-/>`}
-      ComponentDefinitionCodeRaw={SliderSourceCodeRaw}
-      ComponentStyleCodeRaw={SliderStyleCodeRaw}
-      dependencies={{ React, Slider }}
-    />,
+
+    <CodeShowcase {...NavBarConfig} />,
+    <CodeShowcase {...NavOptionConfig} />,
+    <CodeShowcase {...LearnMoreButtonConfig} />,
+    <CodeShowcase {...MainMenuConfig} />,
+
+    <CodeShowcase {...SliderConfig} />,
 
 
-
-<CodeShowcase
-  key="MainMenu"
-  Name="MainMenu"
-  ComponentUsageCodeRaw={`<MainMenu 
-    Sidebar_items={[
-      { label: 'Dashboard', href: '/dashboard' },
-      { label: 'Projects', href: '/projects' },
-      { label: 'Team', href: '/team' },
-      { label: 'Calendar', href: '/calendar' },
-      { label: 'Settings', href: '/settings' }
-    ]}
-    Sidebar_portalTarget={document.body}
-    Sidebar_closeByClick={false}
-    Sidebar_closeByScroll={false}
-/>`}
-  ComponentDefinitionCodeRaw={MainMenuSourceCodeRaw}
-  ComponentStyleCodeRaw={MainMenuStyleCodeRaw}
-  ComponentInstance={
-    <MainMenu
-      Sidebar_items={[
-        { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Projects', href: '/projects' },
-        { label: 'Team', href: '/team' },
-        { label: 'Calendar', href: '/calendar' },
-        { label: 'Settings', href: '/settings' }
-      ]}
-      Sidebar_portalTarget={document.body}
-      Sidebar_closeByClick={false}
-      Sidebar_closeByScroll={false}
-    />
-  }
-  dependencies={{ React, MainMenu }}
-/>
-
-
-
-
-
-
+    <CodeShowcase {...CopyButton} />,
+    <CodeShowcase {...CodeBlockConfig} />,
   ];
-
-
-
 
 
   return (
@@ -134,7 +51,6 @@ const ReadyComponents = () => {
         HeaderFading={true}
         CenteredHeader={true}
       />
-      {/* Outer slider with unique ID */}
       <Slider id="ready-components-slider" slides={renderedSlides} />
     </main>
   );
