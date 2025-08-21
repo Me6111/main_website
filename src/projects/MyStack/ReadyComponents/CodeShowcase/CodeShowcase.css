@@ -23,4 +23,8 @@
     gap: 1rem;              /* spacing between code blocks */
     padding: 1rem;
     white-space: nowrap;    /* prevent children from wrapping */
+
+    height: 100%;
+
+    color: white;
 }

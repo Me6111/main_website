@@ -72,7 +72,7 @@ const NavBarConfig = {
       disappearing_navbar={true}
       disappearing_curtain={true}
       navbar_hide_threshold={100}
-      curtain_hide_threshold={1235}
+      curtain_hide_threshold={135}
       content={customContent}
     />
   ),
