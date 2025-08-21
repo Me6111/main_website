@@ -1,8 +1,12 @@
-// NavBar.config.tsx
 import React from 'react';
 import NavBar from './NavBar';
 import NavBarSourceCodeRaw from './NavBar.tsx?raw';
 import NavBarStyleCodeRaw from './NavBar.css?raw';
+
+import SectionScreen from '../SectionScreen/SectionScreen';
+
+import flatiron from './flatiron.jpg';
+import new_york from './new_york.jpg';
 
 const usageCodeRaw = `<NavBar
   sections={[
@@ -10,6 +14,18 @@ const usageCodeRaw = `<NavBar
     { name: 'Option 2', href: '/option2' },
     { name: 'Option 3', href: '/option3' },
   ]}
+  content={
+      <SectionScreen
+        id="SectionScreen-flatiron"
+        Image={{item: flatiron, stagger: false}}
+        header1={{ text: "flatiron", stagger: true }} 
+        buttonLabel={{
+          text: "Explore",
+          stagger: true
+        }}
+        HeaderFading={false}       
+      />
+  }
 />`;
 
 const sections = [
@@ -18,50 +34,31 @@ const sections = [
   { name: 'Option 3', href: '/option3' },
 ];
 
-const NavBarWrapper: React.FC = () => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'black',
-      color: 'white',
-      position: 'relative',
-      overflow: 'hidden',
-    }}
-  >
-    <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10,
+const customContent = (
+  <>
+    <SectionScreen
+      id="SectionScreen-flatiron"
+      Image={{ item: flatiron, stagger: false }}
+      header1={{ text: "flatiron", stagger: true }}
+      buttonLabel={{
+        text: "Explore",
+        stagger: true
       }}
-    >
-      <NavBar
-        sections={sections}
-        disappearing_navbar={false}
-        disappearing_curtain={false}
-        portalTarget={undefined}
-      />
-    </div>
-
-    <div
-      style={{
-        height: '100%',
-        overflowY: 'auto',
+      HeaderFading={false}
+    />
+    <SectionScreen
+      id="SectionScreen-new_york"
+      Image={{ item: new_york, stagger: false }}
+      header1={{ text: "new_york", stagger: true }}
+      buttonLabel={{
+        text: "Explore",
+        stagger: true
       }}
-    >
-      <div
-        style={{
-          height: '1000px',
-        }}
-      >
-        Scroll down to see that NavBar remains at the top.
-      </div>
-    </div>
-  </div>
+      HeaderFading={false}
+    />
+  </>
 );
+
 
 const NavBarConfig = {
   key: 'NavBar',
@@ -69,7 +66,16 @@ const NavBarConfig = {
   ComponentUsageCodeRaw: usageCodeRaw,
   ComponentDefinitionCodeRaw: NavBarSourceCodeRaw,
   ComponentStyleCodeRaw: NavBarStyleCodeRaw,
-  ComponentInstance: <NavBarWrapper />,
+  ComponentInstance: (
+    <NavBar
+      sections={sections}
+      disappearing_navbar={true}
+      disappearing_curtain={true}
+      navbar_hide_threshold={100}
+      curtain_hide_threshold={1235}
+      content={customContent}
+    />
+  ),
   dependencies: { React, NavBar },
 };
 

@@ -14,7 +14,7 @@ import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
 
 
 import NavOptionsConfig from '../../../components/NavOptions/NavOptions.config';
-import NavBarConfig from '../../../components/NavBar_3/NavBar.config';
+import NavBarConfig from '../../../components/NavBar/NavBar.config';
 import SliderConfig from '../../../components/Slider/Slider.config';
 
 import CopyButton from '../../../components/CopyButton/CopyButton.config';

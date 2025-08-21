@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './NavBar.css';
 
 import Logo from '../Logo/Logo';
@@ -12,11 +11,12 @@ interface Section {
 }
 
 interface NavBarProps {
-  sections: Section;
-  portalTarget?: HTMLElement;
+  sections: Section[];
   disappearing_navbar?: boolean;
   disappearing_curtain?: boolean;
-  scrollContainer?: HTMLElement | null; // <-- new prop for external scroll container
+  navbar_hide_threshold?: number;
+  curtain_hide_threshold?: number;
+  content?: React.ReactNode;
 }
 
 const MainMenuButton: React.FC = () => {
@@ -27,6 +27,7 @@ const MainMenuButton: React.FC = () => {
     { label: 'Reviews', href: '/reviews' },
     { label: 'Shop', href: '/shop' },
   ];
+
   return (
     <MainMenu
       Sidebar_items={menuItems}
@@ -38,88 +39,67 @@ const MainMenuButton: React.FC = () => {
 
 const NavBar: React.FC<NavBarProps> = ({
   sections,
-  portalTarget,
   disappearing_navbar = true,
   disappearing_curtain = true,
-  scrollContainer = null, // default null
+  navbar_hide_threshold,
+  curtain_hide_threshold,
+  content,
 }) => {
-  const [isHidden, setIsHidden] = useState(false);
-  const [curtainHidden, setCurtainHidden] = useState(!disappearing_curtain);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [curtainVisible, setCurtainVisible] = useState(false);
   const lastScrollY = useRef(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [navBarStyle, setNavBarStyle] = useState({ left: 0, width: 0 });
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
-    const container = scrollContainer ?? containerRef.current;
+  const handleScroll = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-    if (container && disappearing_navbar) {
-      const currentScrollY = container.scrollTop;
-      const isScrollingDown = currentScrollY > lastScrollY.current;
-      setIsHidden(isScrollingDown);
-      lastScrollY.current = currentScrollY;
+    const currentScrollY = container.scrollTop;
+
+    if (disappearing_navbar && typeof navbar_hide_threshold === 'number') {
+      const hasScrolledDown = currentScrollY > lastScrollY.current;
+      const passedThreshold = currentScrollY > navbar_hide_threshold;
+      setIsScrollingDown(hasScrolledDown && passedThreshold);
+    } else {
+      setIsScrollingDown(false);
     }
 
-    if (disappearing_curtain) {
-      const curtainTrigger = scrollContainer?.scrollTop ?? containerRef.current?.scrollTop ?? 0;
-      setCurtainHidden(curtainTrigger > 740);
+    if (disappearing_curtain && typeof curtain_hide_threshold === 'number') {
+      setCurtainVisible(currentScrollY > curtain_hide_threshold);
+    } else {
+      setCurtainVisible(false);
     }
-  };
 
-  const updatePosition = () => {
-    const rect = portalTarget
-      ? portalTarget.getBoundingClientRect()
-      : containerRef.current?.getBoundingClientRect();
-
-    if (rect) {
-      setNavBarStyle({
-        left: rect.left,
-        width: rect.width,
-      });
-    }
-  };
+    lastScrollY.current = currentScrollY;
+  }, [disappearing_navbar, disappearing_curtain, navbar_hide_threshold, curtain_hide_threshold]);
 
   useEffect(() => {
-    updatePosition();
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-    const container = scrollContainer ?? containerRef.current;
-
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-    }
-    window.addEventListener('resize', updatePosition);
-
+    container.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      if (container) {
-        container.removeEventListener('scroll', handleScroll);
-      }
-      window.removeEventListener('resize', updatePosition);
+      container.removeEventListener('scroll', handleScroll);
     };
-  }, [portalTarget, scrollContainer]);
+  }, [handleScroll]);
 
-  const navBarContent = (
-    <nav
-      className={`NavBar ${isHidden ? 'NavBar-hidden' : ''}`}
-      style={{
-        position: portalTarget ? 'fixed' : 'sticky',
-        top: 0,
-        left: portalTarget ? navBarStyle.left : 0,
-        width: portalTarget ? navBarStyle.width : '100%',
-        transition: 'opacity 0.3s ease',
-        opacity: isHidden ? 0 : 1,
-      }}
-    >
-      <div className={`NavBar-courtain ${curtainHidden ? 'NavBar-courtain-hidden' : ''}`} />
-      <div className="NavBar-inner">
-        <Logo />
-        <NavOptions sections={sections} />
-        <MainMenuButton />
+  return (
+    <div className="NavBar-wrapper" ref={scrollContainerRef}>
+      <nav className={`NavBar ${isScrollingDown ? 'NavBar-hidden' : ''}`}>
+        <div className={`NavBar-courtain ${curtainVisible ? '' : 'NavBar-courtain-hidden'}`} />
+        <div className={`NavBar-inner ${isScrollingDown ? 'NavBar-inner-hidden' : ''}`}>
+          <Logo />
+          <NavOptions sections={sections} />
+          <MainMenuButton />
+        </div>
+      </nav>
+
+      <div className="NavBar-content">
+        {content}
       </div>
-    </nav>
-  );
 
-  return portalTarget
-    ? ReactDOM.createPortal(navBarContent, portalTarget)
-    : <div ref={containerRef} style={{ overflowY: 'auto', height: '100%' }}>{navBarContent}</div>;
+    </div>
+  );
 };
 
 export default NavBar;
