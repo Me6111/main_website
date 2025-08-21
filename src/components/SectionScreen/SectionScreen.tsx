@@ -87,7 +87,7 @@ const SectionScreen = React.forwardRef<HTMLDivElement, SectionScreenProps>(
       setCurrentIndex((prev) => (prev + 1) % childrenSections.length);
     };
 
-    const containerClass = `sectionScreen${CenteredHeader ? ' CenteredHeader' : ''}`; // ✅ Dynamic class
+    const containerClass = `sectionScreen${CenteredHeader ? ' CenteredHeader' : ''}`; 
 
     return (
       <div className={containerClass} ref={sectionRef} id={`sectionScreen-${id}`}>

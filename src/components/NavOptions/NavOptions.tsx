@@ -8,7 +8,6 @@ import NavOption from '../NavOption/NavOption';
 import './NavOptions.css';
 
 interface Section {
-  id: string;
   name: string;
   href: string;
 }
@@ -18,9 +17,9 @@ type NavOptionsProps = {
 };
 
 const NavOptions: React.FC<NavOptionsProps> = ({ sections }) => (
-  <ul>
+  <ul className="NavOptions">
     {sections.map(section => (
-      <NavOption key={section.id} section={section} />
+      <NavOption key={section.name} section={section} />
     ))}
   </ul>
 );

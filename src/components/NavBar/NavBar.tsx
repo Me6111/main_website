@@ -3,17 +3,23 @@ import ReactDOM from 'react-dom';
 import './NavBar.css';
 
 import Logo from '../Logo/Logo';
-import NavOptions from '../NavOptions/NavOptions'; 
+import NavOptions from '../NavOptions/NavOptions';
 import MainMenu from '../MainMenu/MainMenu';
 
 interface Section {
-  id: string;
   name: string;
   href: string;
 }
 
-type MainMenuButtonProps = {};
-const MainMenuButton: React.FC<MainMenuButtonProps> = () => {
+interface NavBarProps {
+  sections: Section;
+  portalTarget?: HTMLElement;
+  disappearing_navbar?: boolean;
+  disappearing_curtain?: boolean;
+  scrollContainer?: HTMLElement | null; // <-- new prop for external scroll container
+}
+
+const MainMenuButton: React.FC = () => {
   const menuItems = [
     { label: 'Stack', href: '/mystack' },
     { label: 'Updates', href: '/updates' },
@@ -30,42 +36,80 @@ const MainMenuButton: React.FC<MainMenuButtonProps> = () => {
   );
 };
 
-interface NavBarProps {
-  sections: Section[];
-  portalTarget?: HTMLElement; // optional prop for portal target, defaults to document.body
-}
-
-const NavBar: React.FC<NavBarProps> = ({ sections, portalTarget = document.body }) => {
-  const [hidden, setHidden] = useState(false);
-  const [showContent, setShowContent] = useState(true);
-  const [curtainHidden, setCurtainHidden] = useState(false);
-  const lastScrollY = useRef(window.scrollY);
+const NavBar: React.FC<NavBarProps> = ({
+  sections,
+  portalTarget,
+  disappearing_navbar = true,
+  disappearing_curtain = true,
+  scrollContainer = null, // default null
+}) => {
+  const [isHidden, setIsHidden] = useState(false);
+  const [curtainHidden, setCurtainHidden] = useState(!disappearing_curtain);
+  const lastScrollY = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [navBarStyle, setNavBarStyle] = useState({ left: 0, width: 0 });
 
   const handleScroll = () => {
-    const currentScrollY = window.scrollY;
+    const container = scrollContainer ?? containerRef.current;
 
-    if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-      setShowContent(false);
-      setTimeout(() => setHidden(true), 100);
-    } else {
-      setHidden(false);
-      setTimeout(() => setShowContent(true), 300);
+    if (container && disappearing_navbar) {
+      const currentScrollY = container.scrollTop;
+      const isScrollingDown = currentScrollY > lastScrollY.current;
+      setIsHidden(isScrollingDown);
+      lastScrollY.current = currentScrollY;
     }
 
-    setCurtainHidden(currentScrollY > 740);
-    lastScrollY.current = currentScrollY;
+    if (disappearing_curtain) {
+      const curtainTrigger = scrollContainer?.scrollTop ?? containerRef.current?.scrollTop ?? 0;
+      setCurtainHidden(curtainTrigger > 740);
+    }
+  };
+
+  const updatePosition = () => {
+    const rect = portalTarget
+      ? portalTarget.getBoundingClientRect()
+      : containerRef.current?.getBoundingClientRect();
+
+    if (rect) {
+      setNavBarStyle({
+        left: rect.left,
+        width: rect.width,
+      });
+    }
   };
 
   useEffect(() => {
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    updatePosition();
+
+    const container = scrollContainer ?? containerRef.current;
+
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+    }
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [portalTarget, scrollContainer]);
 
   const navBarContent = (
-    <nav className={`NavBar ${hidden ? 'NavBar-hidden' : ''}`}>
+    <nav
+      className={`NavBar ${isHidden ? 'NavBar-hidden' : ''}`}
+      style={{
+        position: portalTarget ? 'fixed' : 'sticky',
+        top: 0,
+        left: portalTarget ? navBarStyle.left : 0,
+        width: portalTarget ? navBarStyle.width : '100%',
+        transition: 'opacity 0.3s ease',
+        opacity: isHidden ? 0 : 1,
+      }}
+    >
       <div className={`NavBar-courtain ${curtainHidden ? 'NavBar-courtain-hidden' : ''}`} />
-      <div className={`NavBar-inner ${showContent ? 'fade-in' : 'fade-out'}`}>
+      <div className="NavBar-inner">
         <Logo />
         <NavOptions sections={sections} />
         <MainMenuButton />
@@ -73,7 +117,9 @@ const NavBar: React.FC<NavBarProps> = ({ sections, portalTarget = document.body 
     </nav>
   );
 
-  return ReactDOM.createPortal(navBarContent, portalTarget);
+  return portalTarget
+    ? ReactDOM.createPortal(navBarContent, portalTarget)
+    : <div ref={containerRef} style={{ overflowY: 'auto', height: '100%' }}>{navBarContent}</div>;
 };
 
 export default NavBar;

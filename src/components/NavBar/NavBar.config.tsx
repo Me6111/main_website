@@ -1,43 +1,67 @@
 // NavBar.config.tsx
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import NavBar from './NavBar';
 import NavBarSourceCodeRaw from './NavBar.tsx?raw';
 import NavBarStyleCodeRaw from './NavBar.css?raw';
 
 const usageCodeRaw = `<NavBar
   sections={[
-    { id: 'stack', name: 'Stack', href: '/mystack' },
-    { id: 'updates', name: 'Updates', href: '/updates' },
-    { id: 'courses', name: 'Courses', href: '/courses' },
-    { id: 'reviews', name: 'Reviews', href: '/reviews' },
-    { id: 'shop', name: 'Shop', href: '/shop' },
+    { name: 'Option 1', href: '/option1' },
+    { name: 'Option 2', href: '/option2' },
+    { name: 'Option 3', href: '/option3' },
   ]}
 />`;
 
 const sections = [
-  { id: 'stack', name: 'Stack', href: '/mystack' },
-  { id: 'updates', name: 'Updates', href: '/updates' },
-  { id: 'courses', name: 'Courses', href: '/courses' },
-  { id: 'reviews', name: 'Reviews', href: '/reviews' },
-  { id: 'shop', name: 'Shop', href: '/shop' },
+  { name: 'Option 1', href: '/option1' },
+  { name: 'Option 2', href: '/option2' },
+  { name: 'Option 3', href: '/option3' },
 ];
 
-const NavBarWrapper: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <div ref={containerRef} style={{ position: 'relative', height: '100px' }}>
-      {mounted && containerRef.current && (
-        <NavBar sections={sections} portalTarget={containerRef.current} />
-      )}
+const NavBarWrapper: React.FC = () => (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'black',
+      color: 'white',
+      position: 'relative',
+      overflow: 'hidden',
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+      }}
+    >
+      <NavBar
+        sections={sections}
+        disappearing_navbar={false}
+        disappearing_curtain={false}
+        portalTarget={undefined}
+      />
     </div>
-  );
-};
+
+    <div
+      style={{
+        height: '100%',
+        overflowY: 'auto',
+      }}
+    >
+      <div
+        style={{
+          height: '1000px',
+        }}
+      >
+        Scroll down to see that NavBar remains at the top.
+      </div>
+    </div>
+  </div>
+);
 
 const NavBarConfig = {
   key: 'NavBar',
