@@ -43,7 +43,7 @@ const Slider: React.FC<SliderProps> = ({ slides = [], id }) => {
       >
         {slides.map((slide, index) => (
           <div className="slider-slide" key={index}>
-            {slide}
+              {slide}
           </div>
         ))}
       </div>

@@ -6,9 +6,9 @@ import SliderStyleCodeRaw from './Slider.css?raw';
 const usageCodeRaw = `<Slider
   id="inner-slider-showcase"
   slides={[
-    <div key={1}>1</div>,
-    <div key={2}>2</div>,
-    <div key={3}>3</div>,
+    <div className="Slider-config-slide" key={1}>1</div>,
+    <div className="Slider-config-slide" key={2}>2</div>,
+    <div className="Slider-config-slide" key={3}>3</div>,
   ]}
 />`;
 
@@ -22,9 +22,9 @@ const SliderConfig = {
     <Slider
       id="inner-slider-showcase"
       slides={[
-        <div key={1}>1</div>,
-        <div key={2}>2</div>,
-        <div key={3}>3</div>,
+        <div className="Slider-config-slide" key={1}>1</div>,
+        <div className="Slider-config-slide" key={2}>2</div>,
+        <div className="Slider-config-slide" key={3}>3</div>,
       ]}
     />
   ),
