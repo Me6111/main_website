@@ -5,46 +5,26 @@
   
 
 
-
-#inner-slider-showcase .slider-container {
-  height: 100%; /* Allow parent container (CodeShowcase) to control height */
-}
-
-
-#inner-slider-showcase .slider-track{
-  display: flex; /* or grid */
-  gap: 20px;
-  gap: 0px;
-
-}
-
-#inner-slider-showcase .slider-slide {
-  color: white;
-  font-size: 50px;
-
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-.Slider-config-slide {
-  width: 90%;
-  height: 100%;
-  border: 1px solid white;
-
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
 #ready-components-slider {
   background: linear-gradient(to top, black 1%, rgb(159, 159, 159) 40%);
 }
 
-#ready-components-slider .slider-slide {
 
 
+
+
+#ready-components-slider .slider-slide .code-sections {
+  transition: all 1s;
+}
+#ready-components-slider .slider-slide.left .code-sections {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+#ready-components-slider .slider-slide.active .code-sections {
+  transform: translateX(0);
+  opacity: 1;
+}
+#ready-components-slider .slider-slide.right .code-sections {
+  transform: translateX(100%);
+  opacity: 0;
 }
