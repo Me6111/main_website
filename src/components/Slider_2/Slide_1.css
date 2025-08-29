@@ -55,19 +55,6 @@
   padding: 0 70px;
 }
 
-
-
-#Slider-config_1 .slider-slide.active .inner2 {
-  opacity: 1;
-  transform: translateX(0);
-  transition: all 1s ease-in-out;
-}
-#Slider-config_1 .slider-slide.left .inner2 {
-  transform: translateX(-50%);
-  transition: all 1s ease-in-out;
-}
-#Slider-config_1 .slider-slide.right .inner2 {
-  transform: translateX(50%);
-  transition: all 1s ease-in-out;
-
+#Slider-config-slide-inner.inner2 {
+    transform: translateX(50%);
 }
