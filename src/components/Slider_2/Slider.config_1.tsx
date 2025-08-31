@@ -5,7 +5,7 @@ import Slide from './Slide_1';
 import SliderSourceCodeRaw from './Slider.tsx?raw';
 import SliderStyleCodeRaw from './Slider.css?raw';
 
-import './SliderConfig_Style_0.css';
+import './SliderConfig_Style_1.css';
 
 import img0 from './fighterJet/0.jpg';
 import img2 from './fighterJet/2.jpg';

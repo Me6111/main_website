@@ -1,103 +1,19 @@
 
 
 
-
-
-
-/* Slider container */
-#Slider-config {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-/* Track wrapper */
-#Slider-config .slider-track {
-  display: flex;
-  height: 100%;
-  transition: transform 1s ease-in-out;
-}
-
-
-/* Individual slide wrapper */
-#Slider-config .slider-slide {
-  flex-shrink: 0;
-  width: 100%;
-  height: 100%;
-
-  padding: 0 70px;
-}
-
-/* Slide container */
-#Slider-config .Slider-config-slide {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateX(50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-#Slider-config-slide-inner .inner0 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-}
-#Slider-config .Slider-config-slide-inner.inner0 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-    font-size: 4rem;
-  user-select: none;
-  pointer-events: none;
-  color: white;
-
-  border: 1px solid white;
-
-}
-
-
-
-.Slider-config-slide-inner.inner0 img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-
-
-
-
-
-
-
-
-/* Slide states */
-#Slider-config .slider-slide.active .Slider-config-slide {
+#Slider-config_1 .slider-slide.active .Slider-config-slide-inner.inner2 img {
   opacity: 1;
   transform: translateX(0);
-  transition: all 1s ease-in-out;
-}
-#Slider-config .slider-slide.left .Slider-config-slide {
-  transform: translateX(-50%);
-  transition: all 1s ease-in-out;
-}
-#Slider-config .slider-slide.right .Slider-config-slide {
-  transform: translateX(50%);
-  transition: all 1s ease-in-out;
-
+  transition: all 1.5s ease-in-out;
 }
 
-
+#Slider-config_1 .slider-slide.right .Slider-config-slide-inner.inner2 img {
+  opacity: 1;
+  transform: translateX(150%);
+  transition: all 1.5s ease-in-out;
+}
+#Slider-config_1 .slider-slide.left .Slider-config-slide-inner.inner2 img {
+  opacity: 1;
+  transform: translateX(-150%);
+  transition: all 1.5s ease-in-out;
+}
