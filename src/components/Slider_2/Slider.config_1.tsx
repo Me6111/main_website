@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import Slider from './Slider';
+import Slider from './Slider_2';
+import './Slider.config_1.css';
+
 import Slide from './Slide_1';
 
 import SliderSourceCodeRaw from './Slider.tsx?raw';
 import SliderStyleCodeRaw from './Slider.css?raw';
 
-import './SliderConfig_Style_1.css';
 
 import img0 from './fighterJet/0.jpg';
 import img2 from './fighterJet/2.jpg';
@@ -52,6 +53,8 @@ const SliderConfigComponent: React.FC = () => {
     <Slider
       id="Slider-config_1"
       gap={100}
+      slideWidth={900} 
+
       slides={slides}
       onSlideChange={setActiveIndex}
     />

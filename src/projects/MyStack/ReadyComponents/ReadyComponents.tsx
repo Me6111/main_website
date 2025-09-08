@@ -24,8 +24,9 @@ const ReadyComponents = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const configs = [
-    SliderConfig_0,
     SliderConfig_1,
+
+    SliderConfig_0,
     //SliderConfig_2,
 
 
@@ -58,7 +59,6 @@ const ReadyComponents = () => {
         CenteredHeader={true}
       />
       <Slider
-        id="ready-components-slider"
         slides={renderedSlides}
         onSlideChange={setActiveIndex}
       />

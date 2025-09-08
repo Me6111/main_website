@@ -1,4 +1,6 @@
 import React from 'react';
+import './Slide_0.css';
+
 
 export type SlideProps = {
   position?: 'left' | 'right' | 'active';

@@ -1,0 +1,109 @@
+/* General container styles */
+#Slider-config_1.Slider_0 {
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Slider-config_1 .Slider_1 {
+  width: 100%;
+  height: 100%;
+  background-color: green;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Slide curtain wraps both track and buttons */
+#Slider-config_1 .Slider_curtain {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#Slider-config_1 .slider-track-container {
+  overflow: hidden;
+  border: 2px black solid;
+  width: 70%;
+}
+
+/* Track container */
+#Slider-config_1 .slider-track {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Individual slides */
+/* slider-slide - remove hardcoded width */
+#Slider-config_1 .slider-slide {
+  height: 100%;
+  /* width is now dynamic via inline style */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Slider-config_1 .sliderNav {
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#Slider-config_1 .nav-button {
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.Slider-config-slide-inner.inner0 {
+  height: 100%;
+  width: 100%;
+}
+
+#Slider-config_1 .nav-button {
+  height: 100px;
+  width: 50px;
+
+  pointer-events: all;
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  user-select: none;
+  z-index: 20;
+  transition: all 0.3s ease;
+}
+
+#Slider-config_1 .nav-button:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
+
+

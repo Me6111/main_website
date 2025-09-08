@@ -1,13 +1,21 @@
-/* Container should be relative to position children absolutely */
-.Slider-config-slide {
+
+
+
+
+
+
+
+
+/* Scope all styles under #Slider-config_1 */
+#Slider-config_1 .Slider-config-slide {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-/* inner1 = full-size blurred background */
-.Slider-config-slide-inner.inner1 {
+/* Blurred background image */
+#Slider-config_1 .Slider-config-slide-inner.inner1 {
   position: absolute;
   top: 0;
   left: 0;
@@ -21,12 +29,12 @@
   align-items: center;
 }
 
-/* inner2 = centered image, half width */
-.Slider-config-slide-inner.inner2 {
+/* Centered clear image */
+#Slider-config_1 .Slider-config-slide-inner.inner2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 50%;
+  width: 60%; 
   height: 100%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -35,26 +43,30 @@
   align-items: center;
 }
 
-/* Make sure the image fills its container */
-.Slider-config-slide-inner img {
+/* Image should fill the container properly */
+#Slider-config_1 .Slider-config-slide-inner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 
-
-
-
-
-
-
-
-
-#Slider-config_1 .slider-slide {
-  padding: 0 70px;
+#Slider-config_1 .slider-slide.active .Slider-config-slide-inner.inner2 img {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 1.5s ease-in-out;
 }
 
-#Slider-config_1.inner2 {
-    transform: translateX(50%);
+#Slider-config_1 .slider-slide.right .Slider-config-slide-inner.inner2 img {
+  opacity: 1;
+  transform: translateX(150%);
+  transition: all 1.5s ease-in-out;
 }
+#Slider-config_1 .slider-slide.left .Slider-config-slide-inner.inner2 img {
+  opacity: 1;
+  transform: translateX(-150%);
+  transition: all 1.5s ease-in-out;
+}
+
+
+
