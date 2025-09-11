@@ -9,13 +9,13 @@ type SliderNavProps = {
 
 const SliderNav: React.FC<SliderNavProps> = ({ onScrollLeft, onScrollRight }) => {
   return (
-    <div className="sliderNav">
-      <button className="nav-button left" onClick={onScrollLeft}>
-        &lt;
-      </button>
-      <button className="nav-button right" onClick={onScrollRight}>
-        &gt;
-      </button>
+    <div className="Slider-nav">
+        <button className="nav-button left" onClick={onScrollLeft}>
+          &lt;
+        </button>
+        <button className="nav-button right" onClick={onScrollRight}>
+          &gt;
+        </button>
     </div>
   );
 };

@@ -4,6 +4,9 @@ import './ReadyComponents.css';
 import SectionScreen from '../../../components/SectionScreen/SectionScreen';
 import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider_2/Slider';
+
+
+
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
 import NavOptionConfig from '../../../components/NavOption/NavOption.config';
@@ -24,9 +27,12 @@ const ReadyComponents = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const configs = [
-    SliderConfig_1,
+        SliderConfig_1,
 
     SliderConfig_0,
+
+
+
     //SliderConfig_2,
 
 
@@ -58,10 +64,16 @@ const ReadyComponents = () => {
         HeaderFading={true}
         CenteredHeader={true}
       />
+      <div className="s0">
       <Slider
+        Unique_Slider_Name={"readyComponents-slider"}
+        gap={500}
+        slideWidth={100} 
+
         slides={renderedSlides}
         onSlideChange={setActiveIndex}
       />
+      </div>
     </main>
   );
 };

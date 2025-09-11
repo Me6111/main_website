@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Slider from './Slider_2';
-import './Slider.config_1.css';
+import Slider from './Slider';
+//import './Slider.config_1.css';
 
 import Slide from './Slide_1';
 
@@ -51,9 +51,9 @@ const SliderConfigComponent: React.FC = () => {
 
   return (
     <Slider
-      id="Slider-config_1"
+      Unique_Slider_Name="Slider_1"
       gap={100}
-      slideWidth={900} 
+      slideWidth={80} 
 
       slides={slides}
       onSlideChange={setActiveIndex}

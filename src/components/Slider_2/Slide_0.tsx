@@ -9,8 +9,8 @@ export type SlideProps = {
 
 const Slide: React.FC<SlideProps> = ({ position = '', img }) => {
   return (
-    <div className={`Slider-config-slide ${position}`}>
-      <div className="Slider-config-slide-inner inner0">{img}</div>
+    <div className={`Slide_0 ${position}`}>
+      <div className="Slide-inner inner0">{img}</div>
     </div>
   );
 };

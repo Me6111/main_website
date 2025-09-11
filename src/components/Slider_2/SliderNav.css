@@ -1,38 +1,17 @@
-
-
-
-
-
-
-
-
-
-/* Navigation buttons */
-#Slider-config_0 .sliderNav {
-  z-index: 2;
+.Slider-nav {
+  position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
-#Slider-config_0 .nav-button {
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px;
-  font-size: 20px;
-  cursor: pointer;
-}
 
-.Slider-config-slide-inner.inner0 {
-  height: 100%;
-  width: 100%;
-}
 
-#Slider-config_0 .nav-button {
+.Slider-nav .nav-button {
   height: 100px;
   width: 50px;
-
   pointer-events: all;
   background-color: black;
   color: white;
@@ -46,7 +25,9 @@
   transition: all 0.3s ease;
 }
 
-#Slider-config_0 .nav-button:hover {
+.Slider-nav .nav-button:hover {
   background-color: white;
   color: black;
 }
+
+

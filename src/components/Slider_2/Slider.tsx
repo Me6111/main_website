@@ -1,78 +1,156 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './Slider.css';
 
+import SliderNav from './SliderNav';
+
 type SliderProps = {
-  slides?: React.ReactNode[];
-  id?: string;
+  slides: React.ReactNode[];
+  Unique_Slider_Name?: string;
   gap?: number;
+  slideWidth: number; // Percentage (100 = full width)
 };
 
-const Slider: React.FC<SliderProps> = ({ slides = [], id = 'slider', gap = 0 }) => {
+const Slider: React.FC<SliderProps> = ({
+  slides,
+  Unique_Slider_Name: UniqueSliderName,
+  gap = 0,
+  slideWidth,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [slideWidth, setSlideWidth] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const animationTimeout = useRef<number | null>(null);
+
+  const slideCount = slides.length;
+  const slideWidthPx = (containerWidth * slideWidth) / 100;
+  const moveUnit = slideWidthPx + gap;
+
+  const initialTranslateX = containerWidth
+    ? (containerWidth - slideWidthPx) / 2
+    : 0;
+
+  const performScroll = (index: number) => {
+    const offset = initialTranslateX - index * moveUnit;
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(${offset}px)`;
+    }
   };
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
+  const scrollToIndex = (targetIndex: number) => {
+    if (isAnimating || targetIndex === currentIndex) return;
+
+    setIsAnimating(true);
+
+    const direction = targetIndex > currentIndex ? 1 : -1;
+    let tempIndex = currentIndex;
+
+    const animateStep = () => {
+      tempIndex += direction;
+      setCurrentIndex(tempIndex);
+      performScroll(tempIndex);
+
+      if (tempIndex !== targetIndex) {
+        animationTimeout.current = window.setTimeout(animateStep, 350); // match CSS transition delay
+      } else {
+        setIsAnimating(false);
+        animationTimeout.current = null;
+      }
+    };
+
+    animateStep();
+  };
+
+  const scrollLeft = () => {
+    if (!isAnimating && currentIndex > 0) {
+      scrollToIndex(currentIndex - 1);
+    }
+  };
+
+  const scrollRight = () => {
+    if (!isAnimating && currentIndex < slides.length - 1) {
+      scrollToIndex(currentIndex + 1);
+    }
   };
 
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
-        setSlideWidth(containerRef.current.offsetWidth);
+        setContainerWidth(containerRef.current.offsetWidth);
       }
     };
 
     updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    const resizeObserver = new ResizeObserver(updateWidth);
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    performScroll(currentIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [containerWidth, slideWidth, gap]);
+
+  useEffect(() => {
+    return () => {
+      if (animationTimeout.current !== null) {
+        clearTimeout(animationTimeout.current);
+      }
+    };
   }, []);
 
   return (
-    <div id={id} className="slider-container" ref={containerRef}>
-      <div className="slider-nav-container">
-        <button className="nav-button left" onClick={handlePrev}>
-          &lt;
-        </button>
-        <button className="nav-button right" onClick={handleNext}>
-          &gt;
-        </button>
+    <div
+      id={UniqueSliderName}
+      className="Slider-outer"
+      style={{ overflow: 'hidden' }}
+    >
+      <div className="Slider-inner">
+        <div className="Slider-track-1" ref={containerRef}>
+          <div
+            className="Slider-track-0"
+            ref={trackRef}
+            style={{
+              display: 'flex',
+              gap: `${gap}px`,
+              transition: 'transform 0.4s ease-in-out',
+              willChange: 'transform',
+            }}
+          >
+            {slides.map((slide, index) => {
+              let className = 'Slider-slide';
+
+              if (index === currentIndex) {
+                className += ' active';
+              } else if (index < currentIndex) {
+                className += ' left';
+              } else if (index > currentIndex) {
+                className += ' right';
+              }
+
+              return (
+                <div
+                  key={index}
+                  className={className}
+                  style={{
+                    flexShrink: 0,
+                    width: `${slideWidth}%`,
+                  }}
+                >
+                  {slide}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      {slideWidth !== null && (
-        <div
-          className="slider-track"
-          style={{
-            transform: `translateX(-${currentIndex * (slideWidth + gap)}px)`,
-            gap: `${gap}px`,
-          }}
-        >
-          {slides.map((slide, index) => {
-            let positionClass = '';
-            if (index === currentIndex) {
-              positionClass = 'active';
-            } else if (index < currentIndex) {
-              positionClass = 'left';
-            } else {
-              positionClass = 'right';
-            }
-
-            return (
-              <div
-                className={`slider-slide ${positionClass}`}
-                key={index}
-                style={{ width: `${slideWidth}px` }}
-              >
-                {slide}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <SliderNav onScrollLeft={scrollLeft} onScrollRight={scrollRight} />
     </div>
   );
 };
