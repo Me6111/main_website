@@ -3,7 +3,7 @@ import './ReadyComponents.css';
 
 import SectionScreen from '../../../components/SectionScreen/SectionScreen';
 import ReadyComponentsMain from './ReadyComponentsMain.png';
-import Slider from '../../../components/Slider_2/Slider';
+import Slider from '../../../components/Slider/Slider';
 
 
 
@@ -15,8 +15,10 @@ import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
 
 import NavOptionsConfig from '../../../components/NavOptions/NavOptions.config';
 import NavBarConfig from '../../../components/NavBar/NavBar.config';
-import SliderConfig_0 from '../../../components/Slider_2/Slider.config_0';
-import SliderConfig_1 from '../../../components/Slider_2/Slider.config_1';
+import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.config_0';
+import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
+import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.config_2';
+
 //import SliderConfig_2 from '../../../components/Slider_2/Slider.config_2';
 
 
@@ -27,6 +29,7 @@ const ReadyComponents = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const configs = [
+    SliderConfig_2,
         SliderConfig_1,
 
     SliderConfig_0,
