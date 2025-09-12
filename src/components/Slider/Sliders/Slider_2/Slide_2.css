@@ -20,20 +20,19 @@
 
 
 #Slider_2 .Slider-slide.active .Slide-inner.inner0 img{
-    opacity: 1;
     transform: scale(1);
     transition: all 0.5s ease-in-out;
-    filter: blur(0px);
+
 }
+
 #Slider_2 .Slider-slide.right .Slide-inner.inner0 img{
     transform: scale(0.9);
     transition: all 0.5s ease-in-out;
-    filter: blur(12px);
+
 }
 #Slider_2 .Slider-slide.left .Slide-inner.inner0 img{
     transform: scale(0.9);
     transition: all 0.5s ease-in-out;
-    filter: blur(12px);
 }
 
 

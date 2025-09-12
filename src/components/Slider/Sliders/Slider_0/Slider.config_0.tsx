@@ -49,7 +49,7 @@ const SliderConfigComponent: React.FC = () => {
     <Slider
       Unique_Slider_Name="Slider_0"
       gap={0}
-      slideWidth={80} 
+      slideWidths={{ active: 80, left: 0, right: 80 }}
 
       slides={slides}
       onSlideChange={setActiveIndex}

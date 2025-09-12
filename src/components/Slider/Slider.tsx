@@ -1,20 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Slider.css';
-
 import SliderNav from './SliderNav';
+
+type SlideWidths = {
+  active?: number;
+  left?: number;
+  right?: number;
+};
 
 type SliderProps = {
   slides: React.ReactNode[];
   Unique_Slider_Name?: string;
   gap?: number;
-  slideWidth: number; // Percentage (100 = full width)
+  slideWidths?: SlideWidths; // Custom widths per slide type (in %)
 };
 
 const Slider: React.FC<SliderProps> = ({
   slides,
   Unique_Slider_Name: UniqueSliderName,
   gap = 0,
-  slideWidth,
+  slideWidths = {},
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -25,15 +30,35 @@ const Slider: React.FC<SliderProps> = ({
   const animationTimeout = useRef<number | null>(null);
 
   const slideCount = slides.length;
-  const slideWidthPx = (containerWidth * slideWidth) / 100;
-  const moveUnit = slideWidthPx + gap;
 
-  const initialTranslateX = containerWidth
-    ? (containerWidth - slideWidthPx) / 2
-    : 0;
+  // Default all slide widths to equal if not defined
+  const defaultWidth = 100 / slideCount;
+
+  const widths = {
+    active: slideWidths.active ?? defaultWidth,
+    left: slideWidths.left ?? defaultWidth,
+    right: slideWidths.right ?? defaultWidth,
+  };
+
+  // Converts a width in % to pixels
+  const getSlideWidthPx = (position: 'active' | 'left' | 'right') =>
+    (containerWidth * widths[position]) / 100;
 
   const performScroll = (index: number) => {
-    const offset = initialTranslateX - index * moveUnit;
+    // Build array of widths for all slides based on their position relative to currentIndex
+    const pixelWidths = slides.map((_, i) => {
+      if (i === index) return getSlideWidthPx('active');
+      if (i < index) return getSlideWidthPx('left');
+      return getSlideWidthPx('right');
+    });
+
+    const totalBefore = pixelWidths
+      .slice(0, index)
+      .reduce((acc, w) => acc + w + gap, 0);
+
+    const offset =
+      containerWidth / 2 - pixelWidths[index] / 2 - totalBefore;
+
     if (trackRef.current) {
       trackRef.current.style.transform = `translateX(${offset}px)`;
     }
@@ -53,7 +78,7 @@ const Slider: React.FC<SliderProps> = ({
       performScroll(tempIndex);
 
       if (tempIndex !== targetIndex) {
-        animationTimeout.current = window.setTimeout(animateStep, 350); // match CSS transition delay
+        animationTimeout.current = window.setTimeout(animateStep, 350);
       } else {
         setIsAnimating(false);
         animationTimeout.current = null;
@@ -86,15 +111,13 @@ const Slider: React.FC<SliderProps> = ({
     const resizeObserver = new ResizeObserver(updateWidth);
     if (containerRef.current) resizeObserver.observe(containerRef.current);
 
-    return () => {
-      resizeObserver.disconnect();
-    };
+    return () => resizeObserver.disconnect();
   }, []);
 
   useEffect(() => {
     performScroll(currentIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [containerWidth, slideWidth, gap]);
+  }, [containerWidth, slideWidths, gap]);
 
   useEffect(() => {
     return () => {
@@ -129,9 +152,14 @@ const Slider: React.FC<SliderProps> = ({
                 className += ' active';
               } else if (index < currentIndex) {
                 className += ' left';
-              } else if (index > currentIndex) {
+              } else {
                 className += ' right';
               }
+
+              let widthPercent = 0;
+              if (index === currentIndex) widthPercent = widths.active;
+              else if (index < currentIndex) widthPercent = widths.left;
+              else widthPercent = widths.right;
 
               return (
                 <div
@@ -139,7 +167,8 @@ const Slider: React.FC<SliderProps> = ({
                   className={className}
                   style={{
                     flexShrink: 0,
-                    width: `${slideWidth}%`,
+                    width: `${widthPercent}%`,
+                    transition: 'width 0.4s ease-in-out',
                   }}
                 >
                   {slide}

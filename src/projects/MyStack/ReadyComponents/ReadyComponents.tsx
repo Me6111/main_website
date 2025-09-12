@@ -29,14 +29,14 @@ const ReadyComponents = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const configs = [
+
     SliderConfig_2,
-        SliderConfig_1,
-
     SliderConfig_0,
+    SliderConfig_1,
 
 
 
-    //SliderConfig_2,
+
 
 
     NavBarConfig,
@@ -71,7 +71,7 @@ const ReadyComponents = () => {
       <Slider
         Unique_Slider_Name={"readyComponents-slider"}
         gap={500}
-        slideWidth={100} 
+        slideWidths={{ active: 100, left: 100, right: 100 }}
 
         slides={renderedSlides}
         onSlideChange={setActiveIndex}
