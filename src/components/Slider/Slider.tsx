@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Slider.css';
-import SliderNav from './SliderNav';
+import ArrowsNav from '../SliderNav/ArrowsNav/ArrowsNav';
 
 type SlideWidths = {
   active?: number;
@@ -8,11 +8,23 @@ type SlideWidths = {
   right?: number;
 };
 
+// ✅ Extended to include new optional props
+type SliderNavElementProps = {
+  onScrollLeft: () => void;
+  onScrollRight: () => void;
+  onSelectSlide?: (index: number) => void;
+  currentIndex?: number;
+  totalSlides?: number;
+  variant?: number;
+};
+
 type SliderProps = {
   slides: React.ReactNode[];
   Unique_Slider_Name?: string;
   gap?: number;
-  slideWidths?: SlideWidths; // Custom widths per slide type (in %)
+  slideWidths?: SlideWidths;
+  sliderNavElement?: React.ReactElement<SliderNavElementProps>;
+  transitionDuration?: number; // ✅ duration in milliseconds for full transition (e.g., 300ms)
 };
 
 const Slider: React.FC<SliderProps> = ({
@@ -20,6 +32,8 @@ const Slider: React.FC<SliderProps> = ({
   Unique_Slider_Name: UniqueSliderName,
   gap = 0,
   slideWidths = {},
+  sliderNavElement,
+  transitionDuration = 300, // ✅ default 0.3s
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -30,8 +44,6 @@ const Slider: React.FC<SliderProps> = ({
   const animationTimeout = useRef<number | null>(null);
 
   const slideCount = slides.length;
-
-  // Default all slide widths to equal if not defined
   const defaultWidth = 100 / slideCount;
 
   const widths = {
@@ -40,12 +52,10 @@ const Slider: React.FC<SliderProps> = ({
     right: slideWidths.right ?? defaultWidth,
   };
 
-  // Converts a width in % to pixels
   const getSlideWidthPx = (position: 'active' | 'left' | 'right') =>
     (containerWidth * widths[position]) / 100;
 
   const performScroll = (index: number) => {
-    // Build array of widths for all slides based on their position relative to currentIndex
     const pixelWidths = slides.map((_, i) => {
       if (i === index) return getSlideWidthPx('active');
       if (i < index) return getSlideWidthPx('left');
@@ -60,12 +70,17 @@ const Slider: React.FC<SliderProps> = ({
       containerWidth / 2 - pixelWidths[index] / 2 - totalBefore;
 
     if (trackRef.current) {
+      trackRef.current.style.transition = `transform 0.15s ease-in-out`; // ✅ single step transition speed
       trackRef.current.style.transform = `translateX(${offset}px)`;
     }
   };
 
   const scrollToIndex = (targetIndex: number) => {
     if (isAnimating || targetIndex === currentIndex) return;
+
+    const steps = Math.abs(targetIndex - currentIndex);
+    const totalTime = transitionDuration;
+    const stepTime = steps > 0 ? totalTime / steps : totalTime;
 
     setIsAnimating(true);
 
@@ -78,7 +93,7 @@ const Slider: React.FC<SliderProps> = ({
       performScroll(tempIndex);
 
       if (tempIndex !== targetIndex) {
-        animationTimeout.current = window.setTimeout(animateStep, 350);
+        animationTimeout.current = window.setTimeout(animateStep, stepTime);
       } else {
         setIsAnimating(false);
         animationTimeout.current = null;
@@ -100,6 +115,12 @@ const Slider: React.FC<SliderProps> = ({
     }
   };
 
+  const handleSelectSlide = (index: number) => {
+    if (!isAnimating && index >= 0 && index < slides.length) {
+      scrollToIndex(index);
+    }
+  };
+
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
@@ -116,7 +137,6 @@ const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     performScroll(currentIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerWidth, slideWidths, gap]);
 
   useEffect(() => {
@@ -126,6 +146,25 @@ const Slider: React.FC<SliderProps> = ({
       }
     };
   }, []);
+
+  const renderedNav = sliderNavElement
+    ? React.cloneElement(sliderNavElement, {
+        onScrollLeft: scrollLeft,
+        onScrollRight: scrollRight,
+        onSelectSlide: handleSelectSlide,
+        currentIndex,
+        totalSlides: slides.length,
+      })
+    : (
+      <ArrowsNav
+        onScrollLeft={scrollLeft}
+        onScrollRight={scrollRight}
+        onSelectSlide={handleSelectSlide}
+        currentIndex={currentIndex}
+        totalSlides={slides.length}
+        variant={0}
+      />
+    );
 
   return (
     <div
@@ -141,7 +180,6 @@ const Slider: React.FC<SliderProps> = ({
             style={{
               display: 'flex',
               gap: `${gap}px`,
-              transition: 'transform 0.4s ease-in-out',
               willChange: 'transform',
             }}
           >
@@ -156,10 +194,12 @@ const Slider: React.FC<SliderProps> = ({
                 className += ' right';
               }
 
-              let widthPercent = 0;
-              if (index === currentIndex) widthPercent = widths.active;
-              else if (index < currentIndex) widthPercent = widths.left;
-              else widthPercent = widths.right;
+              const widthPercent =
+                index === currentIndex
+                  ? widths.active
+                  : index < currentIndex
+                  ? widths.left
+                  : widths.right;
 
               return (
                 <div
@@ -168,7 +208,7 @@ const Slider: React.FC<SliderProps> = ({
                   style={{
                     flexShrink: 0,
                     width: `${widthPercent}%`,
-                    transition: 'width 0.4s ease-in-out',
+                    transition: 'width 0.15s ease-in-out', // ✅ match with track transition
                   }}
                 >
                   {slide}
@@ -179,7 +219,7 @@ const Slider: React.FC<SliderProps> = ({
         </div>
       </div>
 
-      <SliderNav onScrollLeft={scrollLeft} onScrollRight={scrollRight} />
+      {renderedNav}
     </div>
   );
 };

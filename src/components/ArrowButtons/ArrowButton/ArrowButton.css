@@ -1,0 +1,10 @@
+
+.ArrowButton {
+  z-index: 20;
+  height: 100px;
+  width: 50px;
+  pointer-events: all;
+  cursor: pointer;
+  user-select: none;
+}
+
