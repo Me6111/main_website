@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Slider from '../../Slider';
 import Slide from './Slide_0';
-import ArrowsNav from '../../../SliderNav/ArrowsNavIndexes/ArrowsNav'; 
 
 import SliderSourceCodeRaw from '../../Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../Slider.css?raw';
@@ -52,17 +51,9 @@ const SliderConfigComponent: React.FC = () => {
       gap={0}
       slideWidths={{ active: 80, left: 0, right: 80 }}
       slides={slides}
-      sliderNavElement={
-        <ArrowsNav
-          onScrollLeft={() => {}}
-          onScrollRight={() => {}}
-          variant={1} // Use variant 1
-          theme="light" // Added theme prop
-        />
-      }
+      NavType="index" 
       onSlideChange={setActiveIndex}
     />
-
   );
 };
 

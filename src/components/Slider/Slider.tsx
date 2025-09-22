@@ -1,6 +1,8 @@
+// Slider.tsx
 import React, { useRef, useEffect, useState } from 'react';
 import './Slider.css';
 import ArrowsNav from '../SliderNav/ArrowsNav/ArrowsNav';
+import IndexNav from '../SliderNav/IndexNav/IndexNav';
 
 type SlideWidths = {
   active?: number;
@@ -8,7 +10,6 @@ type SlideWidths = {
   right?: number;
 };
 
-// ✅ Extended to include new optional props
 type SliderNavElementProps = {
   onScrollLeft: () => void;
   onScrollRight: () => void;
@@ -18,13 +19,21 @@ type SliderNavElementProps = {
   variant?: number;
 };
 
+type NavTypeOption = 'index' | 'arrows' | 'custom';
+
+type NavTypeProp =
+  | { NavType: 'index'; Style?: number }
+  | { NavType: 'arrows'; Type: 0 | 1; Style?: number }
+  | { NavType: 'custom' };
+
 type SliderProps = {
   slides: React.ReactNode[];
   Unique_Slider_Name?: string;
   gap?: number;
   slideWidths?: SlideWidths;
+  NavType?: NavTypeProp;
   sliderNavElement?: React.ReactElement<SliderNavElementProps>;
-  transitionDuration?: number; // ✅ duration in milliseconds for full transition (e.g., 300ms)
+  transitionDuration?: number;
 };
 
 const Slider: React.FC<SliderProps> = ({
@@ -32,8 +41,9 @@ const Slider: React.FC<SliderProps> = ({
   Unique_Slider_Name: UniqueSliderName,
   gap = 0,
   slideWidths = {},
+  NavType = { NavType: 'arrows', Type: 0, Style: 0 },
   sliderNavElement,
-  transitionDuration = 300, // ✅ default 0.3s
+  transitionDuration = 300,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -66,11 +76,10 @@ const Slider: React.FC<SliderProps> = ({
       .slice(0, index)
       .reduce((acc, w) => acc + w + gap, 0);
 
-    const offset =
-      containerWidth / 2 - pixelWidths[index] / 2 - totalBefore;
+    const offset = containerWidth / 2 - pixelWidths[index] / 2 - totalBefore;
 
     if (trackRef.current) {
-      trackRef.current.style.transition = `transform 0.15s ease-in-out`; // ✅ single step transition speed
+      trackRef.current.style.transition = `transform 0.15s ease-in-out`;
       trackRef.current.style.transform = `translateX(${offset}px)`;
     }
   };
@@ -83,7 +92,6 @@ const Slider: React.FC<SliderProps> = ({
     const stepTime = steps > 0 ? totalTime / steps : totalTime;
 
     setIsAnimating(true);
-
     const direction = targetIndex > currentIndex ? 1 : -1;
     let tempIndex = currentIndex;
 
@@ -147,24 +155,37 @@ const Slider: React.FC<SliderProps> = ({
     };
   }, []);
 
-  const renderedNav = sliderNavElement
-    ? React.cloneElement(sliderNavElement, {
-        onScrollLeft: scrollLeft,
-        onScrollRight: scrollRight,
-        onSelectSlide: handleSelectSlide,
-        currentIndex,
-        totalSlides: slides.length,
-      })
-    : (
-      <ArrowsNav
-        onScrollLeft={scrollLeft}
-        onScrollRight={scrollRight}
-        onSelectSlide={handleSelectSlide}
-        currentIndex={currentIndex}
-        totalSlides={slides.length}
-        variant={0}
-      />
-    );
+  const renderNav = () => {
+    const commonProps = {
+      onScrollLeft: scrollLeft,
+      onScrollRight: scrollRight,
+      onSelectSlide: handleSelectSlide,
+      currentIndex,
+      totalSlides: slides.length,
+    };
+
+    if (!NavType) return null;
+
+    switch (NavType.NavType) {
+      case 'index':
+        return <IndexNav {...commonProps} variant={NavType.Style ?? 0} />;
+      case 'arrows':
+        return (
+          <ArrowsNav
+            onScrollLeft={scrollLeft}
+            onScrollRight={scrollRight}
+            type={NavType.Type}
+            style={NavType.Style ?? 0}
+          />
+        );
+      case 'custom':
+        return sliderNavElement
+          ? React.cloneElement(sliderNavElement, commonProps)
+          : null;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div
@@ -208,7 +229,7 @@ const Slider: React.FC<SliderProps> = ({
                   style={{
                     flexShrink: 0,
                     width: `${widthPercent}%`,
-                    transition: 'width 0.15s ease-in-out', // ✅ match with track transition
+                    transition: 'width 0.15s ease-in-out',
                   }}
                 >
                   {slide}
@@ -219,7 +240,7 @@ const Slider: React.FC<SliderProps> = ({
         </div>
       </div>
 
-      {renderedNav}
+      {renderNav()}
     </div>
   );
 };

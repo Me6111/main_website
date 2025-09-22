@@ -1,36 +1,50 @@
 import React from 'react';
 import './ArrowsNav.css';
-import ArrowButton from '../../ArrowButtons/ArrowButton/ArrowButton';
+import ArrowButton_0 from '../../ArrowButtons/ArrowButton_0/ArrowButton_0';
+import ArrowButton_1 from '../../ArrowButtons/ArrowButton_1/ArrowButton_1';
+
+type ArrowsType = 0 | 1 | 'custom';
 
 type Props = {
   onScrollLeft: () => void;
   onScrollRight: () => void;
   onSelectSlide?: (index: number) => void;
-  variant: 0 | 1;
+  ArrowsType: ArrowsType;
   totalSlides?: number;
   currentIndex?: number;
-  theme?: 'light' | 'dark'; // ✅ new optional theme prop
+  theme?: 'light' | 'dark';
+  customArrows?: React.ReactNode; // Your custom arrows component
 };
 
 const ArrowsNav: React.FC<Props> = ({
   onScrollLeft,
   onScrollRight,
   onSelectSlide,
-  variant,
+  ArrowsType,
   totalSlides = 0,
   currentIndex = 0,
-  theme = 'light', // ✅ default theme is light
+  theme = 'light',
+  customArrows,
 }) => {
+  // Render arrow buttons based on ArrowsType
+  const renderArrowButton = (direction: 'left' | 'right') => {
+    if (ArrowsType === 0) {
+      return <ArrowButton_0 direction={direction} onClick={direction === 'left' ? onScrollLeft : onScrollRight} />;
+    }
+    if (ArrowsType === 1) {
+      return <ArrowButton_1 direction={direction} onClick={direction === 'left' ? onScrollLeft : onScrollRight} />;
+    }
+    return null; // custom arrows rendered separately
+  };
+
   return (
-    <div className={`ArrowsNav ${theme}`}> {/* ✅ apply theme class */}
-      {/* Top index bar */}
+    <div className={`ArrowsNav ${theme}`}>
+      {/* Index Bar */}
       <div className="ArrowsNav-index-bar">
         {Array.from({ length: totalSlides }).map((_, index) => (
           <button
             key={index}
-            className={`ArrowsNav-index-button ${
-              index === currentIndex ? 'active' : ''
-            }`}
+            className={`ArrowsNav-index-button ${index === currentIndex ? 'active' : ''}`}
             onClick={() => onSelectSlide?.(index)}
           >
             {index + 1}
@@ -40,8 +54,14 @@ const ArrowsNav: React.FC<Props> = ({
 
       {/* Arrows */}
       <div className="ArrowsNav-arrows">
-        <ArrowButton direction="left" onClick={onScrollLeft} variant={variant} />
-        <ArrowButton direction="right" onClick={onScrollRight} variant={variant} />
+        {ArrowsType === 'custom' ? (
+          customArrows
+        ) : (
+          <>
+            {renderArrowButton('left')}
+            {renderArrowButton('right')}
+          </>
+        )}
       </div>
     </div>
   );

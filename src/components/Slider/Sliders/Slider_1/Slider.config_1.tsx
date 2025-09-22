@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import Slider from '../../Slider';
-//import './Slider.config_1.css';
-
 import Slide from './Slide_1';
 
 import SliderSourceCodeRaw from '../../Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../Slider.css?raw';
-
 
 import img0 from './fighterJet/0.jpg';
 import img2 from './fighterJet/2.jpg';
@@ -19,15 +16,15 @@ import img8 from './fighterJet/8.jpg';
 import img9 from './fighterJet/9.jpg';
 import img10 from './fighterJet/10.jpg';
 
-
 const usageCodeRaw = `<Slider
-  id="Slider-config"
+  Unique_Slider_Name="Slider_1"
   slides={[
-    <Slide key={0} position="active" img={<img src={storm0} alt="Slide 1" />} />,
-    <Slide key={1} position="right" img={<img src={storm1} alt="Slide 2" />} />,
-    <Slide key={2} position="right" img={<img src={storm2} alt="Slide 3" />} />,
+    <Slide key={0} position="active" img={<img src={img0} alt="Slide 1" />} />,
+    <Slide key={1} position="right" img={<img src={img2} alt="Slide 2" />} />,
+    <Slide key={2} position="right" img={<img src={img3} alt="Slide 3" />} />,
   ]}
   gap={100}
+  NavType="arrows"
 />`;
 
 const SliderConfigComponent: React.FC = () => {
@@ -52,11 +49,11 @@ const SliderConfigComponent: React.FC = () => {
   return (
     <Slider
       Unique_Slider_Name="Slider_1"
-      gap={100}
+      gap={0}
       slideWidths={{ active: 80, left: 80, right: 80 }}
-
       slides={slides}
-      onSlideChange={setActiveIndex}
+      NavType={{ NavType: 'arrows', Style: 0,  }}  
+      transitionDuration={300}
     />
   );
 };

@@ -23,8 +23,8 @@ SliderConfig_2.Name = 'Slider 2';
 
 // ✅ Define config as a dictionary
 const codeShowcaseConfigs = {
-  Slider_0: SliderConfig_0,
   Slider_1: SliderConfig_1,
+  Slider_0: SliderConfig_0,
   Slider_2: SliderConfig_2,
   NavBar: NavBarConfig,
   NavOptions: NavOptionsConfig,
@@ -63,13 +63,14 @@ const ReadyComponents = () => {
         CenteredHeader={true}
       />
       <div className="s0">
-        <Slider
-          Unique_Slider_Name="readyComponents-slider"
-          gap={500}
-          slideWidths={{ active: 100, left: 100, right: 100 }}
-          slides={renderedSlides}
-          onSlideChange={setActiveIndex}
-        />
+      <Slider
+        Unique_Slider_Name="readyComponents-slider"
+        gap={500}
+        slideWidths={{ active: 100, left: 100, right: 100 }}
+        slides={renderedSlides}
+        NavType={{ NavType: 'arrows', Type: 0, Style: 0 }}
+      />
+
       </div>
     </main>
   );
