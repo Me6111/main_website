@@ -51,8 +51,7 @@ const SliderConfigComponent: React.FC = () => {
       gap={0}
       slideWidths={{ active: 80, left: 0, right: 80 }}
       slides={slides}
-      NavType="index" 
-      onSlideChange={setActiveIndex}
+      NavType={{ NavType: 'index', Style: 0 }}
     />
   );
 };

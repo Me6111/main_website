@@ -10,22 +10,33 @@ import LearnMoreButtonConfig from '../../../components/LearnMoreButton/LearnMore
 import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
 import NavOptionsConfig from '../../../components/NavOptions/NavOptions.config';
 import NavBarConfig from '../../../components/NavBar/NavBar.config';
+
 import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.config_0';
 import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
 import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.config_2';
+import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
+
 import CopyButton from '../../../components/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
-// ✅ Manually inject unique names for sliders
 SliderConfig_0.Name = 'Slider 0';
 SliderConfig_1.Name = 'Slider 1';
 SliderConfig_2.Name = 'Slider 2';
+SliderConfig_3.Name = 'Slider 3';
+
 
 // ✅ Define config as a dictionary
 const codeShowcaseConfigs = {
+
+    Slider_3: SliderConfig_3,
+
+
   Slider_1: SliderConfig_1,
+
+
   Slider_0: SliderConfig_0,
   Slider_2: SliderConfig_2,
+
   NavBar: NavBarConfig,
   NavOptions: NavOptionsConfig,
   NavOption: NavOptionConfig,

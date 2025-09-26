@@ -5,16 +5,16 @@ import Slide from './Slide_1';
 import SliderSourceCodeRaw from '../../Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../Slider.css?raw';
 
-import img0 from './images/0.jpg';
-import img2 from './images/2.jpg';
-import img3 from './images/3.jpg';
-import img4 from './images/4.jpg';
-import img5 from './images/5.jpg';
-import img6 from './images/6.jpg';
-import img7 from './images/7.jpg';
-import img8 from './images/8.jpg';
-import img9 from './images/9.jpg';
-import img10 from './images/10.jpg';
+import img0 from './fighterJet/0.jpg';
+import img2 from './fighterJet/2.jpg';
+import img3 from './fighterJet/3.jpg';
+import img4 from './fighterJet/4.jpg';
+import img5 from './fighterJet/5.jpg';
+import img6 from './fighterJet/6.jpg';
+import img7 from './fighterJet/7.jpg';
+import img8 from './fighterJet/8.jpg';
+import img9 from './fighterJet/9.jpg';
+import img10 from './fighterJet/10.jpg';
 
 const usageCodeRaw = `<Slider
   Unique_Slider_Name="Slider_1"
@@ -52,7 +52,7 @@ const SliderConfigComponent: React.FC = () => {
       gap={0}
       slideWidths={{ active: 80, left: 80, right: 80 }}
       slides={slides}
-      NavType={{ NavType: 'arrows', Type: 0, Style: 1 }}
+      NavType={{ NavType: 'arrows', Style: 0,  }}  
       transitionDuration={300}
     />
   );

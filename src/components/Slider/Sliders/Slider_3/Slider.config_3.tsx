@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Slider from '../../Slider';
-import Slide from './Slide_1';
+import Slide from './Slide_3';
 
 import SliderSourceCodeRaw from '../../Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../Slider.css?raw';
@@ -48,7 +48,7 @@ const SliderConfigComponent: React.FC = () => {
 
   return (
     <Slider
-      Unique_Slider_Name="Slider_1"
+      Unique_Slider_Name="Slider_3"
       gap={0}
       slideWidths={{ active: 80, left: 80, right: 80 }}
       slides={slides}
