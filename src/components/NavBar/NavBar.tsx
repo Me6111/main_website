@@ -19,7 +19,61 @@ interface NavBarProps {
   content?: React.ReactNode;
 }
 
-const MainMenuButton: React.FC = () => {
+const NavBar: React.FC<NavBarProps> = ({
+  sections,
+  disappearing_navbar = true,
+  disappearing_curtain = true,
+  navbar_hide_threshold = 100,
+  curtain_hide_threshold = 50,
+  content,
+}) => {
+  const [isNavbarHidden, setIsNavbarHidden] = useState(false);
+  const [curtainVisible, setCurtainVisible] = useState(false);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const lastScrollTop = useRef(0);
+
+  const handleContentScroll = useCallback(() => {
+    if (!contentRef.current) return;
+
+    const scrollTop = contentRef.current.scrollTop;
+
+    // Show curtain logic
+    setCurtainVisible(scrollTop > curtain_hide_threshold);
+
+    if (!disappearing_navbar) {
+      setIsNavbarHidden(false);
+      lastScrollTop.current = scrollTop;
+      return;
+    }
+
+    if (scrollTop > navbar_hide_threshold) {
+      if (scrollTop > lastScrollTop.current) {
+        // Scrolling down past threshold => hide navbar
+        setIsNavbarHidden(true);
+      } else if (scrollTop < lastScrollTop.current) {
+        // Scrolling up => show navbar immediately
+        setIsNavbarHidden(false);
+      }
+    } else {
+      // If not past threshold, always show navbar
+      setIsNavbarHidden(false);
+    }
+
+    lastScrollTop.current = scrollTop;
+  }, [navbar_hide_threshold, curtain_hide_threshold, disappearing_navbar]);
+
+  useEffect(() => {
+    const contentElem = contentRef.current;
+    if (!contentElem) return;
+
+    contentElem.addEventListener('scroll', handleContentScroll, { passive: true });
+
+    return () => {
+      contentElem.removeEventListener('scroll', handleContentScroll);
+    };
+  }, [handleContentScroll]);
+
   const menuItems = [
     { label: 'Stack', href: '/mystack' },
     { label: 'Updates', href: '/updates' },
@@ -29,75 +83,19 @@ const MainMenuButton: React.FC = () => {
   ];
 
   return (
-    <MainMenu
-      Sidebar_items={menuItems}
-      Sidebar_closeByClick={true}
-      Sidebar_closeByScroll={true}
-    />
-  );
-};
-
-const NavBar: React.FC<NavBarProps> = ({
-  sections,
-  disappearing_navbar = true,
-  disappearing_curtain = true,
-  navbar_hide_threshold,
-  curtain_hide_threshold,
-  content,
-}) => {
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [curtainVisible, setCurtainVisible] = useState(false);
-  const lastScrollY = useRef(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = useCallback(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const currentScrollY = container.scrollTop;
-
-    if (disappearing_navbar && typeof navbar_hide_threshold === 'number') {
-      const hasScrolledDown = currentScrollY > lastScrollY.current;
-      const passedThreshold = currentScrollY > navbar_hide_threshold;
-      setIsScrollingDown(hasScrolledDown && passedThreshold);
-    } else {
-      setIsScrollingDown(false);
-    }
-
-    if (disappearing_curtain && typeof curtain_hide_threshold === 'number') {
-      setCurtainVisible(currentScrollY > curtain_hide_threshold);
-    } else {
-      setCurtainVisible(false);
-    }
-
-    lastScrollY.current = currentScrollY;
-  }, [disappearing_navbar, disappearing_curtain, navbar_hide_threshold, curtain_hide_threshold]);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
-
-  return (
-    <div className="NavBar-wrapper" ref={scrollContainerRef}>
-      <nav className={`NavBar ${isScrollingDown ? 'NavBar-hidden' : ''}`}>
+    <div className="NavBar-wrapper">
+      <nav className={`NavBar ${isNavbarHidden ? 'NavBar-hidden' : ''}`}>
         <div className={`NavBar-courtain ${curtainVisible ? '' : 'NavBar-courtain-hidden'}`} />
-        <div className={`NavBar-inner ${isScrollingDown ? 'NavBar-inner-hidden' : ''}`}>
+        <div className={`NavBar-inner ${isNavbarHidden ? 'NavBar-inner-hidden' : ''}`}>
           <Logo />
           <NavOptions sections={sections} />
-          <MainMenuButton />
+          <MainMenu menuItems={menuItems} />
         </div>
       </nav>
 
-      <div className="NavBar-content">
+      <div className="NavBar-content" ref={contentRef}>
         {content}
       </div>
-
     </div>
   );
 };

@@ -84,10 +84,10 @@ const CodeShowcase: React.FC<ShowcaseProps> = ({
   }, [ComponentInstance, usageCodeRaw, dependencies]);
 
   return (
-    <div className="CodeShowcase">
+    <div className="CodeShowcase" id={"CodeShowcase-" + Name}>
       <h2 className="section-title">{Name}</h2>
 
-      <div className="live-preview">
+      <div className="live-preview" id={"live-preview-" + Name}>
         <LivePreviewComponent />
       </div>
 

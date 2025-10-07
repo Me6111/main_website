@@ -6,6 +6,8 @@
 
   width: 0;
   height: 0;
-  margin-left: 20px;
+
+  position: relative;
+  right: 15px;
 }
 

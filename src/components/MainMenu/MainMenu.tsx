@@ -1,52 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from '../Sidebar/Sidebar';
+import React, { useState } from 'react';
 import HamburgerButton from '../HamburgerButton/HamburgerButton';
+import Sidebar from '../Sidebar/Sidebar';
 import './MainMenu.css';
 
-type MenuItem = {
-  label: string;
-  href: string;
-};
-
 type MainMenuProps = {
-  Sidebar_items: MenuItem[];
-  Sidebar_portalTarget?: Element;
-  Sidebar_closeByClick?: boolean;
-  Sidebar_closeByScroll?: boolean;
+  menuItems: { label: string; href: string }[];
 };
 
-const MainMenu: React.FC<MainMenuProps> = ({
-  Sidebar_items,
-  Sidebar_portalTarget,
-  Sidebar_closeByClick = false,
-  Sidebar_closeByScroll = false,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => setIsOpen(prev => !prev);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (Sidebar_closeByScroll && isOpen) setIsOpen(false);
-    };
-    if (Sidebar_closeByScroll) {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, [isOpen, Sidebar_closeByScroll]);
+const MainMenu: React.FC<MainMenuProps> = ({ menuItems }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="MainMenu">
-      <HamburgerButton isOpen={isOpen} toggle={toggleSidebar} />
+    <>
+      <div className="MainMenu">
+        <HamburgerButton
+          isOpen={isSidebarOpen}
+          toggle={() => setIsSidebarOpen((prev) => !prev)}
+        />
+      </div>
+
       <Sidebar
-        isOpen={isOpen}
-        items={Sidebar_items}
-        onClose={() => setIsOpen(false)}
-        portalTarget={Sidebar_portalTarget}
-        closeByClick={Sidebar_closeByClick}
-        closeByScroll={Sidebar_closeByScroll}
+        isOpen={isSidebarOpen}
+        items={menuItems}
+        onClose={() => setIsSidebarOpen(false)}
+        closeByClick={true}
+        closeByScroll={true}
       />
-    </div>
+    </>
   );
 };
 

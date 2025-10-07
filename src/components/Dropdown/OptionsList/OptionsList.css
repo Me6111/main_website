@@ -1,0 +1,84 @@
+.OptionsList {
+  position: relative;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+
+  /* Black glassmorphism with gradient */
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.85),
+    rgba(30, 30, 30, 0.85)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.OptionsList li {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease;
+  color: rgb(255, 255, 255, 0.8);
+
+}
+
+.OptionsList li:last-child {
+  border-bottom: none;
+}
+
+.OptionsList li:hover {
+  color: #f1f1f1;
+
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.OptionsList {
+  /* existing styles ... */
+  scrollbar-width: thin;
+  scrollbar-color: #707070 #222; /* thumb color #ccc, track color #222 */
+}
+
+/* WebKit browsers */
+.OptionsList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.OptionsList::-webkit-scrollbar-track {
+  background: #222; /* dark track */
+  border-radius: 8px;
+}
+
+.OptionsList::-webkit-scrollbar-thumb {
+  background-color: #6e6e6e; /* bright thumb */
+  border-radius: 8px;
+  border: 2px solid #222; /* adds padding effect */
+}
+
+.OptionsList::-webkit-scrollbar-thumb:hover {
+  background-color: #868686; /* lighter thumb on hover */
+}
+
+
+
+
+
+#CodeShowcase-OptionsList_1 .OptionsList li {
+  padding: 0;
+}

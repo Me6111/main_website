@@ -1,0 +1,128 @@
+/* Dropdown.css */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+  width: 250px; /* adjust as needed */
+}
+
+.dropdown.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, background-color 0.3s;
+  /* prevent button content from overflowing */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dropdown-toggle:hover:not(:disabled) {
+  border-color: #888;
+  background-color: #f9f9f9;
+}
+
+/* Styles for input field inside the dropdown toggle */
+.dropdown-toggle > .InputField {
+  flex-shrink: 1;
+  min-width: 0; /* important for flex items to shrink properly */
+}
+
+/* When input field and title are side by side (append/prepend), spacing */
+.dropdown-toggle > .InputField + * {
+  margin-left: 8px;
+}
+
+.dropdown-toggle > * + .InputField {
+  margin-left: 8px;
+}
+
+/* Options list styles */
+.OptionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Each option inside dropdown */
+.dropdown-option {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.dropdown-option:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-option.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+/* Optional: If InputField has icon or specific styling */
+/* Assuming InputField container has class .InputField */
+.InputField {
+  width: 100%;
+}
+
+.InputField .input-element {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline-offset: 2px;
+  outline-color: transparent;
+  transition: border-color 0.2s;
+}
+
+.InputField .input-element:focus {
+  border-color: #007bff;
+  outline-color: #007bff;
+}
+
+.InputField.disabled .input-element {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Prevent text overflow in title + input field container */
+.dropdown-toggle > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown .OptionsList {
+  position: absolute;
+}

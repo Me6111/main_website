@@ -1,0 +1,42 @@
+.OptionItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  color: #f0f0f0;
+  font-weight: 500;
+  gap: 12px;
+  user-select: none;
+}
+
+.OptionItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.OptionItem.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.OptionItem .icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.OptionItem .label {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.OptionItem-link {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}

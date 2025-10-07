@@ -59,7 +59,6 @@ const customContent = (
   </>
 );
 
-
 const NavBarConfig = {
   key: 'NavBar',
   Name: 'NavBar',

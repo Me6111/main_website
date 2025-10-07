@@ -1,0 +1,53 @@
+
+.Slide_0 {
+    width: 100%;
+    height: 100%;
+}
+
+#Slider_0 .Slide-inner.inner0 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Slider_0 .Slide-inner.inner0 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+#Slider_0 .Slider-slide.active .Slide-inner.inner0 img{
+    transform: scale(1);
+    transition: all 0.5s ease-in-out;
+    filter: blur(0px);
+}
+#Slider_0 .Slider-slide.right .Slide-inner.inner0 img{
+    transform: scale(0.9);
+    transition: all 0.5s ease-in-out;
+    filter: blur(12px);
+}
+#Slider_0 .Slider-slide.left .Slide-inner.inner0 img{
+    transform: scale(0.9);
+    transition: all 0.5s ease-in-out;
+    filter: blur(12px);
+}
+
+
+
+
+
+
+
+/* Make sure the wrapper around the Slider fills the available space */
+.slider-wrapper {
+  width: 100%;
+  height: 42vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
