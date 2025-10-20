@@ -1,46 +1,184 @@
+/* Container */
+.InputField-container {
+  position: relative;
+  padding: 10px;
+  padding-top: 20px;
+  background-color: black;
+  border-radius: 5px;
+}
+
+
+
 .InputField {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border: 1px solid #000;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 400px;
   background: transparent;
-  color: #fff;
-  user-select: none;
 }
 
 .InputField.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-.InputField .icon {
+.InputField-icon {
   margin-right: 8px;
   display: flex;
   align-items: center;
-  color: #fff;
   font-size: 1.2em;
+  color: #666;
 }
 
-.InputField .label {
+.InputField-wrapper {
+  position: relative;
   flex: 1;
-  font-size: 1em;
-  color: #fff;
 }
 
-.InputField-link {
-  text-decoration: none;
-  display: inline-block;
+.InputField-label-outer {
+  position: absolute;
+  z-index: 2;
+
+  font-size: 16px;
+  color: white;
+  margin-bottom: 6px;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 1s ease, color 0.5s ease;
 }
 
-.input-options {
-  margin-left: 12px;
-  font-size: 0.85em;
-  color: #fff;
-  background: #000;
-  padding: 4px 8px;
+.InputField-label-inner {
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+  background: transparent;
+  opacity: 1;
+  z-index: 2;
+  transition: opacity 0.5s ease, transform 0.5s ease, font-size 0.5s ease, color 0.5s ease;
+  padding: 0 4px;
+  transform-origin: left center;
+}
+
+.InputField-label-inner.static-label {
+  position: static;
+  transform: none;
+  font-size: 16px;
+  padding: 0;
+}
+
+.InputField-input {
+  width: 100%;
+  padding: 12px 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-family: monospace;
-  max-height: 150px;
-  overflow: auto;
-  white-space: pre-wrap;
+  outline: none;
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
 }
+
+.InputField-input::placeholder {
+  color: #999;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.InputField-input:focus::placeholder {
+  opacity: 1;
+}
+
+
+.InputField-label-inner.focused {
+  transform: translateY(-120%) scale(0.7);
+  color: #007bff;
+  background-color: black;
+  z-index: 3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.InputField-container.animate-fade.focused .InputField-label-inner {
+  transition: opacity 0.5s ease, transform 0.5s ease, color 0.5s ease;
+  
+  transform: translateY(-120%) scale(0.7);
+  color: #007bff;
+  background-color: black;
+  z-index: 3;
+}
+.InputField-container.animate-fade.focused .InputField-input {
+  border: 1px solid #007bff;
+}
+
+
+
+
+
+
+.InputField-container.animate-slide .InputField-label-outer {
+  top: 5px;
+  transition: transform 1s ease;
+  transform: translateX(500%);
+  color: #007bff;
+  /* transform: translateX(500%) scale(2, 0.1); */
+}
+.InputField-container.animate-slide.focused .InputField-label-outer {
+  transform: translateX(50%) scale(0.9);
+}
+
+.InputField-container.animate-slide .InputField-label-inner {
+  transition: transform 1s ease;
+  transform: translateX(0);
+}
+.InputField-container.animate-slide.focused .InputField-label-inner {
+  transform: translateX(-500%);
+}
+.InputField-container.animate-slide {
+  padding-top: 25px;
+  overflow: hidden;
+}
+.InputField-container.animate-slide .InputField-wrapper {
+  overflow: hidden;
+}
+.InputField-container.animate-slide .InputField-input {
+  transition: border-color 1s ease;
+}
+
+.InputField-container.animate-slide.focused .InputField-input {
+  border-color: #007bff;
+}
+
+
+
+
+
+

@@ -1,157 +1,113 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 import './Dropdown.css';
+import OptionItem from '../OptionItem/OptionItem';
 
-import OptionsList from '../OptionsList/OptionsList';
-import InputField, { InputFieldProps } from '../InputField/InputField';  // Import props if needed
+interface DropdownOption {
+  label: string;
+  onClick?: () => void;
+  subOptions?: DropdownOption[];
+  disabled?: boolean;
+  href?: string;
+  icon?: React.ReactNode;
+  tooltip?: string;
+}
 
 interface DropdownProps {
-  title: string;
-  options: any[];
-  displayMode?: 'replace' | 'append' | 'prepend';  // for title + selected display
-  onChange?: (selectedOption: any) => void;
-  defaultSelected?: any;
-  disabled?: boolean;
-  placeholder?: string;
-  renderOption?: (option: any) => React.ReactNode;
-  className?: string;
-  expandTrigger?: 'click' | 'hover' | 'manual'; 
-  isOpen?: boolean;
-
-  // NEW PROPS for optional InputField
-  inputFieldProps?: Partial<InputFieldProps>;
-  inputFieldDisplay?: 'replace' | 'append' | 'prepend' | 'none'; // default none means no input field
+  options: DropdownOption[];
+  trigger?: 'hover' | 'click';
+  label?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
-  title,
   options,
-  displayMode = 'replace',
-  onChange,
-  defaultSelected = null,
-  disabled = false,
-  placeholder = 'Select...',
-  renderOption,
-  className = '',
-  expandTrigger = 'click',
-  isOpen: manualOpen = false,
-
-  inputFieldProps,
-  inputFieldDisplay = 'none',
+  trigger = 'hover',
+  label = 'Select Option',
 }) => {
-  const [selected, setSelected] = useState(defaultSelected);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSelect = (option: any) => {
-    if (disabled) return;
-    setSelected(option);
-    if (onChange) onChange(option);
-    if (expandTrigger === 'click') setIsOpen(false);
+  const handleMouseEnter = () => {
+    if (trigger === 'hover') setIsOpen(true);
   };
 
-  const displayTitle = () => {
-    if (!selected) return title || placeholder;
-
-    const rendered = renderOption
-      ? renderOption(selected)
-      : selected.label || selected.name || selected.toString();
-
-    switch (displayMode) {
-      case 'replace':
-        return rendered;
-      case 'append':
-        return (
-          <>
-            {title} {rendered}
-          </>
-        );
-      case 'prepend':
-        return (
-          <>
-            {rendered} {title}
-          </>
-        );
-      default:
-        return title;
-    }
+  const handleMouseLeave = () => {
+    if (trigger === 'hover') setIsOpen(false);
   };
 
-  const handleToggle = () => {
-    if (expandTrigger === 'click') {
-      setIsOpen((prev) => !prev);
-    }
-  };
-
-  const dropdownOpen = expandTrigger === 'manual' ? manualOpen : isOpen;
-
-  // Helper to render title + optional input field based on inputFieldDisplay
-  const renderToggleContent = () => {
-    if (inputFieldDisplay === 'none') {
-      return displayTitle();
-    }
-
-    if (inputFieldDisplay === 'replace') {
-      // only input field shown instead of title
-      return <InputField {...inputFieldProps} disabled={disabled} placeholder={placeholder} />;
-    }
-
-    if (inputFieldDisplay === 'append') {
-      return (
-        <>
-          {displayTitle()}
-          <InputField {...inputFieldProps} disabled={disabled} placeholder={placeholder} />
-        </>
-      );
-    }
-
-    if (inputFieldDisplay === 'prepend') {
-      return (
-        <>
-          <InputField {...inputFieldProps} disabled={disabled} placeholder={placeholder} />
-          {displayTitle()}
-        </>
-      );
-    }
-
-    return displayTitle();
+  const handleClick = () => {
+    if (trigger === 'click') setIsOpen((prev) => !prev);
   };
 
   return (
     <div
-      className={`dropdown ${className} ${disabled ? 'disabled' : ''}`}
-      onMouseEnter={() => expandTrigger === 'hover' && setIsOpen(true)}
-      onMouseLeave={() => expandTrigger === 'hover' && setIsOpen(false)}
+      className="Dropdown"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <button
-        type="button"
-        className="dropdown-toggle"
-        disabled={disabled}
-        onClick={handleToggle}
-      >
-        {renderToggleContent()}
+      <button className="DropdownBtn" onClick={handleClick}>
+        {label}
       </button>
 
-      {dropdownOpen && (
-        <OptionsList
-          options={options}
-          optionItem={(option, index) => (
-            <div
-              key={index}
-              className={`dropdown-option ${selected === option ? 'selected' : ''}`}
-              onClick={() => handleSelect(option)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  handleSelect(option);
-                }
-              }}
-            >
-              {renderOption ? renderOption(option) : option.label || option.name || option.toString()}
-            </div>
-          )}
-        />
+      {isOpen && (
+        <ul className="DropdownMenu">
+          {options.map((option, i) => (
+            <DropdownItem key={i} option={option} trigger={trigger} />
+          ))}
+        </ul>
       )}
     </div>
+  );
+};
+
+interface DropdownItemProps {
+  option: DropdownOption;
+  trigger: 'hover' | 'click';
+}
+
+const DropdownItem: React.FC<DropdownItemProps> = ({ option, trigger }) => {
+  const [isSubOpen, setIsSubOpen] = useState(false);
+  const hasSubOptions = Array.isArray(option.subOptions) && option.subOptions.length > 0;
+
+  const handleMouseEnter = () => {
+    if (trigger === 'hover' && hasSubOptions) setIsSubOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (trigger === 'hover' && hasSubOptions) setIsSubOpen(false);
+  };
+
+  const handleClick: MouseEventHandler = (e) => {
+    e.stopPropagation();
+    if (trigger === 'click' && hasSubOptions) {
+      setIsSubOpen((prev) => !prev);
+    }
+    if (option.onClick && !hasSubOptions) {
+      option.onClick();
+    }
+  };
+
+  return (
+    <li
+      className="DropdownItem"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <OptionItem
+        name={option.label}
+        onClick={option.disabled ? undefined : option.onClick}
+        disabled={option.disabled}
+        href={option.href}
+        tooltip={option.tooltip}
+      />
+
+      {hasSubOptions && (
+        <ul className={`DropdownSubmenu ${isSubOpen ? 'Open' : ''}`}>
+          {option.subOptions?.map((subOption, i) => (
+            <DropdownItem key={i} option={subOption} trigger={trigger} />
+          ))}
+        </ul>
+      )}
+    </li>
   );
 };
 

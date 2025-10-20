@@ -1,0 +1,65 @@
+
+
+.ArrowButton.Style_0 {
+  display: inline-block;
+}
+
+.ArrowButton.Style_0 .Square {
+  position: relative;
+  background-color: black;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+
+.ArrowButton.Style_0 .Arrow-path {
+  fill: white;
+  z-index: 1000;
+}
+
+.ArrowButton.Style_0:hover .Arrow-path {
+  fill: black;
+}
+
+.ArrowButton.Style_0 .Square::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  background-color: white;
+  transition: transform 0s ease;
+  z-index: 1;
+  transform: translateX(-110%);
+}
+
+.ArrowButton.Style_0:hover .Square::before {
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.ArrowButton.Style_0 .Square::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110%;
+  height: 110%;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: left center;
+  transform: translateX(100%);
+  transition: none;
+}
+
+.ArrowButton.Style_0:hover .Square::after {
+  transform: translateX(0);
+  transition: none;
+}
+
+.ArrowButton.Style_0:not(:hover) .Square::after {
+  background-color: white;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}

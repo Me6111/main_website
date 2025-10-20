@@ -7,20 +7,20 @@ import InputFieldStyleCodeRaw from './InputField.css?raw';
 
 const usageCodeRaw = `
   <InputField
-    titleInner="Example input"
-    titleOuter="Example input"
-    nameAttr="example"
+    titleInner="Email address"
+    nameAttr="Email address"
     value=""
     type="text"
-    placeholder="input here"
-    animationType="none"
+    background="linear-gradient(to right, #111, #333)"
+    icon={icon}
+    animationType="fade"
     labelPosition="above"
   />
 `.trim();
 
-const InputField0_Config = {
-  key: 'InputField0',
-  Name: 'InputField0',
+const InputField2_Config = {
+  key: 'InputField2',
+  Name: 'InputField2',
   ComponentUsageCodeRaw: usageCodeRaw,
   ComponentDefinitionCodeRaw: InputFieldSourceCodeRaw,
   ComponentStyleCodeRaw: InputFieldStyleCodeRaw,
@@ -33,4 +33,4 @@ const InputField0_Config = {
   dependencies: { React, InputField },
 };
 
-export default InputField0_Config;
+export default InputField2_Config;

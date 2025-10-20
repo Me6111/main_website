@@ -4,11 +4,11 @@ import OptionsList from './OptionsList';
 import OptionsListSourceCodeRaw from './OptionsList.tsx?raw';
 import OptionsListStyleCodeRaw from './OptionsList.css?raw';
 
-// Create <li> elements for each option
-const optionsArray = Array.from({ length: 30 }, (_, i) => `  <li>option ${i + 1}</li>`);
+// Dynamically create options from 1 to 30, each on a new line with indentation
+const optionsArray = Array.from({ length: 30 }, (_, i) => `  "option ${i + 1}"`);
 
-// Wrap the <li>s inside <OptionsList>
-const usageCodeRaw = `<OptionsList>\n${optionsArray.join('\n')}\n</OptionsList>`;
+// Build the JSX string with line breaks for better formatting
+const usageCodeRaw = `<OptionsList options={[\n${optionsArray.join(',\n')}\n]} />`;
 
 const OptionsList_0Config = {
   key: 'OptionsList_0',

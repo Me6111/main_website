@@ -2,8 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import './InputField.css';
 
 interface InputFieldProps {
-  titleInner: string;
-  titleOuter: string;
+  name: string;
   nameAttr?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -21,13 +20,12 @@ interface InputFieldProps {
   minLength?: number;
   required?: boolean;
   readOnly?: boolean;
-  animationType?: 'none' | 'fade' | 'slide' | 'zoom';
-  labelPosition?: 'inside' | 'above';
+  animation?: boolean;
+  labelPosition?: 'inside' | 'above'; // <-- New prop
 }
 
 const InputField: React.FC<InputFieldProps> = ({
-  titleInner,
-  titleOuter,
+  name,
   nameAttr,
   value = '',
   onChange,
@@ -45,66 +43,43 @@ const InputField: React.FC<InputFieldProps> = ({
   minLength,
   required,
   readOnly,
-  animationType = 'none',
-  labelPosition = 'above',
+  animation = false,
+  labelPosition = 'above', // <-- default is above
 }) => {
-  const [internalValue, setInternalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
-
-  useEffect(() => {
-    setInternalValue(value);
-    if (value && value.length > 0) {
-      setIsFocused(true);
-    }
-  }, [value]);
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => {
-    if (!internalValue || internalValue.length === 0) {
-      setIsFocused(false);
-    }
-  };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInternalValue(newValue);
-    if (onChange) onChange(e);
+    if (!value) setIsFocused(false);
   };
 
-  const showFloating = animationType !== 'none' || labelPosition === 'inside';
-  const hasTextOrFocus = isFocused || internalValue.length > 0;
+  useEffect(() => {
+    if (value) setIsFocused(true);
+  }, [value]);
+
+  const showFloating = animation || labelPosition === 'inside';
 
   return (
-    <div
-      className={`InputField-container animate-${animationType} ${
-        hasTextOrFocus ? 'focused' : ''
-      }`}
-    >
-      <label className="InputField-label-outer" data-label={titleOuter}>
-        {titleOuter}
-      </label>
-
+    <div className="input-field-container">
       <div
         className={`InputField ${className} ${disabled ? 'disabled' : ''}`}
         style={{ background: background || 'transparent', ...style }}
         onClick={disabled ? undefined : onClick}
         title={tooltip}
       >
-        {icon && <div className="InputField-icon">{icon}</div>}
+        {icon && <div className="icon">{icon}</div>}
 
-        <div className="InputField-wrapper">
+        <div className={`input-wrapper ${showFloating ? 'animate' : ''}`}>
           <label
-            className={`InputField-label-inner ${
-              showFloating ? '' : 'static-label'
-            }`}
-            data-label={titleInner}
+            className={`floating-label ${isFocused || value ? 'focused' : ''} ${showFloating ? '' : 'static-label'}`}
           >
-            {titleInner}
+            {name}
           </label>
           <input
             type={type}
             name={nameAttr}
-            value={internalValue}
-            onChange={handleChange}
+            value={value}
+            onChange={onChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
             disabled={disabled}
@@ -113,8 +88,8 @@ const InputField: React.FC<InputFieldProps> = ({
             minLength={minLength}
             required={required}
             readOnly={readOnly}
-            placeholder={showFloating ? placeholder : placeholder}
-            className="InputField-input"
+            placeholder={showFloating ? placeholder : ''}
+            className="input-element"
           />
         </div>
       </div>

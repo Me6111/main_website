@@ -2,7 +2,7 @@ import React from 'react';
 import './OptionItem.css';
 
 interface OptionItemProps {
-  name: string;
+  name?: string; // optional now, since children can be passed
   background?: string;
   href?: string;
   icon?: React.ReactNode;
@@ -12,6 +12,7 @@ interface OptionItemProps {
   className?: string;
   style?: React.CSSProperties;
   target?: string;
+  children?: React.ReactNode; // support arbitrary children
 }
 
 const OptionItem: React.FC<OptionItemProps> = ({
@@ -25,37 +26,46 @@ const OptionItem: React.FC<OptionItemProps> = ({
   className = '',
   style,
   target = '_self',
+  children,
 }) => {
-  const content = (
+  const containerStyles: React.CSSProperties = {
+    background: background || 'transparent',
+    cursor: disabled ? 'not-allowed' : href || onClick ? 'pointer' : 'default',
+    ...style,
+  };
+
+  const innerContent = (
     <div
       className={`OptionItem ${disabled ? 'disabled' : ''} ${className}`}
-      style={{
-        background: background || 'transparent',
-        cursor: disabled ? 'not-allowed' : href || onClick ? 'pointer' : 'default',
-        ...style,
-      }}
+      style={containerStyles}
       onClick={disabled ? undefined : onClick}
       title={tooltip}
     >
-      {icon && <div className="icon">{icon}</div>}
-      <span className="label">{name}</span>
+      {icon && <div className="OptionItem-icon">{icon}</div>}
+
+      {/* Render custom children if provided, else fallback to default title */}
+      <div className="OptionItem-content">
+        {children ? children : <div className="OptionItem-Title">{name}</div>}
+      </div>
     </div>
   );
 
-  return href && !disabled ? (
-    <a
-      href={href}
-      onClick={onClick}
-      target={target}
-      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-      className="OptionItem-link"
-      title={tooltip}
-    >
-      {content}
-    </a>
-  ) : (
-    content
-  );
+  if (href && !disabled) {
+    return (
+      <a
+        href={href}
+        onClick={onClick}
+        target={target}
+        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+        className="OptionItem-link"
+        title={tooltip}
+      >
+        {innerContent}
+      </a>
+    );
+  }
+
+  return innerContent;
 };
 
 export default OptionItem;

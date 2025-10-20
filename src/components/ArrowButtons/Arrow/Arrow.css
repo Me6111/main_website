@@ -1,0 +1,10 @@
+.Arrow {
+  display: block;
+  cursor: pointer;
+  z-index: 10;
+
+  width: auto;
+  height: auto;
+}
+
+

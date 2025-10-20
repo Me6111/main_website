@@ -1,23 +1,15 @@
 import React from 'react';
 import './OptionsList.css';
 
-import OptionItem from '../OptionItem/OptionItem';
-
 interface OptionsListProps {
-  options: string[] | any[]; 
-  optionItem?: (option: any, index: number) => React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
 }
 
-const OptionsList: React.FC<OptionsListProps> = ({ options, optionItem }) => {
-  return (
-    <ul className="OptionsList">
-      {options.map((option, index) => (
-        <li key={index}>
-          {optionItem ? optionItem(option, index) : option}
-        </li>
-      ))}
-    </ul>
-  );
+const OptionsList: React.FC<OptionsListProps> = ({ children, className = '' }) => {
+  return <ul className={`OptionsList ${className}`}>
+    {children}
+  </ul>;
 };
 
 export default OptionsList;

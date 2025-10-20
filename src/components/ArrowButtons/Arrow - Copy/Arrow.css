@@ -1,0 +1,100 @@
+
+/*
+
+.Arrow {
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  border-style: solid;
+  transition: border-color 0.2s ease;
+}
+
+
+.Arrow.up {
+  border-width: var(--length) var(--width) 0 var(--width);
+  border-color: #333 transparent transparent transparent;
+}
+
+.Arrow.down {
+  border-width: 0 var(--width) var(--length) var(--width);
+  border-color: transparent transparent #333 transparent;
+}
+
+.Arrow.left {
+  border-width: var(--width) var(--length) var(--width) 0;
+  border-color: transparent #333 transparent transparent;
+}
+
+.Arrow.right {
+  border-width: var(--width) 0 var(--width) var(--length);
+  border-color: transparent transparent transparent #333;
+}
+
+.Arrow.short {
+  --length: 12px;
+}
+
+.Arrow.regular {
+  --length: 18px;
+}
+
+.Arrow.long {
+  --length: 24px;
+}
+
+.Arrow.narrow {
+  --width: 6px;
+}
+
+.Arrow.regular {
+  --width: 9px;
+}
+
+.Arrow.wide {
+  --width: 14px;
+}
+
+.Arrow:hover {
+  border-color: #555 transparent transparent transparent;
+}
+
+.Arrow.down:hover {
+  border-color: transparent transparent #555 transparent;
+}
+
+.Arrow.left:hover {
+  border-color: transparent #555 transparent transparent;
+}
+
+.Arrow.right:hover {
+  border-color: transparent transparent transparent #555;
+}
+
+
+.Arrow.up.notched {
+  border-width: var(--length) calc(var(--width) / 2) 0 calc(var(--width) / 2);
+  border-color: #333 transparent transparent transparent;
+  border-style: solid dashed solid dashed;
+}
+
+.Arrow.down.notched {
+  border-width: 0 calc(var(--width) / 2) var(--length) calc(var(--width) / 2);
+  border-color: transparent transparent #333 transparent;
+  border-style: dashed solid dashed solid;
+}
+
+.Arrow.left.notched {
+  border-width: var(--width) calc(var(--length) / 2) var(--width) 0;
+  border-color: transparent #333 transparent transparent;
+  border-style: solid dashed solid solid;
+}
+
+.Arrow.right.notched {
+  border-width: var(--width) 0 var(--width) calc(var(--length) / 2);
+  border-color: transparent transparent transparent #333;
+  border-style: solid solid solid dashed;
+}
+
+*/
