@@ -6,9 +6,8 @@ import Slider from '../../../components/Slider/Slider';
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
 import NavOptionConfig from '../../../components/NavOption/NavOption.config';
-import Square_Config from '../../../components/Square/Square.config';
 import Arrow_Config from '../../../components/ArrowButtons/Arrow/Arrow.config';
-import ArrowButton_Config from '../../../components/ArrowButtons/ArrowButton/ArrowButton.config';
+import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
 
 import LearnMoreButtonConfig from '../../../components/LearnMoreButton/LearnMoreButton.config';
 import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
@@ -56,14 +55,21 @@ const codeShowcaseConfigs = {
   //Slider_1: SliderConfig_1,
   //Slider_0: SliderConfig_0,
   //Slider_2: SliderConfig_2,
+  OptionItem: OptionItemConfig,
 
-  ArrowButton: ArrowButton_Config,
-  Square: Square_Config,
+  CheckBox: CheckBox_Config,
+
+
   Arrow: Arrow_Config,
 
 
   Dropdown_Tree_Config: Dropdown_Tree_Config,
-  OptionItem: OptionItemConfig,
+
+
+
+
+
+
 
   OptionsList_0: OptionsList0_Config,
 

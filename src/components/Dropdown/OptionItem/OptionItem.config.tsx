@@ -1,44 +1,54 @@
 import React from 'react';
 import JSXParser from 'react-jsx-parser';
-
+import SettingsIcon from '@mui/icons-material/Settings';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import OptionItem from './OptionItem';
 import OptionItemSourceCodeRaw from './OptionItem.tsx?raw';
 import OptionItemStyleCodeRaw from './OptionItem.css?raw';
 
-// Example usage with an inline black/white SVG icon
 const usageCodeRaw = `
-<OptionItem 
-  name="Dashboard" 
-  href="/dashboard" 
-  background="linear-gradient(to right, #111, #333)" 
-  icon={
-    <svg 
-      width="20" 
-      height="20" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z" fill="white"/>
-    </svg>
-  } 
-  tooltip="Go to dashboard" 
-/>
+<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
+
+  <OptionItem 
+    content="Saved" 
+    background="black" 
+    tooltip="Go to home" 
+  />
+
+  <OptionItem 
+    content="Settings" 
+    background="black" 
+    icon={<SettingsIcon style={{ fontSize: '24px', color: 'white' }} />}
+    tooltip="Go to settings"
+  />
+
+  <OptionItem 
+    content="Enable Notifications" 
+    background="black" 
+    icon={<NotificationsIcon style={{ fontSize: '24px', color: 'white' }} />}
+    checkbox={true}
+    tooltip="Toggle notifications"
+  />
+
+  <OptionItem 
+    content="Manage Account" 
+    background="black" 
+    expandIcon={true} 
+    tooltip="Open account settings" 
+  />
+</div>
 `.trim();
 
-const OptionItemConfig = {
+const OptionItem_Config = {
   key: 'OptionItem',
   Name: 'OptionItem',
   ComponentUsageCodeRaw: usageCodeRaw,
   ComponentDefinitionCodeRaw: OptionItemSourceCodeRaw,
   ComponentStyleCodeRaw: OptionItemStyleCodeRaw,
   ComponentInstance: (
-    <JSXParser
-      components={{ OptionItem }}
-      jsx={usageCodeRaw}
-    />
+    <JSXParser components={{ OptionItem, SettingsIcon, NotificationsIcon }} jsx={usageCodeRaw} />
   ),
-  dependencies: { React, OptionItem },
+  dependencies: { React, OptionItem, SettingsIcon, NotificationsIcon },
 };
 
-export default OptionItemConfig;
+export default OptionItem_Config;

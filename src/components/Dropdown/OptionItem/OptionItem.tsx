@@ -1,32 +1,37 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import './OptionItem.css';
 
+import Arrow from '../../ArrowButtons/Arrow/Arrow';
+import CheckBox from '../../CheckBox/CheckBox';
+
 interface OptionItemProps {
-  name?: string; // optional now, since children can be passed
+  content: ReactNode;
   background?: string;
   href?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
+  checkbox?: boolean;
+  expandIcon?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
   disabled?: boolean;
   tooltip?: string;
   className?: string;
   style?: React.CSSProperties;
   target?: string;
-  children?: React.ReactNode; // support arbitrary children
 }
 
 const OptionItem: React.FC<OptionItemProps> = ({
-  name,
+  content,
   background,
   href,
   icon,
+  checkbox,
+  expandIcon,
   onClick,
   disabled = false,
   tooltip,
   className = '',
   style,
   target = '_self',
-  children,
 }) => {
   const containerStyles: React.CSSProperties = {
     background: background || 'transparent',
@@ -43,10 +48,55 @@ const OptionItem: React.FC<OptionItemProps> = ({
     >
       {icon && <div className="OptionItem-icon">{icon}</div>}
 
-      {/* Render custom children if provided, else fallback to default title */}
       <div className="OptionItem-content">
-        {children ? children : <div className="OptionItem-Title">{name}</div>}
+        {content}
       </div>
+
+      {checkbox && (
+        <div className="OptionItem-checkbox">
+  <CheckBox 
+    checked={true} 
+    disabled={false}
+    boxStyle={{
+      background: 'transparent',
+      border: '2px solid #ffffffff',
+      width: '30px',
+      height: '30px',
+      borderRadius: '5px',
+    }}
+    checkmarkStyle={{
+      color: '#ffffffff',
+      fontSize: '20px',
+      fontWeight: 'bold',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+    }}
+    checkmarkSymbol="✔"
+  />
+        </div>
+      )}
+
+      {expandIcon && (
+        <div className="OptionItem-expandIcon">
+          <Arrow 
+            strokeColor='transparent'
+            fillColor='white'
+            size={{
+              width: 20,
+              height: 20,
+              notch: 0,
+              rotate: -90,
+            }}
+            hover={{
+              rotate: 90,
+              transition: 0.1,
+            }} 
+          />
+        </div>
+      )}
     </div>
   );
 

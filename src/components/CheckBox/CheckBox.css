@@ -1,0 +1,65 @@
+.CheckBox-outer {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.CheckBox-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  position: relative;
+}
+
+.CheckBox-CheckMark {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.crossed-x {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  position: absolute;
+  background-color: #000;
+  height: 2px;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.line-1 {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.line-2 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Add custom styles for checked/disabled states */
+.CheckBox-outer.checked {
+  background-color: #4caf50; /* Example: green when checked */
+}
+
+.CheckBox-outer.disabled {
+  background-color: #ccc; /* Example: grey for disabled state */
+  cursor: not-allowed;
+}

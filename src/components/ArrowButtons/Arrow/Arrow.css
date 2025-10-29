@@ -1,10 +1,78 @@
-.Arrow {
-  display: block;
-  cursor: pointer;
-  z-index: 10;
 
-  width: auto;
-  height: auto;
+
+
+.Arrow {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  box-sizing: border-box;
+
+  background-color: transparent;
+  z-index: 10;
+  border-radius: 5px;
 }
 
 
+
+
+
+.Arrow.Style_0::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  background-color: white;
+  transition: transform 0s ease;
+  z-index: 1;
+  transform: translateX(-110%);
+}
+
+.Arrow.Style_0:hover::before {
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.Arrow.Style_0::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110%;
+  height: 110%;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: left center;
+  transform: translateX(100%);
+  transition: none;
+}
+
+.Arrow.Style_0:hover::after {
+  transform: translateX(0);
+  transition: none;
+}
+
+.Arrow.Style_0:not(:hover)::after {
+  background-color: white;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.Arrow.Style_1::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  background-color: white;
+  transition: transform 0.3s ease;
+  z-index: 1;
+  transform: translateX(-110%);
+}
+
+.Arrow.Style_1:hover::before {
+  transform: translateX(0);
+}

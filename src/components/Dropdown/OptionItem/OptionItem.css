@@ -1,42 +1,96 @@
 .OptionItem {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-  color: #f0f0f0;
-  font-weight: 500;
-  gap: 12px;
-  user-select: none;
-}
-
-.OptionItem:hover {
-  background: rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  background-color: #222;
+  color: #fff;
 }
 
 .OptionItem.disabled {
   opacity: 0.5;
-  pointer-events: none;
+  cursor: not-allowed;
 }
 
-.OptionItem .icon {
-  width: 24px;
-  height: 24px;
+.OptionItem-icon {
+  margin-right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
 }
 
-.OptionItem .label {
+.OptionItem-content {
   flex-grow: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 16px;
+  color: white;
+}
+
+.OptionItem-checkbox {
+  margin-left: 10px;
+}
+
+.OptionItem-expandIcon {
+  margin-left: 10px;
 }
 
 .OptionItem-link {
   text-decoration: none;
-  display: block;
-  color: inherit;
 }
+
+.OptionItem-Title {
+  font-weight: bold;
+}
+
+.OptionItem-checkbox input {
+  width: 20px;
+  height: 20px;
+}
+
+.OptionItem-expandIcon {
+  cursor: pointer;
+}
+
+.OptionItem-expandIcon .Arrow {
+  width: 15px;
+  height: 15px;
+}
+
+.OptionItem-icon-svg,
+.OptionItem-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  color: white;
+  fill: currentColor;
+}
+
+.OptionItem-icon-svg svg,
+.OptionItem-icon svg * {
+  stroke: none;
+}
+
+.OptionItem-icon {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.OptionItem-icon-svg, .OptionItem-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: white;
+  fill: currentColor;
+}
+
+

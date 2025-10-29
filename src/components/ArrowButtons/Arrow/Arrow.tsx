@@ -1,178 +1,153 @@
-import React, { CSSProperties, useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import './Arrow.css';
 
-type Direction = 'up' | 'down' | 'left' | 'right';
-
-interface HoverProps {
-  notch?: number;
+interface HoverArguments {
   width?: number;
   height?: number;
+  notch?: number;
+  rotate?: number;
+  transition?: number;
 }
 
 interface ArrowProps {
-  direction?: Direction;
-  size?: number;
-  arrowWidth?: number;
-  arrowHeight?: number;
-  notch?: number;
-  hover?: HoverProps;
-  style?: CSSProperties;
-  transition?: number; // seconds, default 0
+  size: {
+    width: number;
+    height: number;
+    notch: number;
+    rotate: number;
+  };
+  hover?: HoverArguments;
+  strokeColor?: string; // Optional stroke color
+  fillColor?: string;   // Optional fill color
 }
 
-const clamp = (val: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, val));
+const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', fillColor = 'none' }) => {
+  const { width, height, notch, rotate } = size;
 
-const lerp = (start: number, end: number, t: number) =>
-  start + (end - start) * t;
-
-const Arrow: React.FC<ArrowProps> = ({
-  direction = 'up',
-  size = 24,
-  arrowWidth = 16,
-  arrowHeight = 20,
-  notch = 8,
-  hover,
-  style = {},
-  transition = 0, // default 0 seconds
-}) => {
-  const rotationDegrees: Record<Direction, number> = {
-    up: 0,
-    right: 90,
-    down: 180,
-    left: 270,
-  };
+  const {
+    width: hoverWidth = width,
+    height: hoverHeight = height,
+    notch: hoverNotch = notch,
+    rotate: hoverRotate = rotate,
+    transition = 1,
+  } = hover;
 
   const [isHovered, setIsHovered] = useState(false);
+  const [animated, setAnimated] = useState({ width, height, notch, rotate });
 
-  const baseWidth = arrowWidth;
-  const baseHeight = arrowHeight;
-  const baseNotch = notch;
+  const animationRef = useRef<number | null>(null);
+  const startValuesRef = useRef(animated);
+  const targetValuesRef = useRef(animated);
+  const durationRef = useRef(transition * 1000);
+  const startTimeRef = useRef(0);
 
-  const hoverWidth = hover?.width ?? baseWidth;
-  const hoverHeight = hover?.height ?? baseHeight;
-  const hoverNotch = hover?.notch ?? baseNotch;
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-  const duration = transition * 1000;
+  const animate = () => {
+    const elapsed = Date.now() - startTimeRef.current;
+    const t = Math.min(elapsed / durationRef.current, 1);
 
-  const [animWidth, setAnimWidth] = useState(baseWidth);
-  const [animHeight, setAnimHeight] = useState(baseHeight);
-  const [animNotch, setAnimNotch] = useState(baseNotch);
-
-  useEffect(() => {
-    const from = animWidth;
-    const to = isHovered ? hoverWidth : baseWidth;
-    if (from === to) return;
-
-    if (duration === 0) {
-      setAnimWidth(to);
-      return;
-    }
-
-    let startTime: number | null = null;
-    let rafId: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      setAnimWidth(lerp(from, to, t));
-      if (t < 1) rafId = requestAnimationFrame(animate);
+    const newValues = {
+      width: lerp(startValuesRef.current.width, targetValuesRef.current.width, t),
+      height: lerp(startValuesRef.current.height, targetValuesRef.current.height, t),
+      notch: lerp(startValuesRef.current.notch, targetValuesRef.current.notch, t),
+      rotate: lerp(startValuesRef.current.rotate, targetValuesRef.current.rotate, t),
     };
 
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [isHovered, baseWidth, hoverWidth, duration]);
+    setAnimated((prevValues) => ({
+      width: isNaN(newValues.width) ? prevValues.width : newValues.width,
+      height: isNaN(newValues.height) ? prevValues.height : newValues.height,
+      notch: isNaN(newValues.notch) ? prevValues.notch : newValues.notch,
+      rotate: isNaN(newValues.rotate) ? prevValues.rotate : newValues.rotate,
+    }));
+
+    if (t < 1) {
+      animationRef.current = requestAnimationFrame(animate);
+    }
+  };
+
+  const startAnimation = (toHover: boolean) => {
+    if (animationRef.current) cancelAnimationFrame(animationRef.current);
+
+    const current = animated;
+    const target = toHover
+      ? { width: hoverWidth, height: hoverHeight, notch: hoverNotch, rotate: hoverRotate }
+      : { width, height, notch, rotate };
+
+    const totalDistance =
+      Math.abs(hoverWidth - width) +
+      Math.abs(hoverHeight - height) +
+      Math.abs(hoverNotch - notch) +
+      Math.abs(hoverRotate - rotate);
+
+    const currentDistance =
+      Math.abs(current.width - width) +
+      Math.abs(current.height - height) +
+      Math.abs(current.notch - notch) +
+      Math.abs(current.rotate - rotate);
+
+    const progressToHover = totalDistance === 0 ? 0 : currentDistance / totalDistance;
+    const remaining = toHover ? 1 - progressToHover : progressToHover;
+
+    durationRef.current = Math.max(remaining * transition * 1000, 10);
+
+    startValuesRef.current = current;
+    targetValuesRef.current = target;
+    startTimeRef.current = Date.now();
+
+    animationRef.current = requestAnimationFrame(animate);
+  };
 
   useEffect(() => {
-    const from = animHeight;
-    const to = isHovered ? hoverHeight : baseHeight;
-    if (from === to) return;
-
-    if (duration === 0) {
-      setAnimHeight(to);
-      return;
-    }
-
-    let startTime: number | null = null;
-    let rafId: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      setAnimHeight(lerp(from, to, t));
-      if (t < 1) rafId = requestAnimationFrame(animate);
+    startAnimation(isHovered);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
+  }, [isHovered]);
 
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [isHovered, baseHeight, hoverHeight, duration]);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
-  useEffect(() => {
-    const from = animNotch;
-    const to = isHovered ? hoverNotch : baseNotch;
-    if (from === to) return;
+  const cx = animated.width / 2;
+  const cy = animated.height / 2;
+  const topX = cx;
+  const topY = cy - animated.height / 2;
+  const leftX = cx - animated.width / 2;
+  const leftY = cy + animated.height / 2;
+  const rightX = cx + animated.width / 2;
+  const rightY = cy + animated.height / 2;
+  const bottomX = cx;
+  const bottomY = cy + animated.height / 2 - animated.notch;
+  const polygonPoints = `${topX},${topY} ${leftX},${leftY} ${bottomX},${bottomY} ${rightX},${rightY}`;
 
-    if (duration === 0) {
-      setAnimNotch(to);
-      return;
-    }
-
-    let startTime: number | null = null;
-    let rafId: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      setAnimNotch(lerp(from, to, t));
-      if (t < 1) rafId = requestAnimationFrame(animate);
-    };
-
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [isHovered, baseNotch, hoverNotch, duration]);
-
-  const maxWidth = Math.max(baseWidth, hoverWidth);
-  const maxHeight = Math.max(baseHeight, hoverHeight);
-
-  const currentNotch = clamp(animNotch, 0, animHeight);
-
-  const offsetX = (maxWidth - animWidth) / 2;
-  const offsetY = (maxHeight - animHeight) / 2;
-
-  const centerX = offsetX + animWidth / 2;
-  const tipY = offsetY;
-  const bottomY = offsetY + animHeight;
-  const notchY = offsetY + currentNotch;
-  const leftX = offsetX;
-  const rightX = offsetX + animWidth;
-
-  const pathD = `
-    M ${centerX} ${tipY}
-    L ${leftX} ${bottomY}
-    L ${centerX} ${notchY}
-    L ${rightX} ${bottomY}
-    Z
-  `;
+  const maxSize = Math.max(
+    size.width,
+    size.height,
+    hover?.width ?? size.width,
+    hover?.height ?? size.height
+  );
 
   return (
-    <svg
+    <div
       className="Arrow"
-      width={size}
-      height={size}
-      viewBox={`0 0 ${maxWidth} ${maxHeight}`}
-      style={{
-        transform: `rotate(${rotationDegrees[direction]}deg)`,
-        ...style,
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: maxSize, height: maxSize }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <path className="Arrow-path" d={pathD.trim()} />
-    </svg>
+      <svg
+        width={animated.width}
+        height={animated.height}
+        viewBox={`0 0 ${animated.width} ${animated.height}`}
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          display: "block",
+          transform: `rotate(${animated.rotate}deg)`,
+          transformOrigin: "center",
+        }}
+      >
+        <polygon points={polygonPoints} fill={fillColor} stroke={strokeColor} strokeWidth="1" />
+      </svg>
+    </div>
   );
 };
 
