@@ -1,12 +1,10 @@
 import React from 'react';
-import JSXParser from 'react-jsx-parser';
 import Dropdown from './Dropdown';
-import OptionsList from '../OptionsList/OptionsList'; // Assuming this displays a plain list
-
+import OptionItem from '../OptionItem/OptionItem';
 import DropdownSourceCodeRaw from './Dropdown.tsx?raw';
 import DropdownStyleCodeRaw from './Dropdown.css?raw';
 
-// Options data
+// Example dropdown options
 const optionsData = [
   { label: 'Dashboard', onClick: () => alert('Dashboard clicked') },
   { label: 'Settings', onClick: () => alert('Settings clicked') },
@@ -34,31 +32,43 @@ const optionsData = [
   { label: 'Logout', onClick: () => alert('Logging out...') },
 ];
 
-// Usage JSX as string
+// Recursive option rendering using OptionItem
+const renderOptions = (options: any[]): React.ReactNode =>
+  options.map((option: any, index: number) => (
+    <OptionItem
+      key={index}
+      content={option.label}
+      expandIcon={!!option.subOptions}
+      onClick={option.onClick}
+    >
+      {option.subOptions && option.subOptions.length > 0 && (
+        <div className="DropdownSubmenu Open">
+          {renderOptions(option.subOptions)}
+        </div>
+      )}
+    </OptionItem>
+  ));
+
+// JSX code snippet for documentation preview
 const usageCodeRaw = `
 <Dropdown
   options={optionsData}
-  label="Select an option"
+  label="Menu"
   trigger="hover"
 />
 `.trim();
 
-// Combined instance rendering both components
+// Component instance for preview/demo
 const ComponentInstance = (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-    {/* Dropdown Tree */}
-    <JSXParser
-      components={{ Dropdown }}
-      bindings={{ optionsData }}
-      jsx={usageCodeRaw}
-    />
+    <Dropdown label="Menu" options={optionsData} trigger="hover" />
 
-    {/* Plain List */}
-    <OptionsList options={optionsData} />
+    {/* Standalone rendered tree (for documentation visualization) */}
+    <div className="DropdownMenu">{renderOptions(optionsData)}</div>
   </div>
 );
 
-// Export config
+// Export dropdown tree configuration for docs or preview system
 const Dropdown_Tree_Config = {
   key: 'Dropdown_Tree',
   Name: 'Dropdown_Tree',
@@ -66,7 +76,7 @@ const Dropdown_Tree_Config = {
   ComponentDefinitionCodeRaw: DropdownSourceCodeRaw,
   ComponentStyleCodeRaw: DropdownStyleCodeRaw,
   ComponentInstance,
-  dependencies: { React, Dropdown, OptionsList },
+  dependencies: { React, Dropdown, OptionItem },
 };
 
 export default Dropdown_Tree_Config;

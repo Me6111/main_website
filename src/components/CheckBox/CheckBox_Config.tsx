@@ -30,7 +30,7 @@ const usageCodeRaw = `
   />
   
   <CheckBox 
-    checked={false} 
+    checked={true} 
     disabled={false}
     boxStyle={{
       background: '#000',
@@ -101,7 +101,7 @@ const usageCodeRaw = `
 
 
   <CheckBox 
-    checked={false} 
+    checked={true} 
     disabled={false}
     boxStyle={{
       background: 'transparent',
@@ -123,7 +123,7 @@ const usageCodeRaw = `
   />
 
   <CheckBox 
-    checked={false} 
+    checked={true} 
     disabled={true}
     boxStyle={{
       background: 'transparent',
@@ -145,7 +145,7 @@ const usageCodeRaw = `
   />
 
   <CheckBox 
-    checked={false} 
+    checked={true} 
     disabled={false}
     boxStyle={{
       background: 'transparent',

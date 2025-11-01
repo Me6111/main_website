@@ -30,31 +30,41 @@ import OptionsList_Dropdown_Config from '../../../components/Dropdown/OptionsLis
 
 
 
-/*
+
 import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.config_0';
 import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
 import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.config_2';
 import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
 import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.config_4';
-*/
+
 
 import CopyButton from '../../../components/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
-/*
+
+
 SliderConfig_0.Name = 'Slider 0';
 SliderConfig_1.Name = 'Slider 1';
 SliderConfig_2.Name = 'Slider 2';
 SliderConfig_3.Name = 'Slider 3';
 SliderConfig_4.Name = 'Slider 4';
-*/
+
 
 const codeShowcaseConfigs = {
   
-  //Slider_4: SliderConfig_4,
-  //Slider_3: SliderConfig_3,
-  //Slider_1: SliderConfig_1,
-  //Slider_0: SliderConfig_0,
-  //Slider_2: SliderConfig_2,
+  Slider_4: SliderConfig_4,
+  Slider_3: SliderConfig_3,
+  Slider_1: SliderConfig_1,
+  Slider_0: SliderConfig_0,
+  Slider_2: SliderConfig_2,
+
+
+
+  NavBar: NavBarConfig,
+
+
+
+  Dropdown_Tree_Config: Dropdown_Tree_Config,
+
   OptionItem: OptionItemConfig,
 
   CheckBox: CheckBox_Config,
@@ -63,7 +73,6 @@ const codeShowcaseConfigs = {
   Arrow: Arrow_Config,
 
 
-  Dropdown_Tree_Config: Dropdown_Tree_Config,
 
 
 

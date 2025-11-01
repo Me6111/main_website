@@ -1,11 +1,9 @@
-/* Root container */
 .Dropdown {
   position: relative;
   display: inline-block;
   font-family: sans-serif;
 }
 
-/* Dropdown button */
 .DropdownBtn {
   padding: 8px 12px;
   background-color: #1e1e1e;
@@ -14,14 +12,13 @@
   cursor: pointer;
   font-size: 14px;
   border-radius: 4px;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
 }
 
 .DropdownBtn:hover {
   background-color: #2a2a2a;
 }
 
-/* Main dropdown menu */
 .DropdownMenu {
   position: absolute;
   top: 100%;
@@ -37,36 +34,28 @@
   padding: 4px 0;
 }
 
-/* Dropdown item wrapper */
 .DropdownItem {
   position: relative;
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
-/* Submenu container */
 .DropdownSubmenu {
   position: absolute;
   top: 0;
   left: 100%;
-  min-width: 180px; /* Match main menu width */
+  min-width: 180px;
   background-color: #2a2a2a;
   border: 1px solid #444;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   display: none;
   padding: 4px 0;
-  margin: 0; /* Prevent shifting */
   z-index: 1000;
 }
 
-/* Show submenu when open */
 .DropdownSubmenu.Open {
   display: block;
 }
 
-/* Optional: fix any OptionItem spacing */
 .OptionItem {
   padding: 10px 12px;
   font-size: 14px;
@@ -74,7 +63,7 @@
   background: transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .OptionItem:hover {

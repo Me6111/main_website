@@ -1,40 +1,83 @@
-import React, { useState, MouseEventHandler } from 'react';
+import React, { useState } from 'react';
 import './Dropdown.css';
 import OptionItem from '../OptionItem/OptionItem';
 
-interface DropdownOption {
+export interface Option {
   label: string;
   onClick?: () => void;
-  subOptions?: DropdownOption[];
+  subOptions?: Option[];
   disabled?: boolean;
-  href?: string;
-  icon?: React.ReactNode;
-  tooltip?: string;
 }
 
 interface DropdownProps {
-  options: DropdownOption[];
-  trigger?: 'hover' | 'click';
-  label?: string;
+  label: string;
+  options: Option[];
+  trigger?: 'click' | 'hover';
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
-  options,
-  trigger = 'hover',
-  label = 'Select Option',
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+/** --- Internal DropdownItem Component --- */
+const DropdownItem: React.FC<{
+  option: Option;
+  trigger: 'click' | 'hover';
+}> = ({ option, trigger }) => {
+  const [subOpen, setSubOpen] = useState(false);
+
+  const handleSubToggle = () => {
+    if (option.disabled) return;
+
+    if (option.subOptions && trigger === 'click') {
+      setSubOpen((prev) => !prev);
+    } else if (option.onClick) {
+      option.onClick();
+    }
+  };
 
   const handleMouseEnter = () => {
-    if (trigger === 'hover') setIsOpen(true);
+    if (trigger === 'hover' && option.subOptions) setSubOpen(true);
   };
 
   const handleMouseLeave = () => {
-    if (trigger === 'hover') setIsOpen(false);
+    if (trigger === 'hover' && option.subOptions) setSubOpen(false);
   };
 
-  const handleClick = () => {
-    if (trigger === 'click') setIsOpen((prev) => !prev);
+  return (
+    <div
+      className="DropdownItem"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <OptionItem
+        content={option.label}
+        expandIcon={!!option.subOptions}
+        onClick={handleSubToggle}
+        disabled={option.disabled}
+      >
+        {option.subOptions && subOpen && (
+          <div className="DropdownSubmenu Open">
+            {option.subOptions.map((subOpt, i) => (
+              <DropdownItem key={i} option={subOpt} trigger={trigger} />
+            ))}
+          </div>
+        )}
+      </OptionItem>
+    </div>
+  );
+};
+
+/** --- Main Dropdown Component --- */
+const Dropdown: React.FC<DropdownProps> = ({ label, options, trigger = 'click' }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleToggle = () => {
+    if (trigger === 'click') setOpen((prev) => !prev);
+  };
+
+  const handleMouseEnter = () => {
+    if (trigger === 'hover') setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (trigger === 'hover') setOpen(false);
   };
 
   return (
@@ -43,71 +86,18 @@ const Dropdown: React.FC<DropdownProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <button className="DropdownBtn" onClick={handleClick}>
+      <button className="DropdownBtn" onClick={handleToggle}>
         {label}
       </button>
 
-      {isOpen && (
-        <ul className="DropdownMenu">
-          {options.map((option, i) => (
-            <DropdownItem key={i} option={option} trigger={trigger} />
+      {open && (
+        <div className="DropdownMenu">
+          {options.map((option, index) => (
+            <DropdownItem key={index} option={option} trigger={trigger} />
           ))}
-        </ul>
+        </div>
       )}
     </div>
-  );
-};
-
-interface DropdownItemProps {
-  option: DropdownOption;
-  trigger: 'hover' | 'click';
-}
-
-const DropdownItem: React.FC<DropdownItemProps> = ({ option, trigger }) => {
-  const [isSubOpen, setIsSubOpen] = useState(false);
-  const hasSubOptions = Array.isArray(option.subOptions) && option.subOptions.length > 0;
-
-  const handleMouseEnter = () => {
-    if (trigger === 'hover' && hasSubOptions) setIsSubOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (trigger === 'hover' && hasSubOptions) setIsSubOpen(false);
-  };
-
-  const handleClick: MouseEventHandler = (e) => {
-    e.stopPropagation();
-    if (trigger === 'click' && hasSubOptions) {
-      setIsSubOpen((prev) => !prev);
-    }
-    if (option.onClick && !hasSubOptions) {
-      option.onClick();
-    }
-  };
-
-  return (
-    <li
-      className="DropdownItem"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-    >
-      <OptionItem
-        name={option.label}
-        onClick={option.disabled ? undefined : option.onClick}
-        disabled={option.disabled}
-        href={option.href}
-        tooltip={option.tooltip}
-      />
-
-      {hasSubOptions && (
-        <ul className={`DropdownSubmenu ${isSubOpen ? 'Open' : ''}`}>
-          {option.subOptions?.map((subOption, i) => (
-            <DropdownItem key={i} option={subOption} trigger={trigger} />
-          ))}
-        </ul>
-      )}
-    </li>
   );
 };
 
