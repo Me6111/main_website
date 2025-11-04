@@ -4,7 +4,7 @@
 // NavOptions.tsx
 
 import React from 'react';
-import NavOption from '../NavOption/NavOption';  
+import NavOption from '../NavBar/NavOption/NavOption';  
 import './NavOptions.css';
 
 interface Section {

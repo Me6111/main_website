@@ -3,7 +3,7 @@ import NavBar from '../../../NavBar/NavBar';
 import NavBarSourceCodeRaw from '../../../NavBar/NavBar.tsx?raw';
 import NavBarStyleCodeRaw from '../../../NavBar/NavBar.css?raw';
 
-import Slide from './Slide_4';
+import PhotoSlide from '../../PhotoSlide/PhotoSlide';
 import Slider from '../../Slider';
 
 import img0 from './images/0.jpg';
@@ -11,7 +11,6 @@ import img1 from './images/1.jpg';
 import img2 from './images/2.jpg';
 import img3 from './images/3.jpg';
 import img4 from './images/4.jpg';
-
 
 const sections = [
   { name: 'Option 1', href: '/option1' },
@@ -30,22 +29,23 @@ const SliderInNavBar: React.FC = () => {
     else if (index < activeIndex) position = 'left';
 
     return (
-      <Slide
+      <PhotoSlide
         key={index}
         position={position}
-        img={<img src={src} alt={`Slide ${index + 1}`} />}
+        images={[<img src={src} alt={`Slide ${index + 1}`} />]} // Correct prop
       />
     );
   });
 
   return (
-    <div className="slider-wrapper"> {}
+    <div className="slider-wrapper">
       <Slider
         Unique_Slider_Name="Slider_In_NavBar"
         gap={0}
         slideWidths={{ active: 100, left: 100, right: 100 }}
         slides={slides}
         NavType={{ NavType: 'arrows', Type: 0, Style: 1 }}
+        onSlideChange={setActiveIndex} // Optional: update activeIndex if needed
       />
     </div>
   );

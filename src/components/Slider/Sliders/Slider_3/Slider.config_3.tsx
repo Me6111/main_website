@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Slider from '../../Slider';
-import Slide from './Slide_3';
+import PhotoSlide from '../../PhotoSlide/PhotoSlide';
 
 import SliderSourceCodeRaw from '../../Slider.tsx?raw';
 import SliderStyleCodeRaw from '../../Slider.css?raw';
@@ -16,12 +16,16 @@ import img8 from './images/8.jpg';
 import img9 from './images/9.jpg';
 import img10 from './images/10.jpg';
 
+// Generate usageCodeRaw dynamically for all 10 images
 const usageCodeRaw = `<Slider
-  Unique_Slider_Name="Slider_1"
+  Unique_Slider_Name="Slider_3"
   slides={[
-    <Slide key={0} position="active" img={<img src={img0} alt="Slide 1" />} />,
-    <Slide key={1} position="right" img={<img src={img2} alt="Slide 2" />} />,
-    <Slide key={2} position="right" img={<img src={img3} alt="Slide 3" />} />,
+    ${[img0, img2, img3, img4, img5, img6, img7, img8, img9, img10]
+      .map(
+        (src, index) =>
+          `<PhotoSlide key={${index}} position="${index === 0 ? 'active' : 'right'}" images={[<img src={${src}} alt="Slide ${index + 1}" />, <img src={${src}} alt="Slide ${index + 1} duplicate" />]} />`
+      )
+      .join(',\n    ')}
   ]}
   gap={100}
   NavType="arrows"
@@ -38,10 +42,13 @@ const SliderConfigComponent: React.FC = () => {
     else if (index < activeIndex) position = 'left';
 
     return (
-      <Slide
+      <PhotoSlide
         key={index}
         position={position}
-        img={<img src={src} alt={`Slide ${index + 1}`} />}
+        images={[
+          <img src={src} alt={`Slide ${index + 1}`} />,
+          <img src={src} alt={`Slide ${index + 1} duplicate`} />,
+        ]}
       />
     );
   });
@@ -54,6 +61,7 @@ const SliderConfigComponent: React.FC = () => {
       slides={slides}
       NavType={{ NavType: 'arrows', Type: 0, Style: 1 }}
       transitionDuration={300}
+      onSlideChange={setActiveIndex}
     />
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, ReactNode } from 'react';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import './SectionScreen.css';
 
-import LearnMoreButton from './../LearnMoreButton/LearnMoreButton';
+import LearnMoreButton from '../Buttons/LearnMoreButton/LearnMoreButton';
 
 interface SectionScreenProps {
   id: string;

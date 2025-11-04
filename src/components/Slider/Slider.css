@@ -29,10 +29,11 @@
 }
 
 .Slider-inner {
-  width: 100%;
+  width: 90%;
   height: 100%;
   overflow: hidden;
   position: absolute;
+  
 }
 
 .Slider-track-1 {

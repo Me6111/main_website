@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CheckBox.css';
-import Icon_X from './Icon_X/Icon_X';
+import Icon_X from '../Icons/Icon_X/Icon_X';
 
 interface CheckBoxProps {
   checked?: boolean;

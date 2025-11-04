@@ -4,7 +4,7 @@ import React from 'react';
 import NavOptions from './NavOptions';
 import NavOptionsSourceCodeRaw from './NavOptions.tsx?raw';
 import NavOptionsStyleCodeRaw from './NavOptions.css?raw';
-import NavOption from '../NavOption/NavOption'; // Required dependency
+import NavOption from '../NavBar/NavOption/NavOption'; // Required dependency
 
 const usageCodeRaw = `<NavOptions
   sections={[

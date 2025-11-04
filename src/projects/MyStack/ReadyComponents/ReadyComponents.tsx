@@ -5,11 +5,11 @@ import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider/Slider';
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
-import NavOptionConfig from '../../../components/NavOption/NavOption.config';
-import Arrow_Config from '../../../components/ArrowButtons/Arrow/Arrow.config';
+import NavOptionConfig from '../../../components/NavBar/NavOption/NavOption.config';
+import Arrow_Config from '../../../components/Icons/Arrow/Arrow.config';
 import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
 
-import LearnMoreButtonConfig from '../../../components/LearnMoreButton/LearnMoreButton.config';
+import LearnMoreButtonConfig from '../../../components/Buttons/LearnMoreButton/LearnMoreButton.config';
 import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
 import NavOptionsConfig from '../../../components/NavOptions/NavOptions.config';
 import NavBarConfig from '../../../components/NavBar/NavBar.config';
@@ -38,7 +38,7 @@ import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.c
 import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.config_4';
 
 
-import CopyButton from '../../../components/CopyButton/CopyButton.config';
+import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
 
@@ -51,12 +51,14 @@ SliderConfig_4.Name = 'Slider 4';
 
 const codeShowcaseConfigs = {
   
-  Slider_4: SliderConfig_4,
-  Slider_3: SliderConfig_3,
-  Slider_1: SliderConfig_1,
-  Slider_0: SliderConfig_0,
-  Slider_2: SliderConfig_2,
+  CopyButton: CopyButton,
 
+
+  Slider_0: SliderConfig_0,
+  Slider_1: SliderConfig_1,
+  Slider_2: SliderConfig_2,
+  Slider_3: SliderConfig_3,
+  Slider_4: SliderConfig_4,
 
 
   NavBar: NavBarConfig,
@@ -113,7 +115,8 @@ const codeShowcaseConfigs = {
   NavOption: NavOptionConfig,
   LearnMoreButton: LearnMoreButtonConfig,
   MainMenu: MainMenuConfig,
-  CopyButton: CopyButton,
+
+
   CodeBlock: CodeBlockConfig,
 
   */

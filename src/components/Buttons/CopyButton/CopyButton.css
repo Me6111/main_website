@@ -1,0 +1,31 @@
+.copy-button {
+  background: transparent;
+  background-color: inherit;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  fill: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.copy-button:hover {
+  color: white;
+}
+
+.copy-button-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copy-label {
+  color: inherit;
+  font-size: 0.75rem;
+  user-select: none;
+  line-height: 1;
+}

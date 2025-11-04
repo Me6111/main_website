@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import './OptionItem.css';
-import Arrow from '../../ArrowButtons/Arrow/Arrow';
+import Arrow from '../../Icons/Arrow/Arrow';
 import CheckBox from '../../CheckBox/CheckBox';
 
 interface OptionItemProps {
