@@ -16,19 +16,12 @@ import img8 from './images/8.jpg';
 import img9 from './images/9.jpg';
 import img10 from './images/10.jpg';
 
-// Generate usageCodeRaw dynamically for all 10 images
 const usageCodeRaw = `<Slider
   Unique_Slider_Name="Slider_3"
-  slides={[
-    ${[img0, img2, img3, img4, img5, img6, img7, img8, img9, img10]
-      .map(
-        (src, index) =>
-          `<PhotoSlide key={${index}} position="${index === 0 ? 'active' : 'right'}" images={[<img src={${src}} alt="Slide ${index + 1}" />, <img src={${src}} alt="Slide ${index + 1} duplicate" />]} />`
-      )
-      .join(',\n    ')}
-  ]}
+  slides={[PhotoSlide components as above]}
   gap={100}
   NavType="arrows"
+  Track_Indicator_Dragging={true}
 />`;
 
 const SliderConfigComponent: React.FC = () => {
@@ -62,6 +55,7 @@ const SliderConfigComponent: React.FC = () => {
       NavType={{ NavType: 'arrows', Type: 0, Style: 1 }}
       transitionDuration={300}
       onSlideChange={setActiveIndex}
+      Track_Indicator_Dragging={true} 
     />
   );
 };

@@ -1,14 +1,10 @@
-// Slider.tsx
 import React, { useRef, useEffect, useState } from 'react';
 import './Slider.css';
-import ArrowsNav from '../SliderNav/ArrowsNav/ArrowsNav';
-import IndexNav from '../SliderNav/IndexNav/IndexNav';
+import ArrowsNav from './SliderNav/ArrowsNav/ArrowsNav';
+import IndexNav from './SliderNav/IndexNav/IndexNav';
+import Track_Indicator from './Track_Indicator/Track_Indicator';
 
-type SlideWidths = {
-  active?: number;
-  left?: number;
-  right?: number;
-};
+type SlideWidths = { active?: number; left?: number; right?: number };
 
 type SliderNavElementProps = {
   onScrollLeft: () => void;
@@ -16,10 +12,7 @@ type SliderNavElementProps = {
   onSelectSlide?: (index: number) => void;
   currentIndex?: number;
   totalSlides?: number;
-  variant?: number;
 };
-
-type NavTypeOption = 'index' | 'arrows' | 'custom';
 
 type NavTypeProp =
   | { NavType: 'index'; Style?: number }
@@ -34,6 +27,7 @@ type SliderProps = {
   NavType?: NavTypeProp;
   sliderNavElement?: React.ReactElement<SliderNavElementProps>;
   transitionDuration?: number;
+  Track_Indicator_Dragging?: boolean; // optional, defaults to false
 };
 
 const Slider: React.FC<SliderProps> = ({
@@ -44,18 +38,15 @@ const Slider: React.FC<SliderProps> = ({
   NavType = { NavType: 'arrows', Type: 0, Style: 0 },
   sliderNavElement,
   transitionDuration = 300,
+  Track_Indicator_Dragging = false, // default is false
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [sliderVisibleWidth, setSliderVisibleWidth] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const animationTimeout = useRef<number | null>(null);
 
-  const slideCount = slides.length;
-  const defaultWidth = 100 / slideCount;
-
+  const defaultWidth = 100 / slides.length;
   const widths = {
     active: slideWidths.active ?? defaultWidth,
     left: slideWidths.left ?? defaultWidth,
@@ -63,97 +54,46 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const getSlideWidthPx = (position: 'active' | 'left' | 'right') =>
-    (containerWidth * widths[position]) / 100;
+    (sliderVisibleWidth * widths[position]) / 100;
 
-  const performScroll = (index: number) => {
-    const pixelWidths = slides.map((_, i) => {
-      if (i === index) return getSlideWidthPx('active');
-      if (i < index) return getSlideWidthPx('left');
-      return getSlideWidthPx('right');
-    });
+  const scrollToIndex = (index: number) => {
+    if (!trackRef.current) return;
+    const clampedIndex = Math.max(0, Math.min(index, slides.length - 1));
 
-    const totalBefore = pixelWidths
-      .slice(0, index)
-      .reduce((acc, w) => acc + w + gap, 0);
+    const pixelWidths = slides.map((_, i) =>
+      i === clampedIndex
+        ? getSlideWidthPx('active')
+        : i < clampedIndex
+        ? getSlideWidthPx('left')
+        : getSlideWidthPx('right')
+    );
 
-    const offset = containerWidth / 2 - pixelWidths[index] / 2 - totalBefore;
+    const offset = pixelWidths.slice(0, clampedIndex).reduce((a, w) => a + w, 0) + gap * clampedIndex;
+    const trackOffset = sliderVisibleWidth / 2 - pixelWidths[clampedIndex] / 2 - offset;
 
-    if (trackRef.current) {
-      trackRef.current.style.transition = `transform 0.15s ease-in-out`;
-      trackRef.current.style.transform = `translateX(${offset}px)`;
-    }
+    trackRef.current.style.transition = `transform ${transitionDuration}ms ease-in-out`;
+    trackRef.current.style.transform = `translateX(${trackOffset}px)`;
+
+    setCurrentIndex(clampedIndex);
   };
 
-  const scrollToIndex = (targetIndex: number) => {
-    if (isAnimating || targetIndex === currentIndex) return;
-
-    const steps = Math.abs(targetIndex - currentIndex);
-    const totalTime = transitionDuration;
-    const stepTime = steps > 0 ? totalTime / steps : totalTime;
-
-    setIsAnimating(true);
-    const direction = targetIndex > currentIndex ? 1 : -1;
-    let tempIndex = currentIndex;
-
-    const animateStep = () => {
-      tempIndex += direction;
-      setCurrentIndex(tempIndex);
-      performScroll(tempIndex);
-
-      if (tempIndex !== targetIndex) {
-        animationTimeout.current = window.setTimeout(animateStep, stepTime);
-      } else {
-        setIsAnimating(false);
-        animationTimeout.current = null;
-      }
-    };
-
-    animateStep();
-  };
-
-  const scrollLeft = () => {
-    if (!isAnimating && currentIndex > 0) {
-      scrollToIndex(currentIndex - 1);
-    }
-  };
-
-  const scrollRight = () => {
-    if (!isAnimating && currentIndex < slides.length - 1) {
-      scrollToIndex(currentIndex + 1);
-    }
-  };
-
-  const handleSelectSlide = (index: number) => {
-    if (!isAnimating && index >= 0 && index < slides.length) {
-      scrollToIndex(index);
-    }
-  };
+  const scrollLeft = () => scrollToIndex(Math.max(0, currentIndex - 1));
+  const scrollRight = () => scrollToIndex(Math.min(slides.length - 1, currentIndex + 1));
+  const handleSelectSlide = (index: number) => scrollToIndex(index);
 
   useEffect(() => {
     const updateWidth = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
+      if (containerRef.current) setSliderVisibleWidth(containerRef.current.offsetWidth);
     };
-
     updateWidth();
-    const resizeObserver = new ResizeObserver(updateWidth);
-    if (containerRef.current) resizeObserver.observe(containerRef.current);
-
-    return () => resizeObserver.disconnect();
+    const observer = new ResizeObserver(updateWidth);
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    performScroll(currentIndex);
-  }, [containerWidth, slideWidths, gap]);
-
-  useEffect(() => {
-    return () => {
-      if (animationTimeout.current !== null) {
-        clearTimeout(animationTimeout.current);
-      }
-    };
-  }, []);
+    scrollToIndex(currentIndex);
+  }, [sliderVisibleWidth, slideWidths, gap]);
 
   const renderNav = () => {
     const commonProps = {
@@ -164,24 +104,13 @@ const Slider: React.FC<SliderProps> = ({
       totalSlides: slides.length,
     };
 
-    if (!NavType) return null;
-
     switch (NavType.NavType) {
       case 'index':
         return <IndexNav {...commonProps} variant={NavType.Style ?? 0} />;
       case 'arrows':
-        return (
-          <ArrowsNav
-            onScrollLeft={scrollLeft}
-            onScrollRight={scrollRight}
-            type={NavType.Type}
-            style={NavType.Style ?? 0}
-          />
-        );
+        return <ArrowsNav {...commonProps} type={NavType.Type} style={NavType.Style ?? 0} />;
       case 'custom':
-        return sliderNavElement
-          ? React.cloneElement(sliderNavElement, commonProps)
-          : null;
+        return sliderNavElement ? React.cloneElement(sliderNavElement, commonProps) : null;
       default:
         return null;
     }
@@ -191,9 +120,17 @@ const Slider: React.FC<SliderProps> = ({
     <div
       id={UniqueSliderName}
       className="Slider-outer"
-      style={{ overflow: 'hidden' }}
+      style={{ overflow: 'hidden', position: 'relative' }}
     >
-      <div className="Slider-inner">
+<Track_Indicator
+  SlidesAmount={slides.length}
+  CurrentSlide={currentIndex}
+  onSlideChange={scrollToIndex}
+  draggable={Track_Indicator_Dragging ?? false} // explicitly ensure default is false if no prop is sent
+/>
+
+
+      <div className="Slider-inner" style={{ paddingTop: '10px' }}>
         <div className="Slider-track-1" ref={containerRef}>
           <div
             className="Slider-track-0"
@@ -204,28 +141,19 @@ const Slider: React.FC<SliderProps> = ({
               willChange: 'transform',
             }}
           >
-            {slides.map((slide, index) => {
-              let className = 'Slider-slide';
-
-              if (index === currentIndex) {
-                className += ' active';
-              } else if (index < currentIndex) {
-                className += ' left';
-              } else {
-                className += ' right';
-              }
-
+            {slides.map((slide, i) => {
               const widthPercent =
-                index === currentIndex
+                i === currentIndex
                   ? widths.active
-                  : index < currentIndex
+                  : i < currentIndex
                   ? widths.left
                   : widths.right;
-
               return (
                 <div
-                  key={index}
-                  className={className}
+                  key={i}
+                  className={`Slider-slide ${
+                    i === currentIndex ? 'active' : i < currentIndex ? 'left' : 'right'
+                  }`}
                   style={{
                     flexShrink: 0,
                     width: `${widthPercent}%`,

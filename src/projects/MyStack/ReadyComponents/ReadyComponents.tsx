@@ -37,10 +37,10 @@ import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.c
 import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
 import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.config_4';
 
+import Track_Indicator_Config from '../../../components/Slider/Track_Indicator/Track_Indicator.config';
 
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
-
 
 SliderConfig_0.Name = 'Slider 0';
 SliderConfig_1.Name = 'Slider 1';
@@ -50,15 +50,21 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {
-  
+
+  Track_Indicator_Config: Track_Indicator_Config,
+
+
+
+
+  //Slider_3: SliderConfig_3,
+  //Slider_0: SliderConfig_0,
+  //Slider_1: SliderConfig_1,
+  //Slider_2: SliderConfig_2,
+  //Slider_4: SliderConfig_4,
+
+
+
   CopyButton: CopyButton,
-
-
-  Slider_0: SliderConfig_0,
-  Slider_1: SliderConfig_1,
-  Slider_2: SliderConfig_2,
-  Slider_3: SliderConfig_3,
-  Slider_4: SliderConfig_4,
 
 
   NavBar: NavBarConfig,

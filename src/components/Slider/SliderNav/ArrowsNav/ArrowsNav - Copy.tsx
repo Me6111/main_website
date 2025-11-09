@@ -1,7 +1,7 @@
 // ArrowsNav.tsx
 import React from 'react';
 import './ArrowsNav.css';
-import ArrowButton from '../../Buttons/ArrowButton/ArrowButton';
+import ArrowButton from '../../../Buttons/ArrowButton/ArrowButton';
 
 type Props = {
   onScrollLeft: () => void;
