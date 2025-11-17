@@ -40,7 +40,6 @@ import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.c
 import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
 import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.config_4';
 
-import Track_Indicator_Config from '../../../components/Slider/Track_Indicator/Track_Indicator.config';
 
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
@@ -55,7 +54,6 @@ SliderConfig_4.Name = 'Slider 4';
 const codeShowcaseConfigs = {
 
 Slider_new2_Config: Slider_new2_Config,
-  Track_Indicator_Config: Track_Indicator_Config,
 
 
 

@@ -1,11 +1,16 @@
+
+
+
+
+
 .code-block-wrapper {
-  display: inline-block; /* shrink to fit content width */
+  display: inline-block; 
   border: 1px solid #333;
   border-radius: 4px;
   font-size: 0.9rem;
   background: #1e1e1e;
-  max-height: 300px; /* limit total height */
-  overflow-y: auto;  /* enable vertical scrolling */
+  max-height: 300px;
+  overflow-y: auto;  
 }
 
 .code-block-header {
@@ -32,8 +37,8 @@
   min-width: 100px;
   max-width: 100%;
   padding: 1rem !important;
-  overflow-y: auto;      /* enable vertical scroll inside pre if needed */
-  max-height: 250px;     /* max height for the code content */
+  overflow-y: auto;     
+  max-height: 250px;     
 }
 
 .code-block-wrapper code {
