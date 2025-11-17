@@ -60,9 +60,9 @@ const Slider: React.FC = () => {
 
   return (
     <div className="Slider_Container">
-
+      
       <div className="SliderScreen">
-        <div className="SliderScreen_Slider_Main">
+        <div className="SliderScreen_Slider">
           <SliderWindow
             percent={percentMain}
             visibleSize={{ width: 600, height: 300 }}

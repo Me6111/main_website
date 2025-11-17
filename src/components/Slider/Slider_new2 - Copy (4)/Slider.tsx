@@ -1,10 +1,92 @@
 import React, { useState, useRef } from 'react';
 import './Slider.css';
 
-import SliderWindow from './SliderWindow/SliderWindow';
-import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
 
 
+
+
+type SliderWindowProps = {
+  percent: number;
+  visibleSize: { width: number; height: number };
+  slideSize: { width: number; height: number };
+  distance: number;
+  controlMode: 'global' | 'local';
+  scrollable: boolean;
+  slideChangeOnClick: boolean;
+  currentIndex: number;
+  setIndex: (i: number) => void;
+  previewRef?: React.RefObject<HTMLDivElement>;
+  slides: JSX.Element[];
+  transitionMs: number;
+  orientation: 'horizontal' | 'vertical';
+  isDragging: boolean;
+  maxIndex: number;
+};
+
+const SliderWindow: React.FC<SliderWindowProps> = ({
+  percent,
+  visibleSize,
+  slideSize,
+  distance,
+  controlMode,
+  scrollable,
+  slideChangeOnClick,
+  currentIndex,
+  setIndex,
+  previewRef,
+  slides,
+  transitionMs,
+  orientation,
+  isDragging,
+  maxIndex
+}) => {
+  const axisSize = orientation === 'horizontal' ? slideSize.width : slideSize.height;
+  const translatePx = (percent / 100) * (maxIndex * (axisSize + distance));
+  const transformStyle = orientation === 'horizontal' ? `translateX(-${translatePx}px)` : `translateY(-${translatePx}px)`;
+  const overflowX = scrollable && orientation === 'horizontal' ? 'auto' : 'hidden';
+  const overflowY = scrollable && orientation === 'vertical' ? 'auto' : 'hidden';
+
+  return (
+    <div className={`Slider_Element_Container${slideChangeOnClick ? ' slideChangeOnClick' : ''}`}>
+      <div
+        className="Slider_WindowVisible"
+        style={{
+          width: `${visibleSize.width}px`,
+          height: `${visibleSize.height}px`,
+          overflowX,
+          overflowY
+        }}
+        ref={previewRef}
+      >
+        <div className="Slider_Inner" style={{ flexDirection: orientation === 'horizontal' ? 'row' : 'column' }}>
+          <div
+            className="Slider_SlidesContainer"
+            style={{
+              display: 'flex',
+              flexDirection: orientation === 'horizontal' ? 'row' : 'column',
+              transform: controlMode === 'global' ? transformStyle : undefined,
+              transition: isDragging ? 'none' : `${transitionMs}ms ease`,
+              gap: `${distance}px`,
+              width: orientation === 'horizontal' ? `${slideSize.width}px` : 'auto',
+              height: orientation === 'vertical' ? `${slideSize.height}px` : 'auto'
+            }}
+          >
+            {slides.map((slide, i) => (
+              <div
+                key={i}
+                className={`Slider_Slide idx-${i}${i === currentIndex ? ' CurrentSlide' : ''}`}
+                style={{ width: `${slideSize.width}px`, height: `${slideSize.height}px` }}
+                onClick={() => slideChangeOnClick && setIndex(i)}
+              >
+                {slide}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Slider: React.FC = () => {
   const slides = Array.from({ length: 20 }, (_, number) => <div key={number}>{number}</div>);
@@ -21,7 +103,6 @@ const Slider: React.FC = () => {
     if (!preview) return 0;
     const slideEl = preview.querySelector<HTMLDivElement>(`.Slider_Slide.idx-${index}`);
     if (!slideEl) return 0;
-
     if (orientation === 'horizontal') {
       const previewWidth = preview.clientWidth;
       const slideRect = slideEl.getBoundingClientRect();
@@ -49,7 +130,6 @@ const Slider: React.FC = () => {
     const p = maxIndex === 0 ? 0 : (newIndex / maxIndex) * 100;
     setPercentMain(Number(p.toFixed(4)));
     setCurrentIndex(newIndex);
-
     const preview = previewRef.current;
     if (preview) {
       const targetScroll = getPreviewScrollPositionForIndex(newIndex);
@@ -58,11 +138,13 @@ const Slider: React.FC = () => {
     }
   };
 
+  const goNext = () => updateSlider(currentIndex >= maxIndex ? 0 : currentIndex + 1);
+  const goPrev = () => updateSlider(currentIndex <= 0 ? maxIndex : currentIndex - 1);
+
   return (
     <div className="Slider_Container">
-
       <div className="SliderScreen">
-        <div className="SliderScreen_Slider_Main">
+        <div className="SliderScreen_Slider">
           <SliderWindow
             percent={percentMain}
             visibleSize={{ width: 600, height: 300 }}
@@ -84,11 +166,10 @@ const Slider: React.FC = () => {
       </div>
 
       <div className="SliderScreen">
-        <PrevNextButtons
-          currentIndex={currentIndex}
-          maxIndex={maxIndex}
-          updateSlider={updateSlider}
-        />
+        <div className="Slider_Nav_Buttons">
+          <button onClick={goPrev}>Prev</button>
+          <button onClick={goNext}>Next</button>
+        </div>
       </div>
 
       <div className="SliderScreen">

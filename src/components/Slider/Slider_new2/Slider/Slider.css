@@ -16,7 +16,7 @@
   box-sizing: border-box;
 }
 
-.SliderScreen_Slider_Main {
+.SliderScreen_Slider {
   width: 100%;
   height: 100%;
   display: flex;
@@ -27,10 +27,9 @@
 .SliderScreen_Slider_Preview {
   width: 100%;
   height: 100%;
-}
-.SliderScreen_Slider_Preview .Slider_WindowVisible {
-  position: absolute;
-  right: 0;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .SliderScreen_Slider_Preview .Slider_Slide {
