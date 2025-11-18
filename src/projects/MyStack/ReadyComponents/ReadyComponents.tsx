@@ -44,6 +44,9 @@ import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.c
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
+import SidebarConfig from '../../../components/Sidebar/Sidebar2/Sidebar.config';
+
+
 SliderConfig_0.Name = 'Slider 0';
 SliderConfig_1.Name = 'Slider 1';
 SliderConfig_2.Name = 'Slider 2';
@@ -53,9 +56,8 @@ SliderConfig_4.Name = 'Slider 4';
 
 const codeShowcaseConfigs = {
 
-Slider_new2_Config: Slider_new2_Config,
-
-
+  Sidebar: SidebarConfig,
+  Slider_new2_Config: Slider_new2_Config,
 
 
   //Slider_3: SliderConfig_3,
@@ -63,8 +65,6 @@ Slider_new2_Config: Slider_new2_Config,
   //Slider_1: SliderConfig_1,
   //Slider_2: SliderConfig_2,
   //Slider_4: SliderConfig_4,
-
-
 
   CopyButton: CopyButton,
 

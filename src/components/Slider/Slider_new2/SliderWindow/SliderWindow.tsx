@@ -3,7 +3,7 @@ import './SliderWindow.css';
 
 export type SliderWindowProps = {
   percent: number;
-  visibleSize: { width: number; height: number };
+  visibleSize: { width: number | string; height: number | string }; // ← UPDATED
   slideSize: { width: number; height: number };
   distance: number;
   controlMode: 'global' | 'local';
@@ -72,13 +72,17 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
         : undefined
   };
 
+  // Convert width/height to CSS values: number → px, string → raw CSS
+  const resolveSize = (value: number | string) =>
+    typeof value === 'number' ? `${value}px` : value;
+
   return (
     <div className="SliderElement_Container" style={centerStyle}>
       <div
         className={`Slider_WindowVisible${slideChangeOnClick ? ' slideChangeOnClick' : ''}`}
         style={{
-          width: `${visibleSize.width}px`,
-          height: `${visibleSize.height}px`,
+          width: resolveSize(visibleSize.width),   // ← UPDATED
+          height: resolveSize(visibleSize.height), // ← UPDATED
           overflowX,
           overflowY,
           ...positionStyle

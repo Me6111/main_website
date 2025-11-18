@@ -9,7 +9,7 @@ import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
 const Slider: React.FC = () => {
   const slides = Array.from({ length: 20 }, (_, number) => <div key={number}>{number}</div>);
   const transitionMs = 300;
-  const orientation: 'horizontal' | 'vertical' = 'horizontal';
+  const orientation: 'horizontal' | 'vertical' = 'vertical';
   const [percentMain, setPercentMain] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging] = useState(false);
@@ -85,21 +85,25 @@ const Slider: React.FC = () => {
       </div>
 
       <div className="SliderScreen">
-        <PrevNextButtons
-          currentIndex={currentIndex}
-          maxIndex={maxIndex}
-          updateSlider={updateSlider}
-        />
+  <PrevNextButtons
+    top="50%"
+    width="50%"
+    currentIndex={currentIndex}
+    maxIndex={maxIndex}
+    updateSlider={updateSlider}
+  />
+
       </div>
 
       <div className="SliderScreen">
+
+        
         <div className="SliderScreen_Slider_Preview">
           <SliderWindow
             percent={percentMain}
-
-            Center_SliderElement="center"
-            Position_Slider_WindowVisible="bottom"
-            visibleSize={{ width: 1000, height: 60 }}
+            Center_SliderElement="left"
+            Position_Slider_WindowVisible="top"
+            visibleSize={{ width: 120, height: "100%" }}
             slideSize={{ width: 100, height: 50 }}
             distance={5}
             controlMode="local"
@@ -114,6 +118,7 @@ const Slider: React.FC = () => {
             isDragging={isDragging}
             maxIndex={maxIndex}
           />
+
         </div>
       </div>
     </div>
