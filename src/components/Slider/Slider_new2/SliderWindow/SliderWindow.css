@@ -1,13 +1,15 @@
 .Slider_Element_Container {
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
 }
 
 .Slider_WindowVisible {
   overflow: hidden;
-  position: relative;
+  position: absolute;
+
   scrollbar-width: thin;
   scrollbar-color: #555555 #1a1a1a;
 }

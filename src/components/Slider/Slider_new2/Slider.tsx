@@ -9,7 +9,7 @@ import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
 const Slider: React.FC = () => {
   const slides = Array.from({ length: 20 }, (_, number) => <div key={number}>{number}</div>);
   const transitionMs = 300;
-  const orientation: 'horizontal' | 'vertical' = 'vertical';
+  const orientation: 'horizontal' | 'vertical' = 'horizontal';
   const [percentMain, setPercentMain] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging] = useState(false);
@@ -65,6 +65,7 @@ const Slider: React.FC = () => {
         <div className="SliderScreen_Slider_Main">
           <SliderWindow
             percent={percentMain}
+            Center_SliderElement="center"
             visibleSize={{ width: 600, height: 300 }}
             slideSize={{ width: 500, height: 250 }}
             distance={50}
@@ -95,7 +96,10 @@ const Slider: React.FC = () => {
         <div className="SliderScreen_Slider_Preview">
           <SliderWindow
             percent={percentMain}
-            visibleSize={{ width: 120, height: 400 }}
+
+            Center_SliderElement="center"
+            Position_Slider_WindowVisible="bottom"
+            visibleSize={{ width: 1000, height: 60 }}
             slideSize={{ width: 100, height: 50 }}
             distance={5}
             controlMode="local"
