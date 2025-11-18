@@ -3,7 +3,7 @@ import './Slider.css';
 
 import SliderWindow from './SliderWindow/SliderWindow';
 import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
-
+import Sidebar from '../../Sidebar/Sidebar2/Sidebar';
 
 
 const Slider: React.FC = () => {
@@ -120,6 +120,9 @@ const Slider: React.FC = () => {
           />
 
         </div>
+
+
+        
       </div>
     </div>
   );
