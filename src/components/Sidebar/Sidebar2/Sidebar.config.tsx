@@ -15,6 +15,8 @@ const SidebarConfigComponent: React.FC = () => {
           </p>
         </div>
       }
+
+      
       expanded={false}
       position="left: 0"
       size="300px, 100%"

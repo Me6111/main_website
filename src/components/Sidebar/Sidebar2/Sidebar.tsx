@@ -34,12 +34,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   size = '300px, 100%',
   CloseButton,
   ExpandButton,
-  closeByClick = true,
+  closeByClick = false,
   CloseByOutsideAction = false,
   expanded = true
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(expanded);
+
+  useEffect(() => {
+    setIsExpanded(expanded);
+  }, [expanded]);
 
   useEffect(() => {
     if (!CloseByOutsideAction && !closeByClick) return;
@@ -70,17 +74,21 @@ const Sidebar: React.FC<SidebarProps> = ({
     return { width, height };
   };
 
-  const closeBtn = {
-    html: CloseButton?.html || defaultCloseButtonHTML,
-    ...parsePosition(CloseButton?.position || 'top:10px, right:10px'),
-    ...parseSize(CloseButton?.size || '20px, 20px')
-  };
+  const closeBtn = CloseButton
+    ? {
+        html: CloseButton.html || defaultCloseButtonHTML,
+        ...parsePosition(CloseButton.position || 'top:10px, right:10px'),
+        ...parseSize(CloseButton.size || '20px, 20px')
+      }
+    : null;
 
-  const expandBtn = {
-    html: ExpandButton?.html || defaultExpandButtonHTML,
-    ...parsePosition(ExpandButton?.position || 'top:10px, left:10px'),
-    ...parseSize(ExpandButton?.size || '20px, 20px')
-  };
+  const expandBtn = ExpandButton
+    ? {
+        html: ExpandButton.html || defaultExpandButtonHTML,
+        ...parsePosition(ExpandButton.position || 'top:10px, left:10px'),
+        ...parseSize(ExpandButton.size || '20px, 20px')
+      }
+    : null;
 
   return (
     <div className="Sidebar_Outer" style={{ position: 'relative' }}>
@@ -95,20 +103,28 @@ const Sidebar: React.FC<SidebarProps> = ({
           position: 'absolute'
         }}
       >
-        <div
-          className="CloseButton"
-          onClick={() => setIsExpanded(false)}
-          style={{ cursor: 'pointer', ...closeBtn }}
-          dangerouslySetInnerHTML={{ __html: closeBtn.html }}
-        />
+        {closeBtn && (
+          <div
+            className="CloseButton"
+            onClick={() => setIsExpanded(false)}
+            style={{ cursor: 'pointer', ...closeBtn }}
+            dangerouslySetInnerHTML={{ __html: closeBtn.html }}
+          />
+        )}
         {content}
       </div>
-      <div
-        className="ExpandButton"
-        onClick={() => setIsExpanded(true)}
-        style={{ position: 'absolute', cursor: 'pointer', ...expandBtn }}
-        dangerouslySetInnerHTML={{ __html: expandBtn.html }}
-      />
+
+      {expandBtn && !isExpanded && (
+        <div
+          className="ExpandButton"
+          onClick={() => {
+            setIsExpanded(true);
+            ExpandButton?.onExpand?.();
+          }}
+          style={{ position: 'absolute', cursor: 'pointer', ...expandBtn }}
+          dangerouslySetInnerHTML={{ __html: expandBtn.html }}
+        />
+      )}
     </div>
   );
 };

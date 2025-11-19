@@ -97,7 +97,13 @@ const Slider: React.FC = () => {
 
       <div className="SliderScreen">
 
-        
+
+
+
+
+
+    <Sidebar
+      content={
         <div className="SliderScreen_Slider_Preview">
           <SliderWindow
             percent={percentMain}
@@ -118,11 +124,23 @@ const Slider: React.FC = () => {
             isDragging={isDragging}
             maxIndex={maxIndex}
           />
-
         </div>
+      }
+
+      
+      position="left: 0"
+      size="120px, 100%"
+    />
+
 
 
         
+
+
+
+
+
+
       </div>
     </div>
   );
