@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Slider from './Slider';
 
 const SliderConfigComponent: React.FC = () => {
-  return <Slider />;
+
+  //the proper code calling slider component
+
 };
 
 const SliderConfig = {
   key: 'Slider',
   Name: 'Slider',
-  ComponentUsageCodeRaw: `
-<Slider />
-`,
-  ComponentInstance: <SliderConfigComponent />,
-  dependencies: { React, Slider },
+  ComponentInstance: <SliderConfigComponent />
 };
 
 export default SliderConfig;

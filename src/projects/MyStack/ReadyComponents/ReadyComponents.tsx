@@ -33,6 +33,9 @@ import OptionsList_Dropdown_Config from '../../../components/Dropdown/OptionsLis
 
 
 import Slider_new2_Config from '../../../components/Slider/Slider_new2/Slider.config';
+import Slider_new2_horizontal_Config from '../../../components/Slider/Slider_new2/Slider_horizontal.config';
+
+
 
 import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.config_0';
 import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
@@ -55,9 +58,9 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {
-
-  Sidebar: SidebarConfig,
+  Slider_new2_horizontal_Config: Slider_new2_horizontal_Config,
   Slider_new2_Config: Slider_new2_Config,
+  Sidebar: SidebarConfig,
 
 
   //Slider_3: SliderConfig_3,

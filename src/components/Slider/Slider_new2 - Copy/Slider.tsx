@@ -3,19 +3,19 @@ import './Slider.css';
 
 interface SliderProps {
   slides: React.ReactNode[];
-  transitionMs?: number;
+  transition_seconds?: number;
   orientation?: 'horizontal' | 'vertical';
 }
 
 interface SliderWindowProps {
   slides: React.ReactNode[];
-  transitionMs: number;
+  transition_seconds: number;
   orientation: 'horizontal' | 'vertical';
   isDragging: boolean;
   percent: number;
 }
 
-const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transitionMs, orientation, isDragging, percent }) => {
+const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transition_seconds, orientation, isDragging, percent }) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const maxIndex = Math.max(slides.length - 1, 0);
 
@@ -30,7 +30,7 @@ const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transitionMs, orien
         className="Slider_Track"
         style={{
           transform: transformStyle,
-          transition: isDragging ? 'none' : `${transitionMs}ms ease`,
+          transition: isDragging ? 'none' : `${transition_seconds}ms ease`,
         }}
         ref={trackRef}
       >
@@ -44,7 +44,7 @@ const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transitionMs, orien
   );
 };
 
-const Slider: React.FC<SliderProps> = ({ slides, transitionMs = 300, orientation = 'horizontal' }) => {
+const Slider: React.FC<SliderProps> = ({ slides, transition_seconds = 300, orientation = 'horizontal' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percent, setPercent] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -86,7 +86,7 @@ const Slider: React.FC<SliderProps> = ({ slides, transitionMs = 300, orientation
       <div className="Slider_Inner0">
         <SliderWindow 
           slides={slides} 
-          transitionMs={transitionMs} 
+          transition_seconds={transition_seconds} 
           orientation={orientation} 
           isDragging={isDragging} 
           percent={percent}

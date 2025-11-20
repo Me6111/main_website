@@ -3,47 +3,43 @@ import './SliderWindow.css';
 
 export type SliderWindowProps = {
   percent: number;
-  visibleSize: { width: number | string; height: number | string }; // ← UPDATED
+  slider_windowSize: { width: number | string; height: number | string };
   slideSize: { width: number; height: number };
-  distance: number;
+  slides_gap: number;
   controlMode: 'global' | 'local';
   scrollable: boolean;
   slideChangeOnClick: boolean;
   currentIndex: number;
-  setIndex: (i: number) => void;
+  onSlideClick?: (index: number) => void; // optional callback for clicks
   previewRef?: React.RefObject<HTMLDivElement>;
   slides: JSX.Element[];
-  transitionMs: number;
+  transition_seconds: number;
   orientation: 'horizontal' | 'vertical';
-  isDragging: boolean;
-  maxIndex: number;
-  Position_Slider_WindowVisible: 'top' | 'bottom' | 'left' | 'right';
+  Position_Slider_WindowVisible?: 'top' | 'bottom' | 'left' | 'right';
   Center_SliderElement: 'horizontal' | 'vertical' | 'center';
 };
 
 const SliderWindow: React.FC<SliderWindowProps> = ({
-  percent,
-  visibleSize,
-  slideSize,
-  distance,
-  controlMode,
-  scrollable,
-  slideChangeOnClick,
-  currentIndex,
-  setIndex,
-  previewRef,
-  slides,
-  transitionMs,
-  orientation,
-  isDragging,
-  maxIndex,
-  Position_Slider_WindowVisible,
-  Center_SliderElement
+    slider_windowSize,
+    slideSize,
+    slides_gap,
+    slides,
+    transition_seconds,
+    orientation,
+    Position_Slider_WindowVisible,
+    Center_SliderElement,
+    scrollable,
+    slideChangeOnClick,
+
+    percent,
+    controlMode,
+    currentIndex,
+    onSlideClick,
+    previewRef,
 }) => {
+  const maxIndex = slides.length - 1;
   const axisSize = orientation === 'horizontal' ? slideSize.width : slideSize.height;
-
-  const translatePx = (percent / 100) * (maxIndex * (axisSize + distance));
-
+  const translatePx = (percent / 100) * (maxIndex * (axisSize + slides_gap));
   const transformStyle =
     orientation === 'horizontal'
       ? `translateX(-${translatePx}px)`
@@ -72,7 +68,6 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
         : undefined
   };
 
-  // Convert width/height to CSS values: number → px, string → raw CSS
   const resolveSize = (value: number | string) =>
     typeof value === 'number' ? `${value}px` : value;
 
@@ -81,8 +76,8 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
       <div
         className={`Slider_WindowVisible${slideChangeOnClick ? ' slideChangeOnClick' : ''}`}
         style={{
-          width: resolveSize(visibleSize.width),   // ← UPDATED
-          height: resolveSize(visibleSize.height), // ← UPDATED
+          width: resolveSize(slider_windowSize.width),
+          height: resolveSize(slider_windowSize.height),
           overflowX,
           overflowY,
           ...positionStyle
@@ -101,8 +96,8 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
               display: 'flex',
               flexDirection: orientation === 'horizontal' ? 'row' : 'column',
               transform: controlMode === 'global' ? transformStyle : undefined,
-              transition: isDragging ? 'none' : `${transitionMs}ms ease`,
-              gap: `${distance}px`,
+              transition: `${transition_seconds}s ease`,
+              gap: `${slides_gap}px`,
               width: orientation === 'horizontal' ? `${slideSize.width}px` : 'auto',
               height: orientation === 'vertical' ? `${slideSize.height}px` : 'auto'
             }}
@@ -113,9 +108,10 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
                 className={`Slider_Slide idx-${i}${i === currentIndex ? ' CurrentSlide' : ''}`}
                 style={{
                   width: `${slideSize.width}px`,
-                  height: `${slideSize.height}px`
+                  height: `${slideSize.height}px`,
+                  cursor: slideChangeOnClick ? 'pointer' : 'default'
                 }}
-                onClick={() => slideChangeOnClick && setIndex(i)}
+                onClick={() => slideChangeOnClick && onSlideClick?.(i)}
               >
                 {slide}
               </div>

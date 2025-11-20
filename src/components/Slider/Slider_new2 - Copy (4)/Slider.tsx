@@ -7,9 +7,9 @@ import './Slider.css';
 
 type SliderWindowProps = {
   percent: number;
-  visibleSize: { width: number; height: number };
+  slider_windowSize: { width: number; height: number };
   slideSize: { width: number; height: number };
-  distance: number;
+  slides_gap: number;
   controlMode: 'global' | 'local';
   scrollable: boolean;
   slideChangeOnClick: boolean;
@@ -17,7 +17,7 @@ type SliderWindowProps = {
   setIndex: (i: number) => void;
   previewRef?: React.RefObject<HTMLDivElement>;
   slides: JSX.Element[];
-  transitionMs: number;
+  transition_seconds: number;
   orientation: 'horizontal' | 'vertical';
   isDragging: boolean;
   maxIndex: number;
@@ -25,9 +25,9 @@ type SliderWindowProps = {
 
 const SliderWindow: React.FC<SliderWindowProps> = ({
   percent,
-  visibleSize,
+  slider_windowSize,
   slideSize,
-  distance,
+  slides_gap,
   controlMode,
   scrollable,
   slideChangeOnClick,
@@ -35,13 +35,13 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
   setIndex,
   previewRef,
   slides,
-  transitionMs,
+  transition_seconds,
   orientation,
   isDragging,
   maxIndex
 }) => {
   const axisSize = orientation === 'horizontal' ? slideSize.width : slideSize.height;
-  const translatePx = (percent / 100) * (maxIndex * (axisSize + distance));
+  const translatePx = (percent / 100) * (maxIndex * (axisSize + slides_gap));
   const transformStyle = orientation === 'horizontal' ? `translateX(-${translatePx}px)` : `translateY(-${translatePx}px)`;
   const overflowX = scrollable && orientation === 'horizontal' ? 'auto' : 'hidden';
   const overflowY = scrollable && orientation === 'vertical' ? 'auto' : 'hidden';
@@ -51,8 +51,8 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
       <div
         className="Slider_WindowVisible"
         style={{
-          width: `${visibleSize.width}px`,
-          height: `${visibleSize.height}px`,
+          width: `${slider_windowSize.width}px`,
+          height: `${slider_windowSize.height}px`,
           overflowX,
           overflowY
         }}
@@ -65,8 +65,8 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
               display: 'flex',
               flexDirection: orientation === 'horizontal' ? 'row' : 'column',
               transform: controlMode === 'global' ? transformStyle : undefined,
-              transition: isDragging ? 'none' : `${transitionMs}ms ease`,
-              gap: `${distance}px`,
+              transition: isDragging ? 'none' : `${transition_seconds}ms ease`,
+              gap: `${slides_gap}px`,
               width: orientation === 'horizontal' ? `${slideSize.width}px` : 'auto',
               height: orientation === 'vertical' ? `${slideSize.height}px` : 'auto'
             }}
@@ -90,7 +90,7 @@ const SliderWindow: React.FC<SliderWindowProps> = ({
 
 const Slider: React.FC = () => {
   const slides = Array.from({ length: 20 }, (_, number) => <div key={number}>{number}</div>);
-  const transitionMs = 300;
+  const transition_seconds = 300;
   const orientation: 'horizontal' | 'vertical' = 'vertical';
   const [percentMain, setPercentMain] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -147,9 +147,9 @@ const Slider: React.FC = () => {
         <div className="SliderScreen_Slider">
           <SliderWindow
             percent={percentMain}
-            visibleSize={{ width: 600, height: 300 }}
+            slider_windowSize={{ width: 600, height: 300 }}
             slideSize={{ width: 500, height: 250 }}
-            distance={50}
+            slides_gap={50}
             controlMode="global"
             scrollable={false}
             slideChangeOnClick={false}
@@ -157,7 +157,7 @@ const Slider: React.FC = () => {
             setIndex={updateSlider}
             slides={slides}
             previewRef={undefined}
-            transitionMs={transitionMs}
+            transition_seconds={transition_seconds}
             orientation={orientation}
             isDragging={isDragging}
             maxIndex={maxIndex}
@@ -176,9 +176,9 @@ const Slider: React.FC = () => {
         <div className="SliderScreen_Slider_Preview">
           <SliderWindow
             percent={percentMain}
-            visibleSize={{ width: 120, height: 400 }}
+            slider_windowSize={{ width: 120, height: 400 }}
             slideSize={{ width: 100, height: 50 }}
-            distance={5}
+            slides_gap={5}
             controlMode="local"
             scrollable={true}
             slideChangeOnClick={true}
@@ -186,7 +186,7 @@ const Slider: React.FC = () => {
             setIndex={updateSlider}
             slides={slides}
             previewRef={previewRef}
-            transitionMs={transitionMs}
+            transition_seconds={transition_seconds}
             orientation={orientation}
             isDragging={isDragging}
             maxIndex={maxIndex}

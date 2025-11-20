@@ -21,18 +21,18 @@ const slides = Array.from({ length: 10 }, (_, number) => (
   </div>
 ));
 
-const transitionMs = 300;
+const transition_seconds = 300;
 const orientation: 'horizontal' | 'vertical' = 'horizontal';
 
 interface SliderWindowProps {
   slides: React.ReactNode[];
-  transitionMs: number;
+  transition_seconds: number;
   orientation: 'horizontal' | 'vertical';
   isDragging: boolean;
   percent: number;
 }
 
-const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transitionMs, orientation, isDragging, percent }) => {
+const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transition_seconds, orientation, isDragging, percent }) => {
   const slidesContainerRef = useRef<HTMLDivElement | null>(null);
   const maxIndex = Math.max(slides.length - 1, 0);
 
@@ -50,7 +50,7 @@ const SliderWindow: React.FC<SliderWindowProps> = ({ slides, transitionMs, orien
           className="Slider_SlidesContainer"
           style={{
             transform: transformStyle,
-            transition: isDragging ? 'none' : `${transitionMs}ms ease`,
+            transition: isDragging ? 'none' : `${transition_seconds}ms ease`,
           }}
           ref={slidesContainerRef}
         >
@@ -106,7 +106,7 @@ const Slider: React.FC = () => {
       <div className="SliderScreen">
         <SliderWindow
           slides={slides}
-          transitionMs={transitionMs}
+          transition_seconds={transition_seconds}
           orientation={orientation}
           isDragging={isDragging}
           percent={percent}
