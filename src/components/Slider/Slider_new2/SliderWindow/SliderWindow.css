@@ -8,7 +8,6 @@
 
 .Slider_WindowVisible {
   overflow: hidden;
-  position: absolute;
 
   scrollbar-width: thin;
   scrollbar-color: #555555 #1a1a1a;
@@ -40,7 +39,8 @@
 }
 
 .Slider_SlidesContainer {
-  display: flex;
+
+
   will-change: transform;
   user-select: none;
   box-sizing: border-box;

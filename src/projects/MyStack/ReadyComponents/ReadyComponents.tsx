@@ -33,7 +33,6 @@ import OptionsList_Dropdown_Config from '../../../components/Dropdown/OptionsLis
 
 
 import Slider_new2_Config from '../../../components/Slider/Slider_new2/Slider.config';
-import Slider_new2_horizontal_Config from '../../../components/Slider/Slider_new2/Slider_horizontal.config';
 
 
 
@@ -58,7 +57,6 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {
-  Slider_new2_horizontal_Config: Slider_new2_horizontal_Config,
   Slider_new2_Config: Slider_new2_Config,
   Sidebar: SidebarConfig,
 

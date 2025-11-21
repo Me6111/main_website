@@ -4,47 +4,72 @@ import SliderWindow from './SliderWindow/SliderWindow';
 import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
 import Sidebar from '../../Sidebar/Sidebar2/Sidebar';
 
-const Slider: React.FC = () => {
-  const slides = Array.from({ length: 20 }, (_, number) => <div key={number}>{number}</div>);
-  const transition_seconds = 1;
-  const orientation: 'horizontal' | 'vertical' = 'vertical';
-  const [percentMain, setPercentMain] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface SliderProps {
+  mainSlider: {
+    percent: number;
+    centerSliderElement: 'horizontal' | 'vertical' | 'center';
+    sliderWindowSize: { width: number | string; height: number | string };
+    slideSize: { width: number; height: number };
+    slidesGap: number;
+    controlMode: 'global' | 'local';
+    scrollable: boolean;
+    slideChangeOnClick: boolean;
+    currentIndex: number;
+    slides: JSX.Element[];
+    previewRef?: React.RefObject<HTMLDivElement>;
+    transitionSeconds: number;
+    orientation: 'horizontal' | 'vertical';
+  };
+  Slider_Preview?: {
+    SliderWindow: {
+      percent: number;
+      centerSliderElement: 'horizontal' | 'vertical' | 'center';
+      positionSliderWindowVisible: 'top' | 'bottom' | 'left' | 'right';
+      slides: JSX.Element[];
+      sliderWindowSize: { width: number | string; height: number | string };
+      slideSize: { width: number; height: number };
+      slidesGap: number;
+      controlMode: 'global' | 'local';
+      scrollable: boolean;
+      slideChangeOnClick: boolean;
+      currentIndex: number;
+      onSlideClick?: (index: number) => void;
+      previewRef?: React.RefObject<HTMLDivElement>;
+      transitionSeconds: number;
+      orientation: 'horizontal' | 'vertical';
+    };
+  };
+}
+
+const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
+  const [currentIndex, setCurrentIndex] = useState(mainSlider.currentIndex);
+  const [percentMain, setPercentMain] = useState(mainSlider.percent);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  // update percentMain whenever currentIndex changes
   useEffect(() => {
-    const maxIndex = slides.length - 1;
+    const maxIndex = mainSlider.slides.length - 1;
     const p = maxIndex === 0 ? 0 : (currentIndex / maxIndex) * 100;
     setPercentMain(Number(p.toFixed(4)));
 
-    // scroll preview
-    const preview = previewRef.current;
-    if (!preview) return;
+    if (!Slider_Preview) return;
+    const previewBox = previewRef.current;
+    if (!previewBox) return;
 
-    const slideEl = preview.querySelector<HTMLDivElement>(`.Slider_Slide.idx-${currentIndex}`);
+    const slideEl = previewBox.querySelector<HTMLDivElement>(`.Slider_Slide.idx-${currentIndex}`);
     if (!slideEl) return;
 
-    if (orientation === 'horizontal') {
-      const previewWidth = preview.clientWidth;
-      const slideRect = slideEl.getBoundingClientRect();
-      const previewRect = preview.getBoundingClientRect();
-      const currentScroll = preview.scrollLeft;
-      const slideLeftRelative = slideRect.left - previewRect.left + currentScroll;
-      const slideRightRelative = slideLeftRelative + slideRect.width;
-      if (slideLeftRelative < currentScroll) preview.scrollTo({ left: slideLeftRelative, behavior: 'smooth' });
-      else if (slideRightRelative > currentScroll + previewWidth) preview.scrollTo({ left: slideRightRelative - previewWidth, behavior: 'smooth' });
-    } else {
-      const previewHeight = preview.clientHeight;
-      const slideRect = slideEl.getBoundingClientRect();
-      const previewRect = preview.getBoundingClientRect();
-      const currentScroll = preview.scrollTop;
-      const slideTopRelative = slideRect.top - previewRect.top + currentScroll;
-      const slideBottomRelative = slideTopRelative + slideRect.height;
-      if (slideTopRelative < currentScroll) preview.scrollTo({ top: slideTopRelative, behavior: 'smooth' });
-      else if (slideBottomRelative > currentScroll + previewHeight) preview.scrollTo({ top: slideBottomRelative - previewHeight, behavior: 'smooth' });
-    }
-  }, [currentIndex, slides.length, orientation]);
+    const previewHeight = previewBox.clientHeight;
+    const slideRect = slideEl.getBoundingClientRect();
+    const previewRect = previewBox.getBoundingClientRect();
+    const currentScroll = previewBox.scrollTop;
+    const slideTopRelative = slideRect.top - previewRect.top + currentScroll;
+    const slideBottomRelative = slideTopRelative + slideRect.height;
+
+    if (slideTopRelative < currentScroll) previewBox.scrollTo({ top: slideTopRelative, behavior: 'smooth' });
+    else if (slideBottomRelative > currentScroll + previewHeight) previewBox.scrollTo({ top: slideBottomRelative - previewHeight, behavior: 'smooth' });
+  }, [currentIndex, mainSlider.slides.length, Slider_Preview]);
+
+  const handleSlideClick = (index: number) => setCurrentIndex(index);
 
   return (
     <div className="Slider_Container">
@@ -52,18 +77,19 @@ const Slider: React.FC = () => {
         <div className="SliderScreen_Slider_Main">
           <SliderWindow
             percent={percentMain}
-            Center_SliderElement="center"
-            slider_windowSize={{ width: 600, height: 300 }}
-            slideSize={{ width: 500, height: 250 }}
-            slides_gap={50}
-            controlMode="global"
-            scrollable={false}
-            slideChangeOnClick={false}
+            Center_SliderElement={mainSlider.centerSliderElement}
+            slider_windowSize={mainSlider.sliderWindowSize}
+            slideSize={mainSlider.slideSize}
+            slides_gap={mainSlider.slidesGap}
+            controlMode={mainSlider.controlMode}
+            scrollable={mainSlider.scrollable}
+            slideChangeOnClick={mainSlider.slideChangeOnClick}
             currentIndex={currentIndex}
-            slides={slides}
-            previewRef={undefined}
-            transition_seconds={transition_seconds}
-            orientation={orientation}
+            slides={mainSlider.slides}
+            previewRef={mainSlider.previewRef}
+            transition_seconds={mainSlider.transitionSeconds}
+            orientation={mainSlider.orientation}
+            onSlideClick={handleSlideClick}
           />
         </div>
       </div>
@@ -73,36 +99,38 @@ const Slider: React.FC = () => {
           top="50%"
           width="50%"
           currentIndex={currentIndex}
-          maxIndex={slides.length - 1}
+          maxIndex={mainSlider.slides.length - 1}
           updateSlider={setCurrentIndex}
         />
       </div>
 
-      <div className="SliderScreen_Slider_Preview">
-        <Sidebar
-          content={
+      {Slider_Preview && (
+        <div className="SliderScreen_Slider_Preview">
+          <Sidebar
+            content={
               <SliderWindow
-                percent={percentMain}
-                Center_SliderElement="left"
-                Position_Slider_WindowVisible="top"
-                slider_windowSize={{ width: 120, height: "100%" }}
-                slideSize={{ width: 100, height: 50 }}
-                slides_gap={5}
-                controlMode="local"
-                scrollable={true}
-                slideChangeOnClick={true}
+                percent={Slider_Preview.SliderWindow.percent}
+                Center_SliderElement={Slider_Preview.SliderWindow.centerSliderElement}
+                Position_Slider_WindowVisible={Slider_Preview.SliderWindow.positionSliderWindowVisible}
+                slides={Slider_Preview.SliderWindow.slides}
+                slider_windowSize={Slider_Preview.SliderWindow.sliderWindowSize}
+                slideSize={Slider_Preview.SliderWindow.slideSize}
+                slides_gap={Slider_Preview.SliderWindow.slidesGap}
+                controlMode={Slider_Preview.SliderWindow.controlMode}
+                scrollable={Slider_Preview.SliderWindow.scrollable}
+                slideChangeOnClick={Slider_Preview.SliderWindow.slideChangeOnClick}
                 currentIndex={currentIndex}
-                onSlideClick={setCurrentIndex} // preview click updates main slider
-                slides={slides}
+                onSlideClick={handleSlideClick}
                 previewRef={previewRef}
-                transition_seconds={transition_seconds}
-                orientation={orientation}
+                transition_seconds={Slider_Preview.SliderWindow.transitionSeconds}
+                orientation={Slider_Preview.SliderWindow.orientation}
               />
-          }
-          position="left: 0"
-          size="120px, 100%"
-        />
-      </div>
+            }
+            position="left: 0"
+            size="120px, 100%"
+          />
+        </div>
+      )}
     </div>
   );
 };

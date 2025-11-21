@@ -10,7 +10,7 @@ export type SliderWindowProps = {
   scrollable: boolean;
   slideChangeOnClick: boolean;
   currentIndex: number;
-  onSlideClick?: (index: number) => void; // optional callback for clicks
+  onSlideClick?: (index: number) => void; 
   previewRef?: React.RefObject<HTMLDivElement>;
   slides: JSX.Element[];
   transition_seconds: number;
