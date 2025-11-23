@@ -15,18 +15,16 @@ interface DropdownProps {
   trigger?: 'click' | 'hover';
 }
 
-/** --- Internal DropdownItem Component --- */
 const DropdownItem: React.FC<{
   option: Option;
   trigger: 'click' | 'hover';
 }> = ({ option, trigger }) => {
   const [subOpen, setSubOpen] = useState(false);
 
-  const handleSubToggle = () => {
+  const handleToggle = () => {
     if (option.disabled) return;
-
     if (option.subOptions && trigger === 'click') {
-      setSubOpen((prev) => !prev);
+      setSubOpen(prev => !prev);
     } else if (option.onClick) {
       option.onClick();
     }
@@ -49,7 +47,7 @@ const DropdownItem: React.FC<{
       <OptionItem
         content={option.label}
         expandIcon={!!option.subOptions}
-        onClick={handleSubToggle}
+        onClick={handleToggle}
         disabled={option.disabled}
       >
         {option.subOptions && subOpen && (
@@ -64,41 +62,9 @@ const DropdownItem: React.FC<{
   );
 };
 
-/** --- Main Dropdown Component --- */
 const Dropdown: React.FC<DropdownProps> = ({ label, options, trigger = 'click' }) => {
-  const [open, setOpen] = useState(false);
-
-  const handleToggle = () => {
-    if (trigger === 'click') setOpen((prev) => !prev);
-  };
-
-  const handleMouseEnter = () => {
-    if (trigger === 'hover') setOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (trigger === 'hover') setOpen(false);
-  };
-
-  return (
-    <div
-      className="Dropdown"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button className="DropdownBtn" onClick={handleToggle}>
-        {label}
-      </button>
-
-      {open && (
-        <div className="DropdownMenu">
-          {options.map((option, index) => (
-            <DropdownItem key={index} option={option} trigger={trigger} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  const mainOption: Option = { label, subOptions: options };
+  return <DropdownItem option={mainOption} trigger={trigger} />;
 };
 
 export default Dropdown;

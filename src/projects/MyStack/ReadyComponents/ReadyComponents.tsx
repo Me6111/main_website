@@ -47,6 +47,7 @@ import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
 import SidebarConfig from '../../../components/Sidebar/Sidebar2/Sidebar.config';
+import SidebarDropdown from '../../../components/Sidebar/Sidebar2/Sidebar_Nav/SidebarDropdown.config';
 
 
 SliderConfig_0.Name = 'Slider 0';
@@ -57,7 +58,12 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {
+  Dropdown_Tree_Config: Dropdown_Tree_Config,
+
+  SidebarDropdown: SidebarDropdown,
   Slider_new2_Config: Slider_new2_Config,
+
+
   Sidebar: SidebarConfig,
 
 
@@ -74,7 +80,6 @@ const codeShowcaseConfigs = {
 
 
 
-  Dropdown_Tree_Config: Dropdown_Tree_Config,
 
   OptionItem: OptionItemConfig,
 

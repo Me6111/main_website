@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .Sidebar_Config_Container .Sidebar_Content {
   padding: 20px;
 }
@@ -17,14 +18,16 @@
   width: 100%;
   height: 100%;
   pointer-events: auto;
+  overflow: visible;
 }
 
 .Sidebar_Field {
   position: absolute;
   background-color: black;
   color: white;
-  overflow: auto;
+  overflow: visible;
   transition: transform 0.3s ease;
+  z-index: 10;
 }
 
 .Sidebar_Field-left {

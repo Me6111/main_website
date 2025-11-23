@@ -7,7 +7,6 @@ import Sidebar from '../../Sidebar/Sidebar2/Sidebar';
 interface SliderProps {
   mainSlider: {
     percent: number;
-    centerSliderElement: 'horizontal' | 'vertical' | 'center';
     sliderWindowSize: { width: number | string; height: number | string };
     slideSize: { width: number; height: number };
     slidesGap: number;
@@ -23,8 +22,6 @@ interface SliderProps {
   Slider_Preview?: {
     SliderWindow: {
       percent: number;
-      centerSliderElement: 'horizontal' | 'vertical' | 'center';
-      positionSliderWindowVisible: 'top' | 'bottom' | 'left' | 'right';
       slides: JSX.Element[];
       sliderWindowSize: { width: number | string; height: number | string };
       slideSize: { width: number; height: number };
@@ -37,6 +34,10 @@ interface SliderProps {
       previewRef?: React.RefObject<HTMLDivElement>;
       transitionSeconds: number;
       orientation: 'horizontal' | 'vertical';
+    };
+    sidebarProps: {
+      position: string;
+      size: string;
     };
   };
 }
@@ -52,21 +53,35 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
     setPercentMain(Number(p.toFixed(4)));
 
     if (!Slider_Preview) return;
+
     const previewBox = previewRef.current;
     if (!previewBox) return;
 
     const slideEl = previewBox.querySelector<HTMLDivElement>(`.Slider_Slide.idx-${currentIndex}`);
     if (!slideEl) return;
 
-    const previewHeight = previewBox.clientHeight;
     const slideRect = slideEl.getBoundingClientRect();
     const previewRect = previewBox.getBoundingClientRect();
-    const currentScroll = previewBox.scrollTop;
-    const slideTopRelative = slideRect.top - previewRect.top + currentScroll;
-    const slideBottomRelative = slideTopRelative + slideRect.height;
 
-    if (slideTopRelative < currentScroll) previewBox.scrollTo({ top: slideTopRelative, behavior: 'smooth' });
-    else if (slideBottomRelative > currentScroll + previewHeight) previewBox.scrollTo({ top: slideBottomRelative - previewHeight, behavior: 'smooth' });
+    if (Slider_Preview.SliderWindow.orientation === 'vertical') {
+      const previewHeight = previewBox.clientHeight;
+      const currentScroll = previewBox.scrollTop;
+      const slideTopRelative = slideRect.top - previewRect.top + currentScroll;
+      const slideBottomRelative = slideTopRelative + slideRect.height;
+      if (slideTopRelative < currentScroll)
+        previewBox.scrollTo({ top: slideTopRelative, behavior: 'smooth' });
+      else if (slideBottomRelative > currentScroll + previewHeight)
+        previewBox.scrollTo({ top: slideBottomRelative - previewHeight, behavior: 'smooth' });
+    } else {
+      const previewWidth = previewBox.clientWidth;
+      const currentScroll = previewBox.scrollLeft;
+      const slideLeftRelative = slideRect.left - previewRect.left + currentScroll;
+      const slideRightRelative = slideLeftRelative + slideRect.width;
+      if (slideLeftRelative < currentScroll)
+        previewBox.scrollTo({ left: slideLeftRelative, behavior: 'smooth' });
+      else if (slideRightRelative > currentScroll + previewWidth)
+        previewBox.scrollTo({ left: slideRightRelative - previewWidth, behavior: 'smooth' });
+    }
   }, [currentIndex, mainSlider.slides.length, Slider_Preview]);
 
   const handleSlideClick = (index: number) => setCurrentIndex(index);
@@ -77,7 +92,6 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
         <div className="SliderScreen_Slider_Main">
           <SliderWindow
             percent={percentMain}
-            Center_SliderElement={mainSlider.centerSliderElement}
             slider_windowSize={mainSlider.sliderWindowSize}
             slideSize={mainSlider.slideSize}
             slides_gap={mainSlider.slidesGap}
@@ -110,8 +124,6 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
             content={
               <SliderWindow
                 percent={Slider_Preview.SliderWindow.percent}
-                Center_SliderElement={Slider_Preview.SliderWindow.centerSliderElement}
-                Position_Slider_WindowVisible={Slider_Preview.SliderWindow.positionSliderWindowVisible}
                 slides={Slider_Preview.SliderWindow.slides}
                 slider_windowSize={Slider_Preview.SliderWindow.sliderWindowSize}
                 slideSize={Slider_Preview.SliderWindow.slideSize}
@@ -126,8 +138,8 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
                 orientation={Slider_Preview.SliderWindow.orientation}
               />
             }
-            position="left: 0"
-            size="120px, 100%"
+            position={Slider_Preview.sidebarProps.position}
+            size={Slider_Preview.sidebarProps.size}
           />
         </div>
       )}

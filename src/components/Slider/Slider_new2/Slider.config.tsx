@@ -6,7 +6,6 @@ const SliderConfigComponent: React.FC = () => {
 
   const mainSliderProps = {
     percent: 0,
-    centerSliderElement: 'center' as const,
     sliderWindowSize: { width: 600, height: 300 },
     slideSize: { width: 500, height: 250 },
     slidesGap: 50,
@@ -23,10 +22,8 @@ const SliderConfigComponent: React.FC = () => {
   const previewSliderProps = {
     SliderWindow: {
       percent: 0,
-      centerSliderElement: 'left' as const,
-      positionSliderWindowVisible: 'top' as const,
       slides,
-      sliderWindowSize: { width: 120, height: '100%' },
+      sliderWindowSize: { width: '100%', height: 60 },
       slideSize: { width: 100, height: 50 },
       slidesGap: 5,
       controlMode: 'local' as const,
@@ -36,7 +33,11 @@ const SliderConfigComponent: React.FC = () => {
       onSlideClick: () => {},
       previewRef: React.createRef(),
       transitionSeconds: 0.5,
-      orientation: 'vertical' as const
+      orientation: 'horizontal' as const
+    },
+    sidebarProps: {
+      position: 'bottom: 0',
+      size: '100%, 70px',
     }
   };
 
