@@ -3,38 +3,49 @@ import Dropdown from './Dropdown';
 import DropdownSourceCodeRaw from './Dropdown.tsx?raw';
 import DropdownStyleCodeRaw from './Dropdown.css?raw';
 
+const defaultArrowProps = { size: { rotate: 'left' }, hover: { rotate: 'right' } };
+
 const optionsData = [
-  { label: 'Dashboard', onClick: () => alert('Dashboard clicked') },
-  { label: 'Settings', onClick: () => alert('Settings clicked') },
   {
-    label: 'Profile',
+    label: 'Menu',
+    arrowProps: defaultArrowProps,
     subOptions: [
-      { label: 'Edit Profile', onClick: () => alert('Edit Profile') },
-      { label: 'Change Password', onClick: () => alert('Change Password') },
+      { label: 'Dashboard', onClick: () => alert('Dashboard clicked'), arrowProps: defaultArrowProps },
+      { label: 'Settings', onClick: () => alert('Settings clicked'), arrowProps: defaultArrowProps },
       {
-        label: 'Privacy',
+        label: 'Profile',
+        arrowProps: defaultArrowProps,
         subOptions: [
-          { label: 'Blocked Users', onClick: () => alert('Blocked Users') },
-          { label: 'Activity Status', onClick: () => alert('Activity Status') },
+          { label: 'Edit Profile', onClick: () => alert('Edit Profile'), arrowProps: defaultArrowProps },
+          { label: 'Change Password', onClick: () => alert('Change Password'), arrowProps: defaultArrowProps },
+          {
+            label: 'Privacy',
+            arrowProps: defaultArrowProps,
+            subOptions: [
+              { label: 'Blocked Users', onClick: () => alert('Blocked Users'), arrowProps: defaultArrowProps },
+              { label: 'Activity Status', onClick: () => alert('Activity Status'), arrowProps: defaultArrowProps },
+            ],
+          },
         ],
       },
+      {
+        label: 'Support',
+        arrowProps: defaultArrowProps,
+        subOptions: [
+          { label: 'Contact Us', onClick: () => alert('Contact Us'), arrowProps: defaultArrowProps },
+          { label: 'FAQ', onClick: () => alert('FAQ'), arrowProps: defaultArrowProps },
+        ],
+      },
+      { label: 'Logout', onClick: () => alert('Logging out...'), arrowProps: defaultArrowProps },
     ],
   },
-  {
-    label: 'Support',
-    subOptions: [
-      { label: 'Contact Us', onClick: () => alert('Contact Us') },
-      { label: 'FAQ', onClick: () => alert('FAQ') },
-    ],
-  },
-  { label: 'Logout', onClick: () => alert('Logging out...') },
 ];
 
-const usageCodeRaw = `<Dropdown options={optionsData} label="Menu" trigger="hover" />`;
+const usageCodeRaw = `<Dropdown options={optionsData} trigger="hover" />`;
 
 const ComponentInstance = (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-    <Dropdown label="Menu" options={optionsData} trigger="hover" />
+    <Dropdown options={optionsData} trigger="hover" />
   </div>
 );
 

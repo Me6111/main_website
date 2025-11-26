@@ -1,135 +1,72 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './OptionItem.css';
 import Arrow from '../../Icons/Arrow/Arrow';
 import CheckBox from '../../CheckBox/CheckBox';
 
 interface OptionItemProps {
-  content: ReactNode;
-  children?: ReactNode;
-  background?: string;
-  href?: string;
-  icon?: ReactNode;
+  content?: React.ReactNode;
+  children?: React.ReactNode;
+  icon?: React.ReactNode;
   checkbox?: boolean;
+  checkboxProps?: any;
   expandIcon?: boolean;
-  onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
+  arrowProps?: React.ComponentProps<typeof Arrow>;
+  onClick?: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => void;
   disabled?: boolean;
   tooltip?: string;
   className?: string;
-  style?: React.CSSProperties;
-  target?: string;
+  active?: boolean;
+  [key: string]: any;
 }
 
-const OptionItem: React.FC<OptionItemProps> = ({
-  content,
-  children,
-  background,
-  href,
-  icon,
-  checkbox,
-  expandIcon,
-  onClick,
-  disabled = false,
-  tooltip,
-  className = '',
-  style,
-  target = '_self',
-}) => {
+const OptionItem: React.FC<OptionItemProps> = (props) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isActive, setIsActive] = useState(!!props.active);
 
-  const containerStyles: React.CSSProperties = {
-    background: background || 'transparent',
-    cursor: disabled ? 'not-allowed' : href || onClick ? 'pointer' : 'default',
-    ...style,
+  useEffect(() => {
+    setIsActive(!!props.active);
+  }, [props.active]);
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => {
+    if (!props.disabled && props.onClick) props.onClick(e);
   };
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
+  const visualActive = isHovered || isActive;
 
-  const innerContent = (
+  return (
     <div
-      className={`OptionItem ${disabled ? 'disabled' : ''} ${className}`}
-      style={containerStyles}
-      onClick={disabled ? undefined : onClick}
-      title={tooltip}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className={`OptionItem ${props.disabled ? 'disabled' : ''} ${visualActive ? 'active' : ''} ${props.className || ''}`}
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      title={props.tooltip}
+      {...props}
     >
-      {icon && <div className="OptionItem-icon">{icon}</div>}
+      {props.icon && <div className="OptionItem-icon">{props.icon}</div>}
 
       <div className="OptionItem-content">
-        {content}
-        {children && <div className="OptionItem-children">{children}</div>}
+        {props.content}
+        {props.children && <div className="OptionItem-children">{props.children}</div>}
       </div>
 
-      {checkbox && (
+      {props.checkbox && (
         <div className="OptionItem-checkbox">
-          <CheckBox 
-            checked={true} 
-            disabled={false}
-            boxStyle={{
-              background: 'transparent',
-              border: '2px solid #fff',
-              width: '30px',
-              height: '30px',
-              borderRadius: '5px',
-            }}
-            checkmarkStyle={{
-              color: '#fff',
-              fontSize: '20px',
-              fontWeight: 'bold',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              width: '100%',
-            }}
-            checkmarkSymbol="✔"
-          />
+          <CheckBox {...props.checkboxProps} />
         </div>
       )}
 
-      {expandIcon && (
+      {props.expandIcon && !props.children && (
         <div className="OptionItem-expandIcon">
-          <Arrow 
-            strokeColor="transparent"
-            fillColor="white"
-            size={{
-              width: 12,
-              height: 8,
-              notch: 0,
-              rotate: -90,
-            }}
-            hover={{
-              rotate: 90,
-
-              width: 15,
-              height: 19,
-
-              transition: 0.1,
-            }}
-            isParentHovered={isHovered} // Pass parent hover state
+          <Arrow
+            isParentHovered={visualActive}
+            strokeColor={visualActive ? 'black' : 'white'}
+            fillColor={visualActive ? 'black' : 'white'}
+            {...props.arrowProps}
           />
         </div>
       )}
     </div>
   );
-
-  if (href && !disabled) {
-    return (
-      <a
-        href={href}
-        onClick={onClick}
-        target={target}
-        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-        className="OptionItem-link"
-        title={tooltip}
-      >
-        {innerContent}
-      </a>
-    );
-  }
-
-  return innerContent;
 };
 
 export default OptionItem;

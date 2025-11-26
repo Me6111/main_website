@@ -1,77 +1,47 @@
-.Dropdown {
+.DropdownItem {
   position: relative;
-  display: inline-block;
   font-family: sans-serif;
 }
 
-.DropdownBtn {
-  padding: 8px 12px;
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.DropdownBtn:hover {
-  background-color: #2a2a2a;
-}
-
-.DropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 180px;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  margin-top: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  list-style: none;
-  padding: 4px 0;
-}
-
-.DropdownItem {
-  position: relative;
-}
-
-.DropdownSubmenu {
+.DropdownList {
   position: absolute;
   top: 0;
-  left: 100%;
-  min-width: 180px;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  display: none;
-  padding: 4px 0;
+  left: 100%; 
+  background-color: #222;
+  min-width: 150px;
   z-index: 1000;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  border: 1px solid white;
+  background-color: black;
+}
+.DropdownItem .OptionItem {
+  border-radius: 0;
 }
 
-.DropdownSubmenu.Open {
-  display: block;
+/* optional: adjust padding/margin for nested lists */
+.DropdownList.Right {
+  left: 100%;
+  top: 0;
 }
 
-.OptionItem {
-  padding: 10px 12px;
-  font-size: 14px;
-  color: #f0f0f0;
-  background: transparent;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background-color 0.2s ease;
+
+
+.DropdownList.right {
+  top: 0;
+  left: 100%;
 }
 
-.OptionItem:hover {
-  background-color: #3a3a3a;
+.DropdownList.left {
+  top: 0;
+  right: 100%;
 }
 
-.OptionItem.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  color: #888;
+.DropdownList.top {
+  bottom: 100%;
+  left: 0;
+}
+
+.DropdownList.bottom {
+  top: 100%;
+  left: 0;
 }

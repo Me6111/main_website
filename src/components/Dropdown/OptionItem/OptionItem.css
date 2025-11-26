@@ -5,8 +5,14 @@
   border-radius: 5px;
   cursor: pointer;
   position: relative;
-  background-color: #222;
+  background-color: black;
   color: #fff;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.OptionItem.active {
+  background-color: #fff;
+  color: #000;
 }
 
 .OptionItem.disabled {
@@ -27,7 +33,6 @@
 .OptionItem-content {
   flex-grow: 1;
   font-size: 16px;
-  color: white;
 }
 
 .OptionItem-checkbox {
@@ -36,6 +41,7 @@
 
 .OptionItem-expandIcon {
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .OptionItem-link {
@@ -51,22 +57,13 @@
   height: 20px;
 }
 
-.OptionItem-expandIcon {
-  cursor: pointer;
-}
-
-.OptionItem-expandIcon .Arrow {
-  width: 15px;
-  height: 15px;
-}
-
 .OptionItem-icon-svg,
 .OptionItem-icon svg {
   display: block;
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  color: white;
+  color: inherit;
   fill: currentColor;
 }
 

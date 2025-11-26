@@ -49,11 +49,9 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
 
   useEffect(() => {
     const maxIndex = mainSlider.slides.length - 1;
-    const p = maxIndex === 0 ? 0 : (currentIndex / maxIndex) * 100;
-    setPercentMain(Number(p.toFixed(4)));
+    setPercentMain(maxIndex === 0 ? 0 : (currentIndex / maxIndex) * 100);
 
     if (!Slider_Preview) return;
-
     const previewBox = previewRef.current;
     if (!previewBox) return;
 
@@ -66,21 +64,23 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
     if (Slider_Preview.SliderWindow.orientation === 'vertical') {
       const previewHeight = previewBox.clientHeight;
       const currentScroll = previewBox.scrollTop;
-      const slideTopRelative = slideRect.top - previewRect.top + currentScroll;
-      const slideBottomRelative = slideTopRelative + slideRect.height;
-      if (slideTopRelative < currentScroll)
-        previewBox.scrollTo({ top: slideTopRelative, behavior: 'smooth' });
-      else if (slideBottomRelative > currentScroll + previewHeight)
-        previewBox.scrollTo({ top: slideBottomRelative - previewHeight, behavior: 'smooth' });
+      const topRel = slideRect.top - previewRect.top + currentScroll;
+      const bottomRel = topRel + slideRect.height;
+
+      if (topRel < currentScroll)
+        previewBox.scrollTo({ top: topRel, behavior: 'smooth' });
+      else if (bottomRel > currentScroll + previewHeight)
+        previewBox.scrollTo({ top: bottomRel - previewHeight, behavior: 'smooth' });
     } else {
       const previewWidth = previewBox.clientWidth;
       const currentScroll = previewBox.scrollLeft;
-      const slideLeftRelative = slideRect.left - previewRect.left + currentScroll;
-      const slideRightRelative = slideLeftRelative + slideRect.width;
-      if (slideLeftRelative < currentScroll)
-        previewBox.scrollTo({ left: slideLeftRelative, behavior: 'smooth' });
-      else if (slideRightRelative > currentScroll + previewWidth)
-        previewBox.scrollTo({ left: slideRightRelative - previewWidth, behavior: 'smooth' });
+      const leftRel = slideRect.left - previewRect.left + currentScroll;
+      const rightRel = leftRel + slideRect.width;
+
+      if (leftRel < currentScroll)
+        previewBox.scrollTo({ left: leftRel, behavior: 'smooth' });
+      else if (rightRel > currentScroll + previewWidth)
+        previewBox.scrollTo({ left: rightRel - previewWidth, behavior: 'smooth' });
     }
   }, [currentIndex, mainSlider.slides.length, Slider_Preview]);
 
@@ -91,19 +91,13 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
       <div className="SliderScreen">
         <div className="SliderScreen_Slider_Main">
           <SliderWindow
-            percent={percentMain}
-            slider_windowSize={mainSlider.sliderWindowSize}
-            slideSize={mainSlider.slideSize}
-            slides_gap={mainSlider.slidesGap}
-            controlMode={mainSlider.controlMode}
-            scrollable={mainSlider.scrollable}
-            slideChangeOnClick={mainSlider.slideChangeOnClick}
+            {...mainSlider}
             currentIndex={currentIndex}
-            slides={mainSlider.slides}
-            previewRef={mainSlider.previewRef}
-            transition_seconds={mainSlider.transitionSeconds}
-            orientation={mainSlider.orientation}
+            percent={percentMain}
             onSlideClick={handleSlideClick}
+            slider_windowSize={mainSlider.sliderWindowSize}
+            slides_gap={mainSlider.slidesGap}
+            transition_seconds={mainSlider.transitionSeconds}
           />
         </div>
       </div>
@@ -120,27 +114,24 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
 
       {Slider_Preview && (
         <div className="SliderScreen_Slider_Preview">
-          <Sidebar
-            content={
-              <SliderWindow
-                percent={Slider_Preview.SliderWindow.percent}
-                slides={Slider_Preview.SliderWindow.slides}
-                slider_windowSize={Slider_Preview.SliderWindow.sliderWindowSize}
-                slideSize={Slider_Preview.SliderWindow.slideSize}
-                slides_gap={Slider_Preview.SliderWindow.slidesGap}
-                controlMode={Slider_Preview.SliderWindow.controlMode}
-                scrollable={Slider_Preview.SliderWindow.scrollable}
-                slideChangeOnClick={Slider_Preview.SliderWindow.slideChangeOnClick}
-                currentIndex={currentIndex}
-                onSlideClick={handleSlideClick}
-                previewRef={previewRef}
-                transition_seconds={Slider_Preview.SliderWindow.transitionSeconds}
-                orientation={Slider_Preview.SliderWindow.orientation}
-              />
-            }
-            position={Slider_Preview.sidebarProps.position}
-            size={Slider_Preview.sidebarProps.size}
-          />
+          {(() => {
+            const sidebarAllProps = {
+              ...Slider_Preview.sidebarProps,
+              content: (
+                <SliderWindow
+                  {...Slider_Preview.SliderWindow}
+                  currentIndex={currentIndex}
+                  onSlideClick={handleSlideClick}
+                  previewRef={previewRef}
+                  slider_windowSize={{ width: '100%', height: 60 }}
+                  slides_gap={Slider_Preview.SliderWindow.slidesGap}
+                  transition_seconds={Slider_Preview.SliderWindow.transitionSeconds}
+                />
+              )
+            };
+
+            return <Sidebar {...sidebarAllProps} />;
+          })()}
         </div>
       )}
     </div>

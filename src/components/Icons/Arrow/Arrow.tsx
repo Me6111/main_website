@@ -1,46 +1,74 @@
 import React, { useState, useEffect, useRef } from "react";
 import './Arrow.css';
 
+type Dir = number | 'top' | 'bottom' | 'left' | 'right';
+
 interface HoverArguments {
   width?: number;
   height?: number;
   notch?: number;
-  rotate?: number;
+  rotate?: Dir;
   transition?: number;
 }
 
 interface ArrowProps {
-  size: {
-    width: number;
-    height: number;
-    notch: number;
-    rotate: number;
+  size?: {
+    width?: number;
+    height?: number;
+    notch?: number;
+    rotate?: Dir;
   };
   hover?: HoverArguments;
   strokeColor?: string;
   fillColor?: string;
-  isParentHovered?: boolean; // NEW: accept hover from parent
+  isParentHovered?: boolean;
 }
 
-const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', fillColor = 'none', isParentHovered = false }) => {
-  const { width, height, notch, rotate } = size;
+const directionToDegrees = (dir: Dir = 'top'): number => {
+  if (typeof dir === "number") return dir;
 
-  const {
-    width: hoverWidth = width,
-    height: hoverHeight = height,
-    notch: hoverNotch = notch,
-    rotate: hoverRotate = rotate,
-    transition = 1,
-  } = hover;
+  switch (dir) {
+    case "top": return 0;
+    case "right": return 90;
+    case "bottom": return 180;
+    case "left": return -90;
+    default: return 0;
+  }
+};
+
+const Arrow: React.FC<ArrowProps> = ({
+  size = {},
+  hover = {},
+  strokeColor = "white",
+  fillColor = "none",
+  isParentHovered = false
+}) => {
+  const width = size.width ?? 12;
+  const height = size.height ?? 8;
+  const notch = size.notch ?? 0;
+  const rotate = size.rotate ?? 'left';
+
+  const baseRotateDeg = directionToDegrees(rotate);
+
+  const hoverWidth = hover.width ?? width;
+  const hoverHeight = hover.height ?? height;
+  const hoverNotch = hover.notch ?? notch;
+  const hoverRotateDeg = directionToDegrees(hover.rotate ?? rotate);
+  const transition = hover.transition ?? 0.25;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [animated, setAnimated] = useState({ width, height, notch, rotate });
+  const [animated, setAnimated] = useState({
+    width,
+    height,
+    notch,
+    rotate: baseRotateDeg
+  });
 
   const animationRef = useRef<number | null>(null);
   const startValuesRef = useRef(animated);
   const targetValuesRef = useRef(animated);
-  const durationRef = useRef(transition * 1000);
   const startTimeRef = useRef(0);
+  const durationRef = useRef(transition * 1000);
 
   const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -52,15 +80,10 @@ const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', 
       width: lerp(startValuesRef.current.width, targetValuesRef.current.width, t),
       height: lerp(startValuesRef.current.height, targetValuesRef.current.height, t),
       notch: lerp(startValuesRef.current.notch, targetValuesRef.current.notch, t),
-      rotate: lerp(startValuesRef.current.rotate, targetValuesRef.current.rotate, t),
+      rotate: lerp(startValuesRef.current.rotate, targetValuesRef.current.rotate, t)
     };
 
-    setAnimated({
-      width: isNaN(newValues.width) ? animated.width : newValues.width,
-      height: isNaN(newValues.height) ? animated.height : newValues.height,
-      notch: isNaN(newValues.notch) ? animated.notch : newValues.notch,
-      rotate: isNaN(newValues.rotate) ? animated.rotate : newValues.rotate,
-    });
+    setAnimated(newValues);
 
     if (t < 1) {
       animationRef.current = requestAnimationFrame(animate);
@@ -71,25 +94,17 @@ const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', 
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
 
     const target = hovered
-      ? { width: hoverWidth, height: hoverHeight, notch: hoverNotch, rotate: hoverRotate }
-      : { width, height, notch, rotate };
-
-    const totalDistance =
-      Math.abs(target.width - animated.width) +
-      Math.abs(target.height - animated.height) +
-      Math.abs(target.notch - animated.notch) +
-      Math.abs(target.rotate - animated.rotate);
-
-    durationRef.current = Math.max(transition * 1000, 10);
+      ? { width: hoverWidth, height: hoverHeight, notch: hoverNotch, rotate: hoverRotateDeg }
+      : { width, height, notch, rotate: baseRotateDeg };
 
     startValuesRef.current = animated;
     targetValuesRef.current = target;
     startTimeRef.current = Date.now();
+    durationRef.current = Math.max(transition * 1000, 10);
 
     animationRef.current = requestAnimationFrame(animate);
   };
 
-  // Use parent hover if provided
   useEffect(() => {
     startAnimation(isParentHovered || isHovered);
     return () => {
@@ -102,6 +117,7 @@ const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', 
 
   const cx = animated.width / 2;
   const cy = animated.height / 2;
+
   const topX = cx;
   const topY = cy - animated.height / 2;
   const leftX = cx - animated.width / 2;
@@ -110,8 +126,8 @@ const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', 
   const rightY = cy + animated.height / 2;
   const bottomX = cx;
   const bottomY = cy + animated.height / 2 - animated.notch;
-  const polygonPoints = `${topX},${topY} ${leftX},${leftY} ${bottomX},${bottomY} ${rightX},${rightY}`;
 
+  const polygonPoints = `${topX},${topY} ${leftX},${leftY} ${bottomX},${bottomY} ${rightX},${rightY}`;
   const maxSize = Math.max(width, height, hoverWidth, hoverHeight);
 
   return (
@@ -129,10 +145,15 @@ const Arrow: React.FC<ArrowProps> = ({ size, hover = {}, strokeColor = 'white', 
         style={{
           display: "block",
           transform: `rotate(${animated.rotate}deg)`,
-          transformOrigin: "center",
+          transformOrigin: "center"
         }}
       >
-        <polygon points={polygonPoints} fill={fillColor} stroke={strokeColor} strokeWidth="1" />
+        <polygon
+          points={polygonPoints}
+          fill={fillColor}
+          stroke={strokeColor}
+          strokeWidth="1"
+        />
       </svg>
     </div>
   );

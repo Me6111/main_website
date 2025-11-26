@@ -6,65 +6,90 @@ export interface Option {
   label: string;
   onClick?: () => void;
   subOptions?: Option[];
-  disabled?: boolean;
+  [key: string]: any;
 }
 
 interface DropdownProps {
-  label: string;
   options: Option[];
   trigger?: 'click' | 'hover';
+  DropdownListPosition?: 'left' | 'right' | 'top' | 'bottom';
 }
 
 const DropdownItem: React.FC<{
   option: Option;
   trigger: 'click' | 'hover';
-}> = ({ option, trigger }) => {
-  const [subOpen, setSubOpen] = useState(false);
+  position: 'left' | 'right' | 'top' | 'bottom';
+}> = ({ option, trigger, position }) => {
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const handleToggle = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (option.disabled) return;
     if (option.subOptions && trigger === 'click') {
-      setSubOpen(prev => !prev);
+      setOpen(prev => !prev);
     } else if (option.onClick) {
       option.onClick();
     }
   };
 
   const handleMouseEnter = () => {
-    if (trigger === 'hover' && option.subOptions) setSubOpen(true);
+    setHovered(true);
+    if (trigger === 'hover' && option.subOptions) setOpen(true);
   };
 
   const handleMouseLeave = () => {
-    if (trigger === 'hover' && option.subOptions) setSubOpen(false);
+    setHovered(false);
+    if (trigger === 'hover' && option.subOptions) setOpen(false);
+  };
+
+  const handleSubDropdownMouseEnter = () => {
+    if (trigger === 'hover') setHovered(true);
+  };
+
+  const handleSubDropdownMouseLeave = () => {
+    if (trigger === 'hover') setHovered(false);
+  };
+
+  const optionProps = {
+    content: option.content ?? option.label,
+    expandIcon: !!option.subOptions,
+    active: hovered || open,
+    ...option,
   };
 
   return (
     <div
       className="DropdownItem"
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={{ position: 'relative' }}
     >
-      <OptionItem
-        content={option.label}
-        expandIcon={!!option.subOptions}
-        onClick={handleToggle}
-        disabled={option.disabled}
-      >
-        {option.subOptions && subOpen && (
-          <div className="DropdownSubmenu Open">
-            {option.subOptions.map((subOpt, i) => (
-              <DropdownItem key={i} option={subOpt} trigger={trigger} />
-            ))}
-          </div>
-        )}
-      </OptionItem>
+      <OptionItem {...optionProps} />
+      {option.subOptions && open && (
+        <div
+          className={`DropdownList ${position}`}
+          onMouseEnter={handleSubDropdownMouseEnter}
+          onMouseLeave={handleSubDropdownMouseLeave}
+        >
+          {option.subOptions.map((subOpt, idx) => (
+            <DropdownItem key={idx} option={subOpt} trigger={trigger} position={position} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ label, options, trigger = 'click' }) => {
-  const mainOption: Option = { label, subOptions: options };
-  return <DropdownItem option={mainOption} trigger={trigger} />;
+const Dropdown: React.FC<DropdownProps> = ({ options, trigger = 'click', DropdownListPosition = 'bottom' }) => {
+  return (
+    <div>
+      {options.map((opt, idx) => (
+        <DropdownItem key={idx} option={opt} trigger={trigger} position={DropdownListPosition} />
+      ))}
+    </div>
+  );
 };
 
 export default Dropdown;

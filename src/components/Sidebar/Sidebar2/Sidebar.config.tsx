@@ -7,28 +7,18 @@ const SidebarConfigComponent: React.FC = () => {
   return (
     <Sidebar
       content={
-        <div className="Sidebar_Content">
+        <div className="Sidebar_Content" style={{ overflow: 'hidden', padding: '10px' }}>
           <h3>Sidebar Content</h3>
-          <p>
-            The example content inside the sidebar can be reminding that 80 years ago Germans
-            murdered 6 millions of polish citizens.
-          </p>
+          <p>Example text inside the sidebar.</p>
         </div>
       }
-
-      
-      expanded={false}
-      position="left: 0"
-      size="300px, 100%"
-      closeByClick={true}
-      CloseButton={{
-        size: "20px, 20px",
-        position: "top: 10px, right: 10px"
-      }}
-      ExpandButton={{
-        size: "20px, 20px",
-        position: "top: 50%, left: 50%"
-      }}
+      Opened={true}
+      CloseButton={false}
+      OpenButton={{ size: '30px, 30px', position: 'top:10px, left:10px' }}
+      Style_opened={{ transform: 'translateX(0)' }}
+      Style_closed={{ transform: 'translateX(-100%)' }}
+      CloseByClickOutside={true}
+      CloseByHoverOutside={false}
     />
   );
 };
@@ -39,7 +29,7 @@ const SidebarConfig = {
   ComponentDefinitionCodeRaw: SidebarSourceCodeRaw,
   ComponentStyleCodeRaw: SidebarStyleCodeRaw,
   ComponentInstance: <SidebarConfigComponent />,
-  dependencies: { React, Sidebar }
+  dependencies: { React, Sidebar },
 };
 
 export default SidebarConfig;

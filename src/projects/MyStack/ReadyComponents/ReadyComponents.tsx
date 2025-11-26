@@ -58,13 +58,20 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {
-  Dropdown_Tree_Config: Dropdown_Tree_Config,
+    Slider_new2_Config: Slider_new2_Config,
 
-  SidebarDropdown: SidebarDropdown,
-  Slider_new2_Config: Slider_new2_Config,
+    Sidebar: SidebarConfig,
+
+    //Dropdown_Tree_Config: Dropdown_Tree_Config,
+
+    //SidebarDropdown: SidebarDropdown,
+
+    OptionItem: OptionItemConfig,
 
 
-  Sidebar: SidebarConfig,
+
+
+
 
 
   //Slider_3: SliderConfig_3,
@@ -81,7 +88,6 @@ const codeShowcaseConfigs = {
 
 
 
-  OptionItem: OptionItemConfig,
 
   CheckBox: CheckBox_Config,
 

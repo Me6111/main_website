@@ -11,31 +11,33 @@ const usageCodeRaw = `
 
   <OptionItem 
     content="Saved" 
-    background="black" 
     tooltip="Go to home" 
   />
 
   <OptionItem 
     content="Settings" 
-    background="black" 
     icon={<SettingsIcon style={{ fontSize: '24px', color: 'white' }} />}
     tooltip="Go to settings"
   />
 
   <OptionItem 
     content="Enable Notifications" 
-    background="black" 
     icon={<NotificationsIcon style={{ fontSize: '24px', color: 'white' }} />}
     checkbox={true}
     tooltip="Toggle notifications"
   />
 
-  <OptionItem 
-    content="Manage Account" 
-    background="black" 
-    expandIcon={true} 
-    tooltip="Open account settings" 
-  />
+<OptionItem
+  content="Manage Account"
+  expandIcon={true}
+  tooltip="Open account settings"
+  arrowProps={{
+    size: { width: 12, height: 8, notch: 0, rotate: 'right' },
+    hover: { rotate: 'bottom', transition: 0.25 },
+  }}
+/>
+
+
 </div>
 `.trim();
 

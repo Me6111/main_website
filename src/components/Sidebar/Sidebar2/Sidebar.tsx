@@ -1,129 +1,140 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Sidebar.css';
+import Button_Close from '../../Buttons/Button_Close/Button_Close';
+import Button_Open from '../../Buttons/Button_Open/Button_Open';
 
-type CloseButtonProps = {
+type ButtonProps = {
   html?: string;
   size?: string;
   position?: string;
-};
-
-type ExpandButtonProps = {
-  html?: string;
-  size?: string;
-  position?: string;
-  onExpand?: () => void;
+  onClick?: () => void;
 };
 
 type SidebarProps = {
   content: React.ReactNode;
-  position?: string;
-  size?: string;
-  CloseButton?: CloseButtonProps;
-  ExpandButton?: ExpandButtonProps;
-  closeByClick?: boolean;
-  CloseByOutsideAction?: boolean;
-  expanded?: boolean;
+  Style?: React.CSSProperties;
+  Style_opened?: React.CSSProperties;
+  Style_closed?: React.CSSProperties;
+  Opened?: boolean;
+  CloseButton?: false | ButtonProps | React.ReactNode;
+  OpenButton?: false | ButtonProps | React.ReactNode;
+  CloseByClickOutside?: boolean;
+  CloseByHoverOutside?: boolean;
 };
-
-const defaultCloseButtonHTML = `<div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background:#333; border-radius:50%; font-size:14px; color:white;">×</div>`;
-const defaultExpandButtonHTML = `<div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background:#666; border-radius:50%; font-size:14px; color:white;">↔</div>`;
 
 const Sidebar: React.FC<SidebarProps> = ({
   content,
-  position = 'top:0, left:0',
-  size = '300px, 100%',
-  CloseButton,
-  ExpandButton,
-  closeByClick = false,
-  CloseByOutsideAction = false,
-  expanded = true
+  Style = {},
+  Style_opened = {},
+  Style_closed = {},
+  Opened = true,
+  CloseButton = false,
+  OpenButton = false,
+  CloseByClickOutside = false,
+  CloseByHoverOutside = false,
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [isExpanded, setIsExpanded] = useState(expanded);
+  const [isOpened, setIsOpened] = useState(Opened);
 
   useEffect(() => {
-    setIsExpanded(expanded);
-  }, [expanded]);
+    setIsOpened(Opened);
+  }, [Opened]);
 
   useEffect(() => {
-    if (!CloseByOutsideAction && !closeByClick) return;
-    const handleOutsideAction = (event: Event) => {
+    if (!CloseByClickOutside) return;
+    const handleOutside = (event: Event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
-        setIsExpanded(false);
+        setIsOpened(false);
       }
     };
-    document.addEventListener('mousedown', handleOutsideAction);
-    document.addEventListener('scroll', handleOutsideAction, true);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideAction);
-      document.removeEventListener('scroll', handleOutsideAction, true);
-    };
-  }, [closeByClick, CloseByOutsideAction]);
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [CloseByClickOutside]);
 
-  const parsePosition = (posStr: string): React.CSSProperties => {
-    const styles: React.CSSProperties = { position: 'absolute' };
-    posStr.split(',').forEach(pair => {
-      const [key, value] = pair.split(':').map(s => s.trim());
-      if (key && value) styles[key as keyof React.CSSProperties] = value;
-    });
-    return styles;
+  const handleMouseLeave = () => {
+    if (CloseByHoverOutside) setIsOpened(false);
   };
 
-  const parseSize = (sizeStr: string): React.CSSProperties => {
-    const [width, height] = sizeStr.split(',').map(s => s.trim());
+  const renderCloseButton = () => {
+    if (!CloseButton || !isOpened) return null;
+    if (React.isValidElement(CloseButton)) return CloseButton;
+    const props = CloseButton as ButtonProps;
+    return props.html ? (
+      <div
+        dangerouslySetInnerHTML={{ __html: props.html }}
+        style={{
+          position: 'absolute',
+          cursor: 'pointer',
+          ...parseStyle(props.position),
+          ...parseSize(props.size),
+        }}
+        onClick={() => setIsOpened(false)}
+      />
+    ) : (
+      <Button_Close Container={sidebarRef} Size={parseSize(props.size)} onClick={() => setIsOpened(false)} />
+    );
+  };
+
+  const renderOpenButton = () => {
+    if (!OpenButton || isOpened) return null;
+    if (React.isValidElement(OpenButton)) return OpenButton;
+    const props = OpenButton as ButtonProps;
+    return props.html ? (
+      <div
+        dangerouslySetInnerHTML={{ __html: props.html }}
+        style={{
+          position: 'absolute',
+          cursor: 'pointer',
+          ...parseStyle(props.position),
+          ...parseSize(props.size),
+        }}
+        onClick={() => setIsOpened(true)}
+      />
+    ) : (
+      <Button_Open Container={sidebarRef} Size={parseSize(props.size)} onClick={() => setIsOpened(true)} />
+    );
+  };
+
+  const parseStyle = (str?: string): React.CSSProperties => {
+    if (!str) return {};
+    const style: React.CSSProperties = {};
+    str.split(',').forEach(pair => {
+      const [key, value] = pair.split(':').map(s => s.trim());
+      if (key && value) style[key as keyof React.CSSProperties] = value;
+    });
+    return style;
+  };
+
+  const parseSize = (str?: string): { width?: string; height?: string } => {
+    if (!str) return {};
+    const [width, height] = str.split(',').map(s => s.trim());
     return { width, height };
   };
 
-  const closeBtn = CloseButton
-    ? {
-        html: CloseButton.html || defaultCloseButtonHTML,
-        ...parsePosition(CloseButton.position || 'top:10px, right:10px'),
-        ...parseSize(CloseButton.size || '20px, 20px')
-      }
-    : null;
-
-  const expandBtn = ExpandButton
-    ? {
-        html: ExpandButton.html || defaultExpandButtonHTML,
-        ...parsePosition(ExpandButton.position || 'top:10px, left:10px'),
-        ...parseSize(ExpandButton.size || '20px, 20px')
-      }
-    : null;
-
   return (
     <div className="Sidebar_Outer" style={{ position: 'relative' }}>
-      <div
-        ref={sidebarRef}
-        className="Sidebar_Field"
-        style={{
-          ...parsePosition(position),
-          ...parseSize(size),
-          transform: isExpanded ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.3s ease',
-          position: 'absolute'
-        }}
-      >
-        {closeBtn && (
-          <div
-            className="CloseButton"
-            onClick={() => setIsExpanded(false)}
-            style={{ cursor: 'pointer', ...closeBtn }}
-            dangerouslySetInnerHTML={{ __html: closeBtn.html }}
-          />
-        )}
-        {content}
+      <div className="Sidebar_Field">
+        <div
+          ref={sidebarRef}
+          className="Sidebar_Field_Sidebar"
+          style={{
+            transition: 'transform 0.3s ease',
+            ...Style,
+            ...(isOpened ? Style_opened : Style_closed),
+          }}
+          onMouseLeave={handleMouseLeave}
+        >
+          {renderCloseButton()}
+          {content}
+        </div>
       </div>
 
-      {expandBtn && !isExpanded && (
-        <div
-          className="ExpandButton"
-          onClick={() => {
-            setIsExpanded(true);
-            ExpandButton?.onExpand?.();
-          }}
-          style={{ position: 'absolute', cursor: 'pointer', ...expandBtn }}
-          dangerouslySetInnerHTML={{ __html: expandBtn.html }}
-        />
+      {OpenButton !== false && (
+        <div className="Sidebar_Field">
+          <div className="Sidebar_Field_OpenButton">
+            {renderOpenButton()}
+          </div>
+        </div>
       )}
     </div>
   );

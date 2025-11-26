@@ -36,12 +36,13 @@ const SliderConfigComponent: React.FC = () => {
       orientation: 'horizontal' as const
     },
     sidebarProps: {
-      position: 'bottom: 0',
-      size: '100%, 70px',
+      Style: { width: '100%', height: 'auto' },
+      position: '',
+      size: ''
     }
   };
 
-  return <Slider mainSlider={mainSliderProps} Slider_Preview={previewSliderProps} />;
+  return <Slider {...{ mainSlider: mainSliderProps, Slider_Preview: previewSliderProps }} />;
 };
 
 const SliderConfig = {
