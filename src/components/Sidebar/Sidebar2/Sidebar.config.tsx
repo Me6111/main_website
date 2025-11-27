@@ -12,11 +12,16 @@ const SidebarConfigComponent: React.FC = () => {
           <p>Example text inside the sidebar.</p>
         </div>
       }
+
       Opened={true}
+
+      OpenButton={true}
+
       CloseButton={false}
-      OpenButton={{ size: '30px, 30px', position: 'top:10px, left:10px' }}
+
       Style_opened={{ transform: 'translateX(0)' }}
       Style_closed={{ transform: 'translateX(-100%)' }}
+
       CloseByClickOutside={true}
       CloseByHoverOutside={false}
     />

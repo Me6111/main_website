@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Sidebar.css';
-import Button_Close from '../../Buttons/Button_Close/Button_Close';
-import Button_Open from '../../Buttons/Button_Open/Button_Open';
+import Button_Toggle from '../../Buttons/Button_Toggle/Button_Toggle';
 
 type ButtonProps = {
   html?: string;
@@ -16,10 +15,11 @@ type SidebarProps = {
   Style_opened?: React.CSSProperties;
   Style_closed?: React.CSSProperties;
   Opened?: boolean;
-  CloseButton?: false | ButtonProps | React.ReactNode;
-  OpenButton?: false | ButtonProps | React.ReactNode;
+  CloseButton?: false | ButtonProps | boolean | React.ReactNode;
+  OpenButton?: false | ButtonProps | boolean | React.ReactNode;
   CloseByClickOutside?: boolean;
   CloseByHoverOutside?: boolean;
+  ToggleBetween?: string[];
 };
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -32,20 +32,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   OpenButton = false,
   CloseByClickOutside = false,
   CloseByHoverOutside = false,
+  ToggleBetween = ['closed', 'opened'],
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isOpened, setIsOpened] = useState(Opened);
 
-  useEffect(() => {
-    setIsOpened(Opened);
-  }, [Opened]);
+  useEffect(() => setIsOpened(Opened), [Opened]);
 
   useEffect(() => {
     if (!CloseByClickOutside) return;
     const handleOutside = (event: Event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
-        setIsOpened(false);
-      }
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) setIsOpened(false);
     };
     document.addEventListener('mousedown', handleOutside);
     return () => document.removeEventListener('mousedown', handleOutside);
@@ -55,60 +52,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     if (CloseByHoverOutside) setIsOpened(false);
   };
 
-  const renderCloseButton = () => {
-    if (!CloseButton || !isOpened) return null;
-    if (React.isValidElement(CloseButton)) return CloseButton;
-    const props = CloseButton as ButtonProps;
-    return props.html ? (
-      <div
-        dangerouslySetInnerHTML={{ __html: props.html }}
-        style={{
-          position: 'absolute',
-          cursor: 'pointer',
-          ...parseStyle(props.position),
-          ...parseSize(props.size),
-        }}
-        onClick={() => setIsOpened(false)}
-      />
-    ) : (
-      <Button_Close Container={sidebarRef} Size={parseSize(props.size)} onClick={() => setIsOpened(false)} />
-    );
-  };
-
-  const renderOpenButton = () => {
-    if (!OpenButton || isOpened) return null;
-    if (React.isValidElement(OpenButton)) return OpenButton;
-    const props = OpenButton as ButtonProps;
-    return props.html ? (
-      <div
-        dangerouslySetInnerHTML={{ __html: props.html }}
-        style={{
-          position: 'absolute',
-          cursor: 'pointer',
-          ...parseStyle(props.position),
-          ...parseSize(props.size),
-        }}
-        onClick={() => setIsOpened(true)}
-      />
-    ) : (
-      <Button_Open Container={sidebarRef} Size={parseSize(props.size)} onClick={() => setIsOpened(true)} />
-    );
-  };
-
-  const parseStyle = (str?: string): React.CSSProperties => {
-    if (!str) return {};
-    const style: React.CSSProperties = {};
-    str.split(',').forEach(pair => {
-      const [key, value] = pair.split(':').map(s => s.trim());
-      if (key && value) style[key as keyof React.CSSProperties] = value;
-    });
-    return style;
-  };
-
-  const parseSize = (str?: string): { width?: string; height?: string } => {
-    if (!str) return {};
-    const [width, height] = str.split(',').map(s => s.trim());
-    return { width, height };
+  const combinedStyle: React.CSSProperties = {
+    transition: 'transform 0.3s ease',
+    ...Style, // base style first
+    ...(isOpened ? Style_opened : Style_closed), // opened/closed overrides
   };
 
   return (
@@ -116,23 +63,48 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="Sidebar_Field">
         <div
           ref={sidebarRef}
-          className="Sidebar_Field_Sidebar"
-          style={{
-            transition: 'transform 0.3s ease',
-            ...Style,
-            ...(isOpened ? Style_opened : Style_closed),
-          }}
+          className={`Sidebar_Field_Sidebar ${isOpened ? 'opened' : 'closed'}`}
+          style={combinedStyle}
           onMouseLeave={handleMouseLeave}
         >
-          {renderCloseButton()}
           {content}
+
+          {CloseButton && isOpened && (
+            React.isValidElement(CloseButton) ? CloseButton :
+            CloseButton === true ? (
+              <Button_Toggle
+                ElementToToggle={sidebarRef}
+                ToggleBetween={ToggleBetween}
+                onClick={() => setIsOpened(false)}
+              />
+            ) : (
+              <div
+                dangerouslySetInnerHTML={{ __html: (CloseButton as ButtonProps).html! }}
+                style={{ position: 'absolute', cursor: 'pointer' }}
+                onClick={() => setIsOpened(false)}
+              />
+            )
+          )}
         </div>
       </div>
 
-      {OpenButton !== false && (
+      {OpenButton !== false && !isOpened && (
         <div className="Sidebar_Field">
           <div className="Sidebar_Field_OpenButton">
-            {renderOpenButton()}
+            {React.isValidElement(OpenButton) ? OpenButton :
+            OpenButton === true ? (
+              <Button_Toggle
+                ElementToToggle={sidebarRef}
+                ToggleBetween={ToggleBetween}
+                onClick={() => setIsOpened(true)}
+              />
+            ) : (
+              <div
+                dangerouslySetInnerHTML={{ __html: (OpenButton as ButtonProps).html! }}
+                style={{ position: 'absolute', cursor: 'pointer' }}
+                onClick={() => setIsOpened(true)}
+              />
+            )}
           </div>
         </div>
       )}

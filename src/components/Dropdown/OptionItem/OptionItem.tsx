@@ -11,57 +11,64 @@ interface OptionItemProps {
   checkboxProps?: any;
   expandIcon?: boolean;
   arrowProps?: React.ComponentProps<typeof Arrow>;
-  onClick?: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   disabled?: boolean;
   tooltip?: string;
   className?: string;
   active?: boolean;
-  [key: string]: any;
 }
 
-const OptionItem: React.FC<OptionItemProps> = (props) => {
+const OptionItem: React.FC<OptionItemProps> = ({
+  content,
+  children,
+  icon,
+  checkbox,
+  checkboxProps,
+  expandIcon,
+  arrowProps,
+  onClick,
+  disabled,
+  tooltip,
+  className,
+  active
+}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isActive, setIsActive] = useState(!!props.active);
+  const [isActive, setIsActive] = useState(!!active);
 
   useEffect(() => {
-    setIsActive(!!props.active);
-  }, [props.active]);
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => {
-    if (!props.disabled && props.onClick) props.onClick(e);
-  };
+    setIsActive(!!active);
+  }, [active]);
 
   const visualActive = isHovered || isActive;
 
   return (
     <div
-      className={`OptionItem ${props.disabled ? 'disabled' : ''} ${visualActive ? 'active' : ''} ${props.className || ''}`}
-      onClick={handleClick}
+      className={`OptionItem ${disabled ? 'disabled' : ''} ${visualActive ? 'active' : ''} ${className || ''}`}
+      onClick={(e) => !disabled && onClick?.(e)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      title={props.tooltip}
-      {...props}
+      title={tooltip}
     >
-      {props.icon && <div className="OptionItem-icon">{props.icon}</div>}
+      {icon && <div className="OptionItem-icon">{icon}</div>}
 
       <div className="OptionItem-content">
-        {props.content}
-        {props.children && <div className="OptionItem-children">{props.children}</div>}
+        {content}
+        {children && <div className="OptionItem-children">{children}</div>}
       </div>
 
-      {props.checkbox && (
+      {checkbox && (
         <div className="OptionItem-checkbox">
-          <CheckBox {...props.checkboxProps} />
+          <CheckBox {...checkboxProps} />
         </div>
       )}
 
-      {props.expandIcon && !props.children && (
+      {expandIcon && !children && (
         <div className="OptionItem-expandIcon">
           <Arrow
             isParentHovered={visualActive}
             strokeColor={visualActive ? 'black' : 'white'}
             fillColor={visualActive ? 'black' : 'white'}
-            {...props.arrowProps}
+            {...arrowProps}
           />
         </div>
       )}

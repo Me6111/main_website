@@ -18,13 +18,10 @@
   border-radius: 0;
 }
 
-/* optional: adjust padding/margin for nested lists */
 .DropdownList.Right {
   left: 100%;
   top: 0;
 }
-
-
 
 .DropdownList.right {
   top: 0;

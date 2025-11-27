@@ -21,7 +21,7 @@ import InputField2_Config from '../../../components/Dropdown/InputField/InputFie
 
 import Dropdown0_Config from '../../../components/Dropdown/Dropdown/Dropdown0.config'
 import Dropdown1_Config from '../../../components/Dropdown/Dropdown/Dropdown1.config'
-import Dropdown_Tree_Config from '../../../components/Dropdown/Dropdown/Dropdown_Tree.config'
+import Dropdown_Config from '../../../components/Dropdown/Dropdown/Dropdown.config'
 
 import OptionItemConfig from '../../../components/Dropdown/OptionItem/OptionItem.config'
 import OptionsList0_Config from '../../../components/Dropdown/OptionsList/OptionsList_0.config'
@@ -57,14 +57,18 @@ SliderConfig_3.Name = 'Slider 3';
 SliderConfig_4.Name = 'Slider 4';
 
 
-const codeShowcaseConfigs = {
-    Slider_new2_Config: Slider_new2_Config,
-
-    Sidebar: SidebarConfig,
-
-    //Dropdown_Tree_Config: Dropdown_Tree_Config,
+const codeShowcaseConfigs = {    
+  Dropdown_Config: Dropdown_Config,
 
     //SidebarDropdown: SidebarDropdown,
+
+      Sidebar: SidebarConfig,
+
+
+
+
+    Slider_new2_Config: Slider_new2_Config,
+
 
     OptionItem: OptionItemConfig,
 
@@ -102,7 +106,7 @@ const codeShowcaseConfigs = {
 
 
 
-  OptionsList_0: OptionsList0_Config,
+  //OptionsList_0: OptionsList0_Config,
 
 
   /*
