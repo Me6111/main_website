@@ -1,29 +1,72 @@
 import React from 'react';
 import Dropdown, { DropdownItem } from './Dropdown';
+import OptionItem from '../OptionItem/OptionItem';
 
-const exampleItems: DropdownItem = {
-  id: 'root',
-  label: 'Root',
+const usageResourcesItems: DropdownItem = {
+  id: 'usageResources',
+  label: 'Usage Resources',
   children: [
-    { id: 'child1', label: 'Child 1' },
     {
-      id: 'child2',
-      label: 'Child 2',
+      id: 'projects',
+      label: 'Projects',
       children: [
-        { id: 'sub1', label: 'Subchild 1' },
-        { id: 'sub2', label: 'Subchild 2' }
+        {
+          id: 'management',
+          label: 'Project Management',
+          children: [
+            { id: 'create', label: 'Create Project' },
+            { id: 'edit', label: 'Edit Project' },
+            {
+              id: 'delete',
+              label: 'Delete Project',
+              children: [
+                { id: 'permanent', label: 'Permanently Delete' },
+                { id: 'softDelete', label: 'Soft Delete' }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { id: 'simpleOption', label: 'Plain Option' },
+    {
+      id: 'databases',
+      label: 'Databases',
+      children: [
+        {
+          id: 'backups',
+          label: 'Backups',
+          children: [
+            { id: 'createBackup', label: 'Create Backup' },
+            { id: 'restoreBackup', label: 'Restore Backup' }
+          ]
+        }
       ]
     }
   ]
 };
 
-const Dropdown_Config = {
-  key: 'Dropdown',
-  Name: 'Dropdown',
+const DropdownConfig = {
+  key: 'UsageResourcesDropdown',
+  Name: 'UsageResourcesDropdown',
   ComponentInstance: (
-    <Dropdown triggerItem={exampleItems} />
+    <Dropdown
+      triggerItem={usageResourcesItems}
+      optionsListPosition="bottom"
+      multipleMenusOpenedAllowed={false}
+      OpenMenu={['click']}
+      CloseMenu={['click_option_again', 'click_outside', 'mouse_leave']}
+      renderArrow={(active: boolean) => (
+        <Arrow
+          size={{ rotate: active ? 'bottom' : 'top' }}
+          strokeColor="white"
+          fillColor="none"
+          isParentHovered={active}
+        />
+      )}
+    />
   ),
-  dependencies: { React, Dropdown }
+  dependencies: { React, Dropdown, OptionItem, Arrow }
 };
 
-export default Dropdown_Config;
+export default DropdownConfig;

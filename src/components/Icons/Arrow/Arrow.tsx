@@ -26,7 +26,6 @@ interface ArrowProps {
 
 const directionToDegrees = (dir: Dir = 'top'): number => {
   if (typeof dir === "number") return dir;
-
   switch (dir) {
     case "top": return 0;
     case "right": return 90;
@@ -46,8 +45,9 @@ const Arrow: React.FC<ArrowProps> = ({
   const width = size.width ?? 12;
   const height = size.height ?? 8;
   const notch = size.notch ?? 0;
-  const rotate = size.rotate ?? 'left';
 
+  // USE PROP FOR INITIAL ROTATE
+  const rotate = size.rotate ?? 'top';
   const baseRotateDeg = directionToDegrees(rotate);
 
   const hoverWidth = hover.width ?? width;
