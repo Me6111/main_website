@@ -28,7 +28,10 @@ const usageResourcesItems: DropdownItem = {
         }
       ]
     },
-    { id: 'simpleOption', label: 'Plain Option' },
+    {
+      id: 'simpleOption',
+      label: 'Plain Option'
+    },
     {
       id: 'databases',
       label: 'Databases',
@@ -56,17 +59,14 @@ const DropdownConfig = {
       multipleMenusOpenedAllowed={false}
       OpenMenu={['click']}
       CloseMenu={['click_option_again', 'click_outside', 'mouse_leave']}
-      renderArrow={(active: boolean) => (
-        <Arrow
-          size={{ rotate: active ? 'bottom' : 'top' }}
-          strokeColor="white"
-          fillColor="none"
-          isParentHovered={active}
-        />
-      )}
+      renderArrow={(active: boolean) => ({
+        arrowProps: {
+          size: { rotate: active ? 'bottom' : 'top' },
+        }
+      })}
     />
   ),
-  dependencies: { React, Dropdown, OptionItem, Arrow }
+  dependencies: { React, Dropdown, OptionItem }
 };
 
 export default DropdownConfig;
