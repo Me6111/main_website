@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import OptionItem from '../OptionItem/OptionItem';
-import OptionsList, { OptionsContext } from '../OptionsList/OptionsList';
 
 export interface DropdownItem {
   id: string;
   label: string;
   children?: DropdownItem[];
+  arrowProps?: any;
+  checkboxProps?: any;
 }
 
 interface DropdownProps {
@@ -14,14 +15,13 @@ interface DropdownProps {
   multipleMenusOpenedAllowed?: boolean;
   OpenMenu?: Array<'click' | 'hover'>;
   CloseMenu?: Array<'click_option_again' | 'click_outside' | 'mouse_leave'>;
+  arrowDefaultRotate?: 'top' | 'bottom' | 'left' | 'right';
+  arrowActiveRotate?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 const openDropdowns: Set<string> = new Set();
 
-const DropdownOptionsListWrapper: React.FC<{
-  children: React.ReactNode;
-  position?: 'top' | 'bottom' | 'left' | 'right';
-}> = ({ children, position = 'bottom' }) => {
+const DropdownOptionsListWrapper: React.FC<{ children: React.ReactNode; position?: 'top' | 'bottom' | 'left' | 'right' }> = ({ children, position = 'bottom' }) => {
   const style: React.CSSProperties = {
     position: 'absolute',
     top: position === 'bottom' ? '100%' : position === 'top' ? undefined : 0,
@@ -32,6 +32,8 @@ const DropdownOptionsListWrapper: React.FC<{
     background: '#fff',
     border: '1px solid #ccc',
     boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
+    width: '100%',
+    boxSizing: 'border-box',
   };
   return <div style={style}>{children}</div>;
 };
@@ -41,7 +43,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   optionsListPosition = 'bottom',
   multipleMenusOpenedAllowed = true,
   OpenMenu = ['click'],
-  CloseMenu = ['click_option_again']
+  CloseMenu = ['click_option_again'],
+  arrowDefaultRotate = 'left',
+  arrowActiveRotate = 'bottom',
 }) => {
   const [open, setOpen] = useState(false);
   const idRef = useRef(triggerItem.id);
@@ -81,52 +85,65 @@ const Dropdown: React.FC<DropdownProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [CloseMenu]);
 
+  const renderChildren = (items: DropdownItem[]) => {
+    return items.map(item => {
+      const hasChildren = item.children && item.children.length > 0;
+      if (hasChildren) {
+        return (
+          <Dropdown
+            key={item.id}
+            triggerItem={item}
+            optionsListPosition={optionsListPosition}
+            multipleMenusOpenedAllowed={multipleMenusOpenedAllowed}
+            OpenMenu={OpenMenu}
+            CloseMenu={CloseMenu}
+            arrowDefaultRotate={arrowDefaultRotate}
+            arrowActiveRotate={arrowActiveRotate}
+          />
+        );
+      } else {
+        return (
+          <OptionItem
+            key={item.id}
+            content={item.label}
+            expandIcon={false}
+            active={false}
+            arrowProps={{ ...item.arrowProps, rotate: arrowDefaultRotate }}
+            checkboxProps={item.checkboxProps}
+            onClick={() => {}}
+            style={{ width: '100%', minWidth: '100%', boxSizing: 'border-box' }}
+          />
+        );
+      }
+    });
+  };
+
   return (
-    <OptionsContext.Provider value={{ activeId: open ? triggerItem.id : null, onSelect: (id: string) => console.log('Selected:', id), restProps: {} }}>
-      <div
-        className="Dropdown"
-        ref={dropdownRef}
-        style={{ position: 'relative', display: 'inline-block' }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <OptionItem
-          content={triggerItem.label}
-          expandIcon={!!triggerItem.children?.length}
-          active={open}
-          onClick={toggleDropdown}
-        />
-        {open && triggerItem.children && (
-          <DropdownOptionsListWrapper position={optionsListPosition}>
-            <OptionsList
-              items={triggerItem.children}
-              activeId={null}
-              onSelect={() => {}}
-              renderNested={item =>
-                item.children && item.children.length > 0 ? (
-                  <Dropdown
-                    key={item.id}
-                    triggerItem={item}
-                    optionsListPosition={optionsListPosition}
-                    multipleMenusOpenedAllowed={multipleMenusOpenedAllowed}
-                    OpenMenu={OpenMenu}
-                    CloseMenu={CloseMenu}
-                  />
-                ) : (
-                  <OptionItem
-                    key={item.id}
-                    content={item.label}
-                    expandIcon={false}
-                    active={false}
-                    onClick={() => console.log('Selected:', item.id)}
-                  />
-                )
-              }
-            />
-          </DropdownOptionsListWrapper>
-        )}
-      </div>
-    </OptionsContext.Provider>
+    <div
+      className="Dropdown"
+      ref={dropdownRef}
+      style={{ position: 'relative', display: 'inline-block', width: '100%', boxSizing: 'border-box' }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <OptionItem
+        content={triggerItem.label}
+        expandIcon={!!triggerItem.children?.length}
+        active={open}
+        onClick={toggleDropdown}
+        arrowProps={{
+          ...triggerItem.arrowProps,
+          rotate: open ? arrowActiveRotate : arrowDefaultRotate,
+        }}
+        checkboxProps={triggerItem.checkboxProps}
+        style={{ width: '100%', minWidth: '100%', boxSizing: 'border-box' }}
+      />
+      {open && triggerItem.children && (
+        <DropdownOptionsListWrapper position={optionsListPosition}>
+          {renderChildren(triggerItem.children)}
+        </DropdownOptionsListWrapper>
+      )}
+    </div>
   );
 };
 

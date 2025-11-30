@@ -24,9 +24,6 @@ import Dropdown1_Config from '../../../components/Dropdown/Dropdown/Dropdown1.co
 import Dropdown_Config from '../../../components/Dropdown/Dropdown/Dropdown.config'
 
 import OptionItemConfig from '../../../components/Dropdown/OptionItem/OptionItem.config'
-import OptionsList0_Config from '../../../components/Dropdown/OptionsList/OptionsList_0.config'
-import OptionsList1_Config from '../../../components/Dropdown/OptionsList/OptionsList_1.config'
-import OptionsList_Dropdown_Config from '../../../components/Dropdown/OptionsList/OptionsList_Dropdown.config'
 
 
 
@@ -57,7 +54,8 @@ SliderConfig_3.Name = 'Slider 3';
 SliderConfig_4.Name = 'Slider 4';
 
 
-const codeShowcaseConfigs = {    
+const codeShowcaseConfigs = {   
+ 
   Dropdown_Config: Dropdown_Config,
 
     //SidebarDropdown: SidebarDropdown,
@@ -106,16 +104,13 @@ const codeShowcaseConfigs = {
 
 
 
-  //OptionsList_0: OptionsList0_Config,
 
 
   /*
-  OptionsList_Dropdown: OptionsList_Dropdown_Config,
   Dropdown_0: Dropdown0_Config,
 
   */
 
-  //OptionsList_1: OptionsList1_Config,
 
 
   //Dropdown_1: Dropdown1_Config,

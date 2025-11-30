@@ -19,9 +19,9 @@ interface ArrowProps {
     rotate?: Dir;
   };
   hover?: HoverArguments;
-  strokeColor?: string;
-  fillColor?: string;
   isParentHovered?: boolean;
+  style?: React.CSSProperties;
+  activeStyle?: React.CSSProperties;
 }
 
 const directionToDegrees = (dir: Dir = 'top'): number => {
@@ -38,15 +38,13 @@ const directionToDegrees = (dir: Dir = 'top'): number => {
 const Arrow: React.FC<ArrowProps> = ({
   size = {},
   hover = {},
-  strokeColor = "white",
-  fillColor = "none",
-  isParentHovered = false
+  isParentHovered = false,
+  style = {},
+  activeStyle = {}
 }) => {
   const width = size.width ?? 12;
   const height = size.height ?? 8;
   const notch = size.notch ?? 0;
-
-  // USE PROP FOR INITIAL ROTATE
   const rotate = size.rotate ?? 'top';
   const baseRotateDeg = directionToDegrees(rotate);
 
@@ -85,9 +83,7 @@ const Arrow: React.FC<ArrowProps> = ({
 
     setAnimated(newValues);
 
-    if (t < 1) {
-      animationRef.current = requestAnimationFrame(animate);
-    }
+    if (t < 1) animationRef.current = requestAnimationFrame(animate);
   };
 
   const startAnimation = (hovered: boolean) => {
@@ -128,12 +124,17 @@ const Arrow: React.FC<ArrowProps> = ({
   const bottomY = cy + animated.height / 2 - animated.notch;
 
   const polygonPoints = `${topX},${topY} ${leftX},${leftY} ${bottomX},${bottomY} ${rightX},${rightY}`;
+
   const maxSize = Math.max(width, height, hoverWidth, hoverHeight);
+
+  const mergedStyle = isHovered || isParentHovered
+    ? { ...style, ...activeStyle }
+    : style;
 
   return (
     <div
       className="Arrow"
-      style={{ width: maxSize, height: maxSize }}
+      style={{ width: maxSize, height: maxSize, ...mergedStyle }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -150,9 +151,7 @@ const Arrow: React.FC<ArrowProps> = ({
       >
         <polygon
           points={polygonPoints}
-          fill={fillColor}
-          stroke={strokeColor}
-          strokeWidth="1"
+          style={mergedStyle}
         />
       </svg>
     </div>
