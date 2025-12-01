@@ -5,13 +5,14 @@ export interface DropdownItem {
   id: string;
   label: string;
   children?: DropdownItem[];
+  optionsListPosition?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
   arrowProps?: any;
   checkboxProps?: any;
 }
 
 interface DropdownProps {
   triggerItem: DropdownItem;
-  optionsListPosition?: 'top' | 'bottom' | 'left' | 'right';
+  optionsListPosition?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
   multipleMenusOpenedAllowed?: boolean;
   OpenMenu?: Array<'click' | 'hover'>;
   CloseMenu?: Array<'click_option_again' | 'click_outside' | 'mouse_leave'>;
@@ -21,20 +22,22 @@ interface DropdownProps {
 
 const openDropdowns: Set<string> = new Set();
 
-const DropdownOptionsListWrapper: React.FC<{ children: React.ReactNode; position?: 'top' | 'bottom' | 'left' | 'right' }> = ({ children, position = 'bottom' }) => {
-  const style: React.CSSProperties = {
-    position: 'absolute',
-    top: position === 'bottom' ? '100%' : position === 'top' ? undefined : 0,
-    bottom: position === 'top' ? '100%' : undefined,
-    left: position === 'right' ? '100%' : position === 'left' ? undefined : 0,
-    right: position === 'left' ? '100%' : undefined,
-    zIndex: 1000,
-    background: '#fff',
-    border: '1px solid #ccc',
-    boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
-    width: '100%',
-    boxSizing: 'border-box',
-  };
+const DropdownOptionsListWrapper: React.FC<{ children: React.ReactNode; position?: 'top' | 'bottom' | 'left' | 'right' | 'inside' }> = ({ children, position = 'bottom' }) => {
+  const style: React.CSSProperties = position === 'inside'
+    ? { position: 'relative', width: '100%', boxSizing: 'border-box' }
+    : {
+        position: 'absolute',
+        top: position === 'bottom' ? '100%' : position === 'top' ? undefined : 0,
+        bottom: position === 'top' ? '100%' : undefined,
+        left: position === 'right' ? '100%' : position === 'left' ? undefined : 0,
+        right: position === 'left' ? '100%' : undefined,
+        zIndex: 1000,
+        background: '#fff',
+        border: '1px solid #ccc',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
+        width: '100%',
+        boxSizing: 'border-box',
+      };
   return <div style={style}>{children}</div>;
 };
 
@@ -93,7 +96,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <Dropdown
             key={item.id}
             triggerItem={item}
-            optionsListPosition={optionsListPosition}
+            optionsListPosition={item.optionsListPosition || optionsListPosition}
             multipleMenusOpenedAllowed={multipleMenusOpenedAllowed}
             OpenMenu={OpenMenu}
             CloseMenu={CloseMenu}
@@ -139,7 +142,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         style={{ width: '100%', minWidth: '100%', boxSizing: 'border-box' }}
       />
       {open && triggerItem.children && (
-        <DropdownOptionsListWrapper position={optionsListPosition}>
+        <DropdownOptionsListWrapper position={triggerItem.optionsListPosition || optionsListPosition}>
           {renderChildren(triggerItem.children)}
         </DropdownOptionsListWrapper>
       )}
