@@ -9,59 +9,73 @@ const arrowConfig = {
 };
 
 const menuItems: DropdownItem = {
-  id: 'root',
   label: 'Menu',
   optionsListPosition: 'bottom',
+  Indentation: 20,
   arrowProps: arrowConfig,
+  AllowMultipleMenusOpened: true,
+  RememberOpenedMenus: true,
   children: [
     {
-      id: 'projects',
       label: 'Projects',
       arrowProps: arrowConfig,
       optionsListPosition: 'inside',
+      Indentation: 20,
+      AllowMultipleMenusOpened: true,
+      RememberOpenedMenus: true,
       children: [
         {
-          id: 'projectManagement',
           label: 'Project Management',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'createProject', label: 'Create Project', optionsListPosition: 'inside', arrowProps: arrowConfig },
-            { id: 'editProject', label: 'Edit Project', optionsListPosition: 'inside', arrowProps: arrowConfig },
+            { label: 'Create Project', optionsListPosition: 'inside', arrowProps: arrowConfig, Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Edit Project', optionsListPosition: 'inside', arrowProps: arrowConfig, Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'deleteProject',
               label: 'Delete Project',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'deletePermanent', label: 'Permanent Delete', optionsListPosition: 'inside' },
-                { id: 'deleteSoft', label: 'Soft Delete', optionsListPosition: 'inside' }
+                { label: 'Permanent Delete', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Soft Delete', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             },
             {
-              id: 'projectTools',
               label: 'Advanced Tools',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'auditLogs', label: 'Audit Logs', optionsListPosition: 'inside' },
+                { label: 'Audit Logs', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
                 {
-                  id: 'importExport',
                   label: 'Import / Export',
                   arrowProps: arrowConfig,
                   optionsListPosition: 'inside',
+                  Indentation: 20,
+                  AllowMultipleMenusOpened: false,
+                  RememberOpenedMenus: true,
                   children: [
-                    { id: 'importFile', label: 'Import File', optionsListPosition: 'inside' },
-                    { id: 'exportData', label: 'Export Data', optionsListPosition: 'inside' },
+                    { label: 'Import File', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                    { label: 'Export Data', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
                     {
-                      id: 'fileFormats',
                       label: 'File Formats',
                       arrowProps: arrowConfig,
                       optionsListPosition: 'inside',
+                      Indentation: 20,
+                      AllowMultipleMenusOpened: false,
+                      RememberOpenedMenus: true,
                       children: [
-                        { id: 'formatJson', label: 'JSON', optionsListPosition: 'inside' },
-                        { id: 'formatXml', label: 'XML', optionsListPosition: 'inside' },
-                        { id: 'formatCsv', label: 'CSV', optionsListPosition: 'inside' }
+                        { label: 'JSON', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                        { label: 'XML', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                        { label: 'CSV', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
                       ]
                     }
                   ]
@@ -71,92 +85,109 @@ const menuItems: DropdownItem = {
           ]
         },
         {
-          id: 'projectTemplates',
           label: 'Templates',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'templateBlank', label: 'Blank', optionsListPosition: 'inside' },
-            { id: 'templateBasic', label: 'Basic', optionsListPosition: 'inside' },
+            { label: 'Blank', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Basic', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'templateIndustry',
               label: 'Industry',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'templateConstruction', label: 'Construction', optionsListPosition: 'inside' },
-                { id: 'templateIT', label: 'IT', optionsListPosition: 'inside' },
-                { id: 'templateHR', label: 'HR', optionsListPosition: 'inside' }
+                { label: 'Construction', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'IT', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'HR', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             }
           ]
         }
       ]
     },
-
     {
-      id: 'databases',
       label: 'Databases',
       arrowProps: arrowConfig,
       optionsListPosition: 'inside',
+      Indentation: 20,
+      AllowMultipleMenusOpened: false,
+      RememberOpenedMenus: true,
       children: [
         {
-          id: 'databaseBackups',
           label: 'Backups',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'backupCreate', label: 'Create Backup', optionsListPosition: 'inside' },
-            { id: 'backupRestore', label: 'Restore Backup', optionsListPosition: 'inside' }
+            { label: 'Create Backup', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Restore Backup', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
           ]
         },
         {
-          id: 'databaseConnections',
           label: 'Connections',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'addConnection', label: 'Add Connection', optionsListPosition: 'inside' },
-            { id: 'removeConnection', label: 'Remove Connection', optionsListPosition: 'inside' },
+            { label: 'Add Connection', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Remove Connection', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'databaseDrivers',
               label: 'Drivers',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'driverPostgres', label: 'PostgreSQL', optionsListPosition: 'inside' },
-                { id: 'driverMySQL', label: 'MySQL', optionsListPosition: 'inside' },
-                { id: 'driverSQLite', label: 'SQLite', optionsListPosition: 'inside' },
-                { id: 'driverMongo', label: 'MongoDB', optionsListPosition: 'inside' }
+                { label: 'PostgreSQL', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'MySQL', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'SQLite', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'MongoDB', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             }
           ]
         },
         {
-          id: 'databaseMonitoring',
           label: 'Monitoring',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'liveQueries', label: 'Live Queries', optionsListPosition: 'inside' },
-            { id: 'slowQueries', label: 'Slow Queries', optionsListPosition: 'inside' },
-            { id: 'storageUsage', label: 'Storage Usage', optionsListPosition: 'inside' },
+            { label: 'Live Queries', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Slow Queries', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Storage Usage', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'alerts',
               label: 'Alerts',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'emailAlerts', label: 'Email Alerts', optionsListPosition: 'inside' },
-                { id: 'smsAlerts', label: 'SMS Alerts', optionsListPosition: 'inside' },
+                { label: 'Email Alerts', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'SMS Alerts', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
                 {
-                  id: 'webhookAlerts',
                   label: 'Webhook Alerts',
                   arrowProps: arrowConfig,
                   optionsListPosition: 'inside',
+                  Indentation: 20,
+                  AllowMultipleMenusOpened: false,
+                  RememberOpenedMenus: true,
                   children: [
-                    { id: 'createWebhook', label: 'Create Webhook', optionsListPosition: 'inside' },
-                    { id: 'manageWebhooks', label: 'Manage Webhooks', optionsListPosition: 'inside' }
+                    { label: 'Create Webhook', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                    { label: 'Manage Webhooks', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
                   ]
                 }
               ]
@@ -165,80 +196,92 @@ const menuItems: DropdownItem = {
         }
       ]
     },
-
     {
-      id: 'settings',
       label: 'Settings',
       arrowProps: arrowConfig,
       optionsListPosition: 'inside',
+      Indentation: 20,
+      AllowMultipleMenusOpened: false,
+      RememberOpenedMenus: true,
       children: [
         {
-          id: 'users',
           label: 'Users',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'userCreate', label: 'Create User', optionsListPosition: 'inside' },
-            { id: 'userEdit', label: 'Edit User', optionsListPosition: 'inside' },
-            { id: 'userDelete', label: 'Delete User', optionsListPosition: 'inside' },
+            { label: 'Create User', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Edit User', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Delete User', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'userPermissions',
               label: 'Permissions',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'roles', label: 'Roles', optionsListPosition: 'inside' },
-                { id: 'accessLogs', label: 'Access Logs', optionsListPosition: 'inside' }
+                { label: 'Roles', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Access Logs', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             }
           ]
         },
         {
-          id: 'appearance',
           label: 'Appearance',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'themes', label: 'Themes', optionsListPosition: 'inside' },
-            { id: 'darkMode', label: 'Dark Mode', optionsListPosition: 'inside' },
+            { label: 'Themes', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Dark Mode', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'layouts',
               label: 'Layouts',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'layoutGrid', label: 'Grid', optionsListPosition: 'inside' },
-                { id: 'layoutCompact', label: 'Compact', optionsListPosition: 'inside' },
-                { id: 'layoutExpanded', label: 'Expanded', optionsListPosition: 'inside' }
+                { label: 'Grid', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Compact', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Expanded', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             }
           ]
         },
         {
-          id: 'integrations',
           label: 'Integrations',
           arrowProps: arrowConfig,
           optionsListPosition: 'inside',
+          Indentation: 20,
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
           children: [
-            { id: 'slack', label: 'Slack', optionsListPosition: 'inside' },
-            { id: 'jira', label: 'Jira', optionsListPosition: 'inside' },
+            { label: 'Slack', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Jira', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
             {
-              id: 'cloudProviders',
               label: 'Cloud Providers',
               arrowProps: arrowConfig,
               optionsListPosition: 'inside',
+              Indentation: 20,
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
               children: [
-                { id: 'aws', label: 'AWS', optionsListPosition: 'inside' },
-                { id: 'gcp', label: 'Google Cloud', optionsListPosition: 'inside' },
-                { id: 'azure', label: 'Azure', optionsListPosition: 'inside' }
+                { label: 'AWS', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Google Cloud', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+                { label: 'Azure', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
               ]
             }
           ]
         }
       ]
     },
-
-    { id: 'simpleOption', label: 'Option', optionsListPosition: 'inside' }
+    { label: 'Option', optionsListPosition: 'inside', Indentation: 20, AllowMultipleMenusOpened: false, RememberOpenedMenus: true }
   ]
 };
 
@@ -250,11 +293,11 @@ const DropdownConfig = {
       <Dropdown
         triggerItem={menuItems}
         optionsListPosition="bottom"
-        multipleMenusOpenedAllowed={false}
         OpenMenu={['click']}
         CloseMenu={['click_option_again']}
         arrowDefaultRotate="left"
         arrowActiveRotate="left"
+        Indentation={20}
       />
     </div>
   ),

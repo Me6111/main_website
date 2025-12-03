@@ -13,6 +13,7 @@
 .OptionItem.active {
   background-color: #fff;
   color: #000;
+  border: 1px black solid;
 }
 
 .OptionItem.disabled {
