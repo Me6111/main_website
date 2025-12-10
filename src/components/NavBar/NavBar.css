@@ -10,7 +10,7 @@
 
 .NavBar {
   top: 0;
-  width: calc(100% - 12px);
+  width: 100%;
   display: flex;
   align-items: center;
   z-index: 1001;
@@ -25,7 +25,6 @@
   /*background-color: rgba(0, 128, 0, 0.4);*/
   height: 100%;
   pointer-events: none;
-
 }
 
 .NavBar-hidden {

@@ -8,29 +8,6 @@
 
 .Slider_WindowVisible {
   overflow: hidden;
-
-  scrollbar-width: thin;
-  scrollbar-color: #555555 #1a1a1a;
-
-
-}
-
-.Slider_WindowVisible::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-.Slider_WindowVisible::-webkit-scrollbar-track {
-  background-color: #1a1a1a;
-}
-
-.Slider_WindowVisible::-webkit-scrollbar-thumb {
-  background-color: #555555;
-  border-radius: 5px;
-}
-
-.Slider_WindowVisible::-webkit-scrollbar-thumb:hover {
-  background-color: #888888;
 }
 
 .Slider_Inner {
@@ -38,15 +15,15 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 .Slider_SlidesContainer {
-
-
   will-change: transform;
   user-select: none;
   box-sizing: border-box;
   transition: transform 300ms cubic-bezier(.22,.9,.32,1);
+  flex: 0 0 auto;
 }
 
 .Slider_Slide {
@@ -56,9 +33,6 @@
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: rgb(0, 0, 0);
   border: 1px white solid;
-  color: white;
   font-size: 50px;
 }
-

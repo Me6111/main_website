@@ -14,17 +14,21 @@ const SidebarConfigComponent: React.FC = () => {
       }
 
       Opened={true}
-
-      OpenButton={true}
-
+      OpenButton={false}
       CloseButton={false}
 
       Style_opened={{ transform: 'translateX(0)' }}
-      Style_closed={{ transform: 'translateX(-100%)' }}
 
-      CloseByClickOutside={true}
+      Style_Outer={{
+        width: '100%',
+        height: '100%',
+        position: 'absolute'
+      }}
+
+      CloseByClickOutside={false}
       CloseByHoverOutside={false}
     />
+
   );
 };
 

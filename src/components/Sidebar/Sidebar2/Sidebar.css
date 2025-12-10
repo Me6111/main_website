@@ -1,17 +1,24 @@
 .Sidebar_Outer {
-  position: absolute;
-  top: 0;
-  left: 0;
+
   width: 100%;
   height: 100%;
-  overflow: hidden;
+
+
+
+
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 
 .Sidebar_Field {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+    position: sticky;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    z-index: 10;
 }
 
 .Sidebar_Field_Sidebar {

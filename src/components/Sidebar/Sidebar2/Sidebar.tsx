@@ -14,6 +14,7 @@ type SidebarProps = {
   Style?: React.CSSProperties;
   Style_opened?: React.CSSProperties;
   Style_closed?: React.CSSProperties;
+  Style_Outer?: React.CSSProperties;
   Opened?: boolean;
   CloseButton?: false | ButtonProps | boolean | React.ReactNode;
   OpenButton?: false | ButtonProps | boolean | React.ReactNode;
@@ -27,6 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   Style = {},
   Style_opened = {},
   Style_closed = {},
+  Style_Outer = {},
   Opened = true,
   CloseButton = false,
   OpenButton = false,
@@ -54,12 +56,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const combinedStyle: React.CSSProperties = {
     transition: 'transform 0.3s ease',
-    ...Style, // base style first
-    ...(isOpened ? Style_opened : Style_closed), // opened/closed overrides
+    ...Style,
+    ...(isOpened ? Style_opened : Style_closed),
   };
 
   return (
-    <div className="Sidebar_Outer" style={{ position: 'relative' }}>
+    <div className="Sidebar_Outer" style={{ ...Style_Outer }}>
       <div className="Sidebar_Field">
         <div
           ref={sidebarRef}
@@ -69,9 +71,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           {content}
 
-          {CloseButton && isOpened && (
-            React.isValidElement(CloseButton) ? CloseButton :
-            CloseButton === true ? (
+          {CloseButton && isOpened &&
+            (React.isValidElement(CloseButton) ? (
+              CloseButton
+            ) : CloseButton === true ? (
               <Button_Toggle
                 ElementToToggle={sidebarRef}
                 ToggleBetween={ToggleBetween}
@@ -83,16 +86,17 @@ const Sidebar: React.FC<SidebarProps> = ({
                 style={{ position: 'absolute', cursor: 'pointer' }}
                 onClick={() => setIsOpened(false)}
               />
-            )
-          )}
+            ))
+          }
         </div>
       </div>
 
       {OpenButton !== false && !isOpened && (
         <div className="Sidebar_Field">
           <div className="Sidebar_Field_OpenButton">
-            {React.isValidElement(OpenButton) ? OpenButton :
-            OpenButton === true ? (
+            {React.isValidElement(OpenButton) ? (
+              OpenButton
+            ) : OpenButton === true ? (
               <Button_Toggle
                 ElementToToggle={sidebarRef}
                 ToggleBetween={ToggleBetween}

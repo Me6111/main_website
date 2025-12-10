@@ -1,114 +1,308 @@
 import React from 'react';
 import Sidebar from '../Sidebar';
-import Dropdown from '../../../Dropdown/Dropdown/Dropdown';
-import SidebarSourceCodeRaw from '../Sidebar.tsx?raw';
-import SidebarStyleCodeRaw from '../Sidebar.css?raw';
-import DropdownSourceCodeRaw from '../../../Dropdown/Dropdown/Dropdown.tsx?raw';
-import DropdownStyleCodeRaw from '../../../Dropdown/Dropdown/Dropdown.css?raw';
+import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown/Dropdown';
 
-const optionsList = [
-  {
-    label: 'Dashboard',
-    options: [
-      { label: 'Home', onClick: () => alert('Home clicked') },
-      { label: 'Explore', onClick: () => alert('Explore clicked') },
-      { label: 'Reels', onClick: () => alert('Reels clicked') },
-      { label: 'Messages', onClick: () => alert('Messages clicked') },
-    ],
-    dropdownFeatures: {
-      trigger: 'hover',
-      arrow: true,
-      rotateOnActive: true,
-      arrowProps: { size: { rotate: 'left' }, hover: { rotate: 'bottom' } },
-      CloseDropdown: { clickOutside: true, mouseOutside: true, clickOptionAgain: true },
-    },
-  },
-  {
-    label: 'Profile',
-    options: [
-      { label: 'View Profile', onClick: () => alert('View Profile clicked') },
-      { label: 'Edit Profile', onClick: () => alert('Edit Profile clicked') },
-      {
-        label: 'Settings',
-        subOptions: [
-          { label: 'Privacy', onClick: () => alert('Privacy') },
-          { label: 'Security', onClick: () => alert('Security') },
-          {
-            label: 'Advanced',
-            subOptions: [
-              { label: 'Data Download', onClick: () => alert('Download') },
-              { label: 'Blocked Users', onClick: () => alert('Blocked Users') },
-            ],
-          },
-        ],
-      },
-    ],
-    dropdownFeatures: {
-      arrow: true,
-      rotateOnActive: true,
-      arrowProps: { size: { rotate: 'left' }, hover: { rotate: 'bottom' } },
-      CloseDropdown: { clickOutside: true, mouseOutside: true, clickOptionAgain: true },
-    },
-  },
-  {
-    label: 'Support',
-    options: [
-      { label: 'Help Center', onClick: () => alert('Help Center') },
-      { label: 'Report Issue', onClick: () => alert('Report Issue') },
-    ],
-    dropdownFeatures: {
-      arrow: true,
-      rotateOnActive: true,
-      arrowProps: { size: { rotate: 'left' }, hover: { rotate: 'bottom' } },
-      CloseDropdown: { clickOutside: true, mouseOutside: true, clickOptionAgain: true },
-    },
-  },
-  {
-    label: 'Logout',
-    options: [{ label: 'Sign Out', onClick: () => alert('Logged out') }],
-    dropdownFeatures: {
-      arrow: true,
-      rotateOnActive: true,
-      arrowProps: { size: { rotate: 'left' }, hover: { rotate: 'bottom' } },
-      CloseDropdown: { clickOutside: true, mouseOutside: true, clickOptionAgain: true },
-    },
-  },
-];
-
-const SidebarDropdownInstance = (
-  <Sidebar
-    Opened={true}
-    CloseButton={false}
-    OpenButton={false}
-    Style={{ overflowX: 'hidden', overflowY: 'auto', height: '100%', width: '200px' }}
-    Style_opened={{ transform: 'translateX(0)' }}
-    content={
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {optionsList.map(({ label, options, dropdownFeatures }) => (
-          <Dropdown
-            key={label}
-            label={label}
-            options={options}
-            trigger={dropdownFeatures?.trigger || 'click'}
-            arrow={dropdownFeatures?.arrow}
-            rotateOnActive={dropdownFeatures?.rotateOnActive}
-            arrowProps={dropdownFeatures?.arrowProps}
-            CloseDropdown={dropdownFeatures?.CloseDropdown}
-          />
-        ))}
-      </div>
-    }
-  />
-);
-
-const SidebarDropdown_Config = {
-  key: 'SidebarDropdown',
-  Name: 'Sidebar Dropdown',
-  ComponentUsageCodeRaw: '',
-  ComponentDefinitionCodeRaw: SidebarSourceCodeRaw + '\n\n' + DropdownSourceCodeRaw,
-  ComponentStyleCodeRaw: SidebarStyleCodeRaw + '\n\n' + DropdownStyleCodeRaw,
-  ComponentInstance: SidebarDropdownInstance,
-  dependencies: { React, Sidebar, Dropdown },
+const arrowConfig = {
+  style: { fill: 'white', stroke: 'white' },
+  activeStyle: { fill: 'black', stroke: 'black' },
+  size: { rotate: 'left' },
+  hover: { rotate: 'bottom' }
 };
 
-export default SidebarDropdown_Config;
+const menuItems: DropdownItem = {
+  label: 'Menu',
+  optionsListPosition: 'bottom',
+  Indentation: 'left, 20px',
+  arrowProps: arrowConfig,
+  AllowMultipleMenusOpened: true,
+  RememberOpenedMenus: true,
+  children: [
+    {
+      label: 'Projects',
+      arrowProps: arrowConfig,
+      optionsListPosition: 'inside',
+      Indentation: 'left, 20px',
+      AllowMultipleMenusOpened: true,
+      RememberOpenedMenus: true,
+      children: [
+        {
+          label: 'Project Management',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: true,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Create Project', optionsListPosition: 'inside', arrowProps: arrowConfig, Indentation: 'left, 20px', AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            { label: 'Edit Project', optionsListPosition: 'inside', arrowProps: arrowConfig, Indentation: 'left, 20px', AllowMultipleMenusOpened: false, RememberOpenedMenus: true },
+            {
+              label: 'Delete Project',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Permanent Delete'},
+                { label: 'Soft Delete'}
+              ]
+            },
+            {
+              label: 'Advanced Tools',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Audit Logs'},
+                {
+                  label: 'Import / Export',
+                  arrowProps: arrowConfig,
+                  optionsListPosition: 'inside',
+                  Indentation: 'left, 20px',
+                  AllowMultipleMenusOpened: false,
+                  RememberOpenedMenus: true,
+                  children: [
+                    { label: 'Import File'},
+                    { label: 'Export Data'},
+                    {
+                      label: 'File Formats',
+                      arrowProps: arrowConfig,
+                      optionsListPosition: 'inside',
+                      Indentation: 'left, 20px',
+                      AllowMultipleMenusOpened: false,
+                      RememberOpenedMenus: true,
+                      children: [
+                        { label: 'JSON'},
+                        { label: 'XML'},
+                        { label: 'CSV'}
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Templates',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Blank'},
+            { label: 'Basic'},
+            {
+              label: 'Industry',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Construction'},
+                { label: 'IT'},
+                { label: 'HR'}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      label: 'Databases',
+      arrowProps: arrowConfig,
+      optionsListPosition: 'inside',
+      Indentation: 'left, 20px',
+      AllowMultipleMenusOpened: false,
+      RememberOpenedMenus: true,
+      children: [
+        {
+          label: 'Backups',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Create Backup'},
+            { label: 'Restore Backup'}
+          ]
+        },
+        {
+          label: 'Connections',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Add Connection'},
+            { label: 'Remove Connection'},
+            {
+              label: 'Drivers',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'PostgreSQL'},
+                { label: 'MySQL'},
+                { label: 'SQLite'},
+                { label: 'MongoDB'}
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Monitoring',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Live Queries'},
+            { label: 'Slow Queries'},
+            { label: 'Storage Usage'},
+            {
+              label: 'Alerts',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Email Alerts'},
+                { label: 'SMS Alerts'},
+                {
+                  label: 'Webhook Alerts',
+                  arrowProps: arrowConfig,
+                  optionsListPosition: 'inside',
+                  Indentation: 'left, 20px',
+                  AllowMultipleMenusOpened: false,
+                  RememberOpenedMenus: true,
+                  children: [
+                    { label: 'Create Webhook'},
+                    { label: 'Manage Webhooks'}
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      label: 'Settings',
+      arrowProps: arrowConfig,
+      optionsListPosition: 'inside',
+      Indentation: 'left, 20px',
+      AllowMultipleMenusOpened: false,
+      RememberOpenedMenus: true,
+      children: [
+        {
+          label: 'Users',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Create User'},
+            { label: 'Edit User'},
+            { label: 'Delete User'},
+            {
+              label: 'Permissions',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Roles'},
+                { label: 'Access Logs'}
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Appearance',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Themes'},
+            { label: 'Dark Mode'},
+            {
+              label: 'Layouts',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'Grid'},
+                { label: 'Compact'},
+                { label: 'Expanded'}
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Integrations',
+          arrowProps: arrowConfig,
+          optionsListPosition: 'inside',
+          Indentation: 'left, 20px',
+          AllowMultipleMenusOpened: false,
+          RememberOpenedMenus: true,
+          children: [
+            { label: 'Slack'},
+            { label: 'Jira'},
+            {
+              label: 'Cloud Providers',
+              arrowProps: arrowConfig,
+              optionsListPosition: 'inside',
+              Indentation: 'left, 20px',
+              AllowMultipleMenusOpened: false,
+              RememberOpenedMenus: true,
+              children: [
+                { label: 'AWS'},
+                { label: 'Google Cloud'},
+                { label: 'Azure'}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { label: 'Option'}
+  ]
+};
+
+const DropdownConfig = {
+  key: 'MainMenuDropdown',
+  Name: 'MainMenuDropdown',
+  ComponentInstance: (
+    <div style={{ width: '250px' }}>
+      <Dropdown
+        triggerItem={menuItems}
+        optionsListPosition="bottom"
+        OpenMenu={['click']}
+        CloseMenu={['click_option_again']}
+        arrowDefaultRotate="left"
+        arrowActiveRotate="left"
+        Indentation={20}
+      />
+    </div>
+  ),
+  dependencies: { React, Dropdown }
+};
+
+export default DropdownConfig;

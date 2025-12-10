@@ -7,7 +7,7 @@ export interface DropdownItem {
   optionsListPosition?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
   arrowProps?: any;
   checkboxProps?: any;
-  Indentation?: number;
+  Indentation?: string;
   AllowMultipleMenusOpened?: boolean;
   RememberOpenedMenus?: boolean;
 }
@@ -19,26 +19,53 @@ interface DropdownProps {
   CloseMenu?: Array<'click_option_again' | 'click_outside' | 'mouse_leave'>;
   arrowDefaultRotate?: 'top' | 'bottom' | 'left' | 'right';
   arrowActiveRotate?: 'top' | 'bottom' | 'left' | 'right';
-  Indentation?: number;
+  Indentation?: string;
   parentIndex?: string;
   index?: string;
   parentAllowMultiple?: boolean;
   forceOpen?: boolean;
   parentRememberList?: string[];
+  isRoot?: boolean;
 }
 
 const DropdownRegistry: Map<string, () => void> = new Map();
 const OpenedMenus: Record<string, string[]> = {};
 
+const parseIndentation = (value?: string) => {
+  if (!value) return { dir: 'left', amount: '0px' };
+  const [dir, amount] = value.split(',').map(s => s.trim());
+  return { dir: dir || 'left', amount: amount || '0px' };
+};
+
 const DropdownOptionsListWrapper: React.FC<{
   children: React.ReactNode;
   position?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
-  indentation?: number;
+  indentation?: string;
   id: string;
-}> = ({ children, position = 'bottom', indentation = 0 }) => {
+}> = ({ children, position = 'bottom', indentation }) => {
+  const { dir, amount } = parseIndentation(indentation);
+
+  const offsetStyle: React.CSSProperties =
+    dir === 'left'
+      ? { left: amount }
+      : dir === 'right'
+      ? { right: amount }
+      : dir === 'top'
+      ? { top: amount }
+      : dir === 'bottom'
+      ? { bottom: amount }
+      : { left: amount };
+
   const style: React.CSSProperties =
     position === 'inside'
-      ? { position: 'relative', width: '100%', boxSizing: 'border-box', paddingLeft: indentation }
+      ? {
+          position: 'relative',
+          ...offsetStyle,
+          display: 'flex',
+          flexDirection: 'column',
+          width: 'max-content',
+          boxSizing: 'border-box'
+        }
       : {
           position: 'absolute',
           top: position === 'bottom' ? '100%' : position === 'top' ? undefined : 0,
@@ -46,14 +73,16 @@ const DropdownOptionsListWrapper: React.FC<{
           left: position === 'right' ? '100%' : position === 'left' ? undefined : 0,
           right: position === 'left' ? '100%' : undefined,
           zIndex: 1000,
-          background: '#fff',
           border: '1px solid #ccc',
           boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
-          width: '100%',
-          boxSizing: 'border-box',
-          paddingLeft: indentation
+          display: 'flex',
+          flexDirection: 'column',
+          width: 'max-content',
+          ...offsetStyle,
+          boxSizing: 'border-box'
         };
-  return <div className="OPTIONS_LIST" style={style}>{children}</div>;
+
+  return <div className="options_list" style={style}>{children}</div>;
 };
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -63,12 +92,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   CloseMenu = ['click_option_again'],
   arrowDefaultRotate = 'left',
   arrowActiveRotate = 'bottom',
-  Indentation = 0,
+  Indentation = 'left, 0px',
   parentIndex = '',
   index = '0',
   parentAllowMultiple = false,
   forceOpen = false,
-  parentRememberList
+  parentRememberList,
+  isRoot = false
 }) => {
   const [open, setOpen] = useState(forceOpen);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -100,7 +130,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       });
       siblings.forEach(id => DropdownRegistry.get(id)?.());
     }
-
     DropdownRegistry.set(index, closeDropdown);
     setOpen(true);
     addToParentRememberList();
@@ -129,9 +158,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const renderChildren = (items: DropdownItem[]) =>
     items.map((item, idx) => {
-      const childIndex = `${index}${idx}`;
+      const childIndex = `${index}-${idx}`;
       if (!OpenedMenus[childIndex]) OpenedMenus[childIndex] = [];
-
       const childInitiallyOpen = triggerItem.RememberOpenedMenus && OpenedMenus[index]?.includes(childIndex);
 
       if (item.children?.length) {
@@ -165,10 +193,10 @@ const Dropdown: React.FC<DropdownProps> = ({
           checkboxProps={item.checkboxProps}
           onClick={() => {}}
           style={{
-            width: '100%',
-            minWidth: '100%',
-            boxSizing: 'border-box',
-            paddingLeft: item.Indentation ?? Indentation
+            width: 200,
+            height: 50,
+            backgroundColor: 'green',
+            ...(item.style || {})
           }}
         />
       );
@@ -179,7 +207,14 @@ const Dropdown: React.FC<DropdownProps> = ({
       id={index}
       ref={dropdownRef}
       className="Dropdown"
-      style={{ position: 'relative', display: 'inline-block', width: '100%', boxSizing: 'border-box' }}
+      style={{
+        position: isRoot ? 'fixed' : 'relative',
+        top: isRoot ? '50%' : undefined,
+        left: isRoot ? '50%' : undefined,
+        transform: isRoot ? 'translate(-50%, -50%)' : undefined,
+        display: 'inline-block',
+        boxSizing: 'border-box'
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -190,7 +225,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         onClick={toggleDropdown}
         arrowProps={{ ...triggerItem.arrowProps, rotate: open ? arrowActiveRotate : arrowDefaultRotate }}
         checkboxProps={triggerItem.checkboxProps}
-        style={{ width: '100%', minWidth: '100%', boxSizing: 'border-box' }}
+        style={{
+          width: 200,
+          height: 50,
+          backgroundColor: 'green',
+          ...(triggerItem.style || {})
+        }}
       />
       {open && triggerItem.children && (
         <DropdownOptionsListWrapper

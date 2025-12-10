@@ -16,6 +16,7 @@ interface OptionItemProps extends React.HTMLAttributes<HTMLDivElement> {
   tooltip?: string;
   active?: boolean;
   className?: string;
+  size?: { width?: string | number; height?: string | number };
 }
 
 const OptionItem: React.FC<OptionItemProps> = ({
@@ -31,6 +32,7 @@ const OptionItem: React.FC<OptionItemProps> = ({
   tooltip,
   active,
   className,
+  size,
   ...rest
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -44,9 +46,7 @@ const OptionItem: React.FC<OptionItemProps> = ({
 
   const finalArrowProps: React.ComponentProps<typeof Arrow> = {
     ...arrowProps,
-    size: {
-      ...(arrowProps.size || {})
-    },
+    size: { ...(arrowProps.size || {}) },
     style: arrowProps.style,
     activeStyle: arrowProps.activeStyle,
     hover: arrowProps.hover,
@@ -56,6 +56,11 @@ const OptionItem: React.FC<OptionItemProps> = ({
   return (
     <div
       className={`OptionItem ${disabled ? 'disabled' : ''} ${visualActive ? 'active' : ''} ${className || ''}`}
+      style={{
+        ...(rest.style || {}),
+        width: size?.width,
+        height: size?.height
+      }}
       onClick={(e) => {
         if (!disabled) onClick?.(e);
       }}

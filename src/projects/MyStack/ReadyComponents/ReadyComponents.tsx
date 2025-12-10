@@ -55,17 +55,17 @@ SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {   
- 
+     Slider_new2_Config: Slider_new2_Config,
+
   Dropdown_Config: Dropdown_Config,
 
     //SidebarDropdown: SidebarDropdown,
 
-      Sidebar: SidebarConfig,
+    Sidebar: SidebarConfig,
 
 
 
 
-    Slider_new2_Config: Slider_new2_Config,
 
 
     OptionItem: OptionItemConfig,

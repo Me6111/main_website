@@ -16,6 +16,10 @@ const WTFD_page: React.FC = () => {
 
       <SectionScreen ref={React.createRef()} />
 
+      <SectionScreen
+        ref={React.createRef()}
+        Image={{ item: Img_1, stagger: true }}
+      />
       
     </main>
   );
