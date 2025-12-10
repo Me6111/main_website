@@ -50,13 +50,7 @@ const MainPage = () => {
 
 <Sidebar
   content={
-    <div
-      className="Sidebar_Content"
-      style={{ overflow: 'hidden', padding: '10px' }}
-    >
-      <h3>Sidebar Content</h3>
-      <p>Example text inside the sidebar.</p>
-    </div>
+<ul>  <a href="/mystack" className="sidebar-optionsList-item">Stack</a>  <li className="NavOption" id="NavOption-WTFD"><a href="/projects/wtfd">WTFD</a></li><li className="NavOption" id="NavOption-Linguana"><a href="/projects/linguana">Linguana</a></li><li className="NavOption" id="NavOption-Metal Games"><a href="/projects/metal-games">Metal Games</a></li><li className="NavOption" id="NavOption-Tarots"><a href="/projects/tarots">Tarots</a></li><li className="NavOption" id="NavOption-Shop"><a href="/projects/shop">Shop</a></li></ul>
   }
 
   Opened={true}

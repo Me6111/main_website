@@ -5,14 +5,11 @@ import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider/Slider';
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
-import NavOptionConfig from '../../../components/NavBar/NavOption/NavOption.config';
 import Arrow_Config from '../../../components/Icons/Arrow/Arrow.config';
 import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
 
 import LearnMoreButtonConfig from '../../../components/Buttons/LearnMoreButton/LearnMoreButton.config';
 import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
-import NavOptionsConfig from '../../../components/NavOptions/NavOptions.config';
-import NavBarConfig from '../../../components/NavBar/NavBar.config';
 
 import InputField0_Config from '../../../components/Dropdown/InputField/InputField0.config'
 import InputField1_Config from '../../../components/Dropdown/InputField/InputField1.config'
@@ -37,7 +34,6 @@ import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.c
 import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
 import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.config_2';
 import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
-import SliderConfig_4 from '../../../components/Slider/Sliders/Slider_4/Slider.config_4';
 
 
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
@@ -51,7 +47,6 @@ SliderConfig_0.Name = 'Slider 0';
 SliderConfig_1.Name = 'Slider 1';
 SliderConfig_2.Name = 'Slider 2';
 SliderConfig_3.Name = 'Slider 3';
-SliderConfig_4.Name = 'Slider 4';
 
 
 const codeShowcaseConfigs = {   
@@ -85,7 +80,6 @@ const codeShowcaseConfigs = {
   CopyButton: CopyButton,
 
 
-  NavBar: NavBarConfig,
 
 
 
