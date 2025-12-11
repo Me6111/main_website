@@ -69,7 +69,6 @@ const MainPage = () => {
         Opened={true}
         content={
 
-          <div style={{position: 'sticky'}}>
 
             <div
               className="menuHorizontal"
@@ -89,9 +88,7 @@ const MainPage = () => {
                 m_fStyle={{
                   backgroundColor: 'rgba(0,0,0,0.463)',
                   color: '#eee',
-                  border: '1px solid white',
-                  boxSizing: 'border-box',
-                  width: '200px',
+                  width: '300px',
                   height: '100vh',
                   position: 'fixed',
                   top: 0,
@@ -100,7 +97,7 @@ const MainPage = () => {
                   transition: 'transform 0.3s ease'
                 }}
                 m_fStyleOpened={{ transform: 'translateX(0%)' }}
-                m_fStyleClosed={{ transform: 'translateX(100%)' }}
+                m_fStyleClosed={{ transform: 'translateX(101%)' }}
                 OpenButton={true}
                 Opened={false}
                 content={
@@ -111,7 +108,6 @@ const MainPage = () => {
                 }
               />
             </div>
-          </div>
         }
       />
 
@@ -145,7 +141,6 @@ const MainPage = () => {
           textAlign: 'center',
           backgroundColor: 'black',
           color: '#eee',
-          boxSizing: 'border-box',
           position: 'relative',
           bottom: 0,
           zIndex: 1

@@ -5,6 +5,7 @@ import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider/Slider';
 import CodeShowcase from './CodeShowcase/CodeShowcase';
 
+import HamburgerButton_Config from '../../../components/Icons/HamburgerButton/HamburgerButton.config';
 import Arrow_Config from '../../../components/Icons/Arrow/Arrow.config';
 import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
 
@@ -39,8 +40,6 @@ import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.c
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
 import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
-import SidebarConfig from '../../../components/Sidebar/Sidebar2/Sidebar.config';
-import SidebarDropdown from '../../../components/Sidebar/Sidebar2/Sidebar_Nav/SidebarDropdown.config';
 
 
 SliderConfig_0.Name = 'Slider 0';
@@ -50,13 +49,13 @@ SliderConfig_3.Name = 'Slider 3';
 
 
 const codeShowcaseConfigs = {   
-     Slider_new2_Config: Slider_new2_Config,
+  HamburgerButton: HamburgerButton_Config,
+  Slider_new2_Config: Slider_new2_Config,
 
   Dropdown_Config: Dropdown_Config,
 
     //SidebarDropdown: SidebarDropdown,
 
-    Sidebar: SidebarConfig,
 
 
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Slider.css';
 import SliderWindow from './SliderWindow/SliderWindow';
 import PrevNextButtons from './PrevNextButtons/PrevNextButtons';
-import Sidebar from '../../Sidebar/Sidebar2/Sidebar';
+//import Sidebar from '../../Sidebar/Sidebar2/Sidebar';
 
 interface SliderProps {
   mainSlider: {
@@ -129,8 +129,8 @@ const Slider: React.FC<SliderProps> = ({ mainSlider, Slider_Preview }) => {
                 />
               )
             };
-
-            return <Sidebar {...sidebarAllProps} />;
+            //return <Sidebar {...sidebarAllProps} />; 
+            return <div />;
           })()}
         </div>
       )}
