@@ -18,6 +18,7 @@ const SidebarConfigComponent: React.FC = () => {
       CloseButton={false}
 
       Style_opened={{ transform: 'translateX(0)' }}
+      Style_closed={{ transform: 'translateX(-100%)' }}
 
       Style_Outer={{
         width: '100%',

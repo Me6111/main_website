@@ -7,6 +7,8 @@ import DevBusinessCard from './projects/DevBusinessCard/DevBusinessCard';
 import MyStack from './projects/MyStack/MyStack';
 import ReadyComponents from './projects/MyStack/ReadyComponents/ReadyComponents';
 
+
+
 const ClashOfMetal_page = () => <div>Metal Games Project Page</div>;
 const Tarots_page = () => <div>Tarots Project Page</div>;
 const Shop_page = () => <div>Shop Page</div>;
@@ -21,6 +23,7 @@ function App() {
             style={{
               width: '100%',
               height: '100%',
+              overflow: 'hidden',
               overflowY: 'auto',
               position: 'relative',
             }}
