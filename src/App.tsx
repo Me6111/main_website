@@ -17,19 +17,8 @@ const Shop_page = () => <div>Shop Page</div>;
 function App() {
   return (
     <Router>
-
-          <div
-            className="a_0"
-            style={{
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden',
-              overflowY: 'auto',
-              position: 'relative',
-            }}
-          >
             <Routes>
-              <Route path="/" element={<MainPage />} />
+<Route path="/" element={<MainPage orientation="horizontal" />} />
               <Route path="/projects/wtfd" element={<WTFD_page />} />
               <Route path="/projects/linguana" element={<Linguana_page />} />
               <Route path="/projects/metal-games" element={<ClashOfMetal_page />} />
@@ -39,13 +28,6 @@ function App() {
               <Route path="/MyStack" element={<MyStack />} />
               <Route path="/MyStack/ReadyComponents" element={<ReadyComponents />} />
             </Routes>
-
-
-
-
-
-          </div>
-
     </Router>
   );
 }

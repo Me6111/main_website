@@ -3,21 +3,30 @@ import OptionItem from './components/Dropdown/OptionItem/OptionItem'
 import M_0 from './components/Sidebar/M_0'
 import Footer from './Footer'
 
-const MainPage = ({ orientation = 'vertical' }) => {
-  const isHorizontal = orientation === 'horizontal'
-  const items = [1, 2, 3, 4]
+
+const MainPage = () => {
+
 
   return (
-    <main
-      style={{
-        height: '100%',
-        overflow: 'hidden',
-        overflowY: 'auto',
-      }}
-    >
-      <div className="a_0" style={{ position: 'relative' }}>
-        <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
-          <div style={{ position: 'sticky', top: 0 }}>
+          <div
+            className="a_0"
+            style={{
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              overflowY: 'auto',
+              position: 'relative',
+            }}
+          >
+
+    <main style={{ position: 'relative' }}>
+      
+      
+      
+      
+      <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
+        <div style={{ position: 'sticky', width: '100%', height: '100vh', top: 0}}>
+          <div style={{ position: 'absolute', width: '100%', height: '100%', top: 0 }}>
             <M_0
               m_fStyle={{
                 backgroundColor: 'rgba(0, 26, 255, 0.46)',
@@ -58,11 +67,10 @@ const MainPage = ({ orientation = 'vertical' }) => {
                       top: 0,
                       right: 0,
                       zIndex: 11,
-                      transition: 'width 0.3s ease',
-                      overflow: 'hidden',
+                      transition: 'transform 0.3s ease'
                     }}
-                    m_fStyleOpened={{ width: '200px' }}
-                    m_fStyleClosed={{ width: '0' }}
+                    m_fStyleOpened={{ transform: 'translateX(0%)' }}
+                    m_fStyleClosed={{ transform: 'translateX(101%)' }}
                     OpenButton={true}
                     Opened={false}
                     content={
@@ -77,35 +85,28 @@ const MainPage = ({ orientation = 'vertical' }) => {
             />
           </div>
         </div>
-
-        <div
-          className="mc"
-          style={{
-            display: 'flex',
-            flexDirection: isHorizontal ? 'row' : 'column',
-            width: '100%',
-            height: isHorizontal ? '100vh' : 'auto',
-            overflowX: isHorizontal ? 'auto' : 'hidden',
-            overflowY: isHorizontal ? 'hidden' : 'auto',
-          }}
-        >
-          {items.map((i) => (
-            <div
-              key={i}
-              style={{
-                flex: isHorizontal ? '0 0 100vw' : 'none',
-                width: isHorizontal ? '100vw' : '100%',
-                height: isHorizontal ? '100%' : '100vh',
-                background: 'black',
-                border: '1px solid white',
-                boxSizing: 'border-box'
-              }}
-            />
-          ))}
-          <Footer />
-        </div>
       </div>
+
+
+{[1, 2, 3, 4].map((i) => (
+  <div
+    key={i}
+    style={{
+      width: "100%",
+      height: "100vh",
+      background: "black",
+      border: "1px solid white",
+      boxSizing: "border-box"
+    }}
+  />
+))}
+
+
+      <Footer/>
     </main>
+
+
+    </div>
   )
 }
 
