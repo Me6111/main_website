@@ -1,15 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import OptionItem from '../OptionItem/OptionItem';
 
 export interface DropdownItem {
   label: string;
   children?: DropdownItem[];
   optionsListPosition?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
-  arrowProps?: any;
-  checkboxProps?: any;
   Indentation?: string;
   AllowMultipleMenusOpened?: boolean;
   RememberOpenedMenus?: boolean;
+  element?: React.ReactNode;
 }
 
 interface DropdownProps {
@@ -17,8 +15,6 @@ interface DropdownProps {
   optionsListPosition?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
   OpenMenu?: Array<'click' | 'hover'>;
   CloseMenu?: Array<'click_option_again' | 'click_outside' | 'mouse_leave'>;
-  arrowDefaultRotate?: 'top' | 'bottom' | 'left' | 'right';
-  arrowActiveRotate?: 'top' | 'bottom' | 'left' | 'right';
   Indentation?: string;
   parentIndex?: string;
   index?: string;
@@ -44,7 +40,6 @@ const DropdownOptionsListWrapper: React.FC<{
   id: string;
 }> = ({ children, position = 'bottom', indentation }) => {
   const { dir, amount } = parseIndentation(indentation);
-
   const offsetStyle: React.CSSProperties =
     dir === 'left'
       ? { left: amount }
@@ -52,9 +47,7 @@ const DropdownOptionsListWrapper: React.FC<{
       ? { right: amount }
       : dir === 'top'
       ? { top: amount }
-      : dir === 'bottom'
-      ? { bottom: amount }
-      : { left: amount };
+      : { bottom: amount };
 
   const style: React.CSSProperties =
     position === 'inside'
@@ -63,8 +56,8 @@ const DropdownOptionsListWrapper: React.FC<{
           ...offsetStyle,
           display: 'flex',
           flexDirection: 'column',
-          width: 'max-content',
-          boxSizing: 'border-box'
+          width: '100%',
+          boxSizing: 'border-box',
         }
       : {
           position: 'absolute',
@@ -79,7 +72,7 @@ const DropdownOptionsListWrapper: React.FC<{
           flexDirection: 'column',
           width: 'max-content',
           ...offsetStyle,
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
         };
 
   return <div className="options_list" style={style}>{children}</div>;
@@ -90,15 +83,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   optionsListPosition = 'bottom',
   OpenMenu = ['click'],
   CloseMenu = ['click_option_again'],
-  arrowDefaultRotate = 'left',
-  arrowActiveRotate = 'bottom',
   Indentation = 'left, 0px',
   parentIndex = '',
   index = '0',
   parentAllowMultiple = false,
   forceOpen = false,
   parentRememberList,
-  isRoot = false
+  isRoot = false,
 }) => {
   const [open, setOpen] = useState(forceOpen);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -123,12 +114,12 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const openDropdown = () => {
     if (!triggerItem.AllowMultipleMenusOpened && !parentAllowMultiple) {
-      const siblings = Array.from(DropdownRegistry.keys()).filter(id => {
+      const siblings = Array.from(DropdownRegistry.keys()).filter((id) => {
         if (id === index) return false;
         if (!id.startsWith(parentIndex)) return false;
         return id.length === index.length;
       });
-      siblings.forEach(id => DropdownRegistry.get(id)?.());
+      siblings.forEach((id) => DropdownRegistry.get(id)?.());
     }
     DropdownRegistry.set(index, closeDropdown);
     setOpen(true);
@@ -150,7 +141,12 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (CloseMenu.includes('click_outside') && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) closeDropdown();
+      if (
+        CloseMenu.includes('click_outside') &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      )
+        closeDropdown();
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -170,36 +166,19 @@ const Dropdown: React.FC<DropdownProps> = ({
             optionsListPosition={item.optionsListPosition || optionsListPosition}
             OpenMenu={OpenMenu}
             CloseMenu={CloseMenu}
-            arrowDefaultRotate={arrowDefaultRotate}
-            arrowActiveRotate={arrowActiveRotate}
             Indentation={item.Indentation ?? Indentation}
             parentIndex={index}
             index={childIndex}
             parentAllowMultiple={triggerItem.AllowMultipleMenusOpened ?? false}
             forceOpen={childInitiallyOpen}
             parentRememberList={triggerItem.RememberOpenedMenus ? OpenedMenus[index] : undefined}
+            isRoot={false}
           />
         );
       }
 
-      return (
-        <OptionItem
-          key={childIndex}
-          id={childIndex}
-          content={item.label}
-          expandIcon={false}
-          active={false}
-          arrowProps={{ ...item.arrowProps, rotate: arrowDefaultRotate }}
-          checkboxProps={item.checkboxProps}
-          onClick={() => {}}
-          style={{
-            width: 200,
-            height: 50,
-            backgroundColor: 'green',
-            ...(item.style || {})
-          }}
-        />
-      );
+      if (item.element) return <div key={childIndex}>{item.element}</div>;
+      return <div key={childIndex}>{item.label}</div>;
     });
 
   return (
@@ -208,30 +187,18 @@ const Dropdown: React.FC<DropdownProps> = ({
       ref={dropdownRef}
       className="Dropdown"
       style={{
-        position: isRoot ? 'fixed' : 'relative',
+        position: isRoot ? 'absolute' : 'relative',
         top: isRoot ? '50%' : undefined,
         left: isRoot ? '50%' : undefined,
-        transform: isRoot ? 'translate(-50%, -50%)' : undefined,
         display: 'inline-block',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <OptionItem
-        content={triggerItem.label}
-        expandIcon={!!triggerItem.children?.length}
-        active={open}
-        onClick={toggleDropdown}
-        arrowProps={{ ...triggerItem.arrowProps, rotate: open ? arrowActiveRotate : arrowDefaultRotate }}
-        checkboxProps={triggerItem.checkboxProps}
-        style={{
-          width: 200,
-          height: 50,
-          backgroundColor: 'green',
-          ...(triggerItem.style || {})
-        }}
-      />
+      <div onClick={toggleDropdown}>
+        {triggerItem.element || triggerItem.label}
+      </div>
       {open && triggerItem.children && (
         <DropdownOptionsListWrapper
           id={`${index}-list`}

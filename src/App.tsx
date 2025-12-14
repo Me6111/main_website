@@ -18,7 +18,21 @@ function App() {
   return (
     <Router>
             <Routes>
-<Route path="/" element={<MainPage orientation="horizontal" />} />
+              <Route path="/" element={<MainPage orientation="vertical" />} />
+              <Route path="/ReadyComponents" element={<ReadyComponents />} />
+
+            </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+// <Route path="/" element={<MainPage orientation="vertical" />} />
+/*
+
+
+
               <Route path="/projects/wtfd" element={<WTFD_page />} />
               <Route path="/projects/linguana" element={<Linguana_page />} />
               <Route path="/projects/metal-games" element={<ClashOfMetal_page />} />
@@ -26,10 +40,6 @@ function App() {
               <Route path="/projects/shop" element={<Shop_page />} />
               <Route path="/DevBusinessCard" element={<DevBusinessCard />} />
               <Route path="/MyStack" element={<MyStack />} />
-              <Route path="/MyStack/ReadyComponents" element={<ReadyComponents />} />
-            </Routes>
-    </Router>
-  );
-}
 
-export default App;
+
+*/
