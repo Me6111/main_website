@@ -16,6 +16,9 @@ interface ArrowProps {
   isParentHovered?: boolean;
   style?: React.CSSProperties;
   activeStyle?: React.CSSProperties;
+  strokeWidth?: number;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 const directionToDegrees = (dir: Dir = "top") => {
@@ -29,7 +32,16 @@ const directionToDegrees = (dir: Dir = "top") => {
   }
 };
 
-const Arrow: React.FC<ArrowProps> = ({ size = {}, hover = {}, isParentHovered = false, style = {}, activeStyle = {} }) => {
+const Arrow: React.FC<ArrowProps> = ({
+  size = {},
+  hover = {},
+  isParentHovered = false,
+  style = {},
+  activeStyle = {},
+  strokeWidth = 0.25,
+  strokeColor = "black",
+  fillColor = "none"
+}) => {
   const baseWidth = size.width ?? 12;
   const baseHeight = size.height ?? 8;
   const baseNotch = size.notch ?? 0;
@@ -106,8 +118,8 @@ const Arrow: React.FC<ArrowProps> = ({ size = {}, hover = {}, isParentHovered = 
   return (
     <div
       style={{
-        width: bigWidth / 4,
-        height: bigHeight / 4,
+        width: bigWidth / 2,
+        height: bigHeight / 2,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -127,7 +139,10 @@ const Arrow: React.FC<ArrowProps> = ({ size = {}, hover = {}, isParentHovered = 
           transformOrigin: "center"
         }}
       >
-        <polygon points={polygonPoints} style={{ fill: "none", stroke: "black", strokeWidth: 0.25 }} />
+        <polygon
+          points={polygonPoints}
+          style={{ fill: fillColor, stroke: strokeColor, strokeWidth }}
+        />
       </svg>
     </div>
   );
