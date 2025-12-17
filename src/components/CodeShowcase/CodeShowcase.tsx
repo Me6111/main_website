@@ -1,61 +1,62 @@
-import React from 'react';
-import './CodeShowcase.css';
-import CodeBlock from '../CodeBlock/CodeBlock';
+import React, { useState, useEffect } from "react";
+import Arrow from "../Icons/Arrow/Arrow";
+import CodeBlock from "./CodeBlock";
+import PropsEditor, { InputField } from "./PropsEditor";
 
-interface ShowcaseProps {
-  Name: string;
-  ComponentUsageCodeRaw: string | unknown;
-  ComponentDefinitionCodeRaw: string | unknown;
-  ComponentStyleCodeRaw: string | unknown;
-  language?: string;
-  ComponentInstance?: React.ReactNode;
-}
+const CodeShowcase: React.FC = () => {
+  const [width, setWidth] = useState<number | "">(50);
+  const [height, setHeight] = useState<number | "">(30);
+  const [fillColor, setFillColor] = useState("red");
+  const [strokeColor, setStrokeColor] = useState("white");
+  const [strokeWidth, setStrokeWidth] = useState<number | "">(0.25);
+  const [rotate, setRotate] = useState<string | number>("top");
+  const [notch, setNotch] = useState<number | "">(0);
+  const [transition, setTransition] = useState<number | "">(0.25);
+  const [code, setCode] = useState("");
 
-const CodeShowcase: React.FC<ShowcaseProps> = ({
-  Name,
-  ComponentUsageCodeRaw,
-  ComponentDefinitionCodeRaw,
-  ComponentStyleCodeRaw,
-  language = 'tsx',
-  ComponentInstance,
-}) => {
-  const safeCode = (code: string | unknown) =>
-    typeof code === 'string' ? code : String(code ?? '');
+  const fields: InputField<any>[] = [
+    { name: "width", type: "number", value: width, setter: setWidth },
+    { name: "height", type: "number", value: height, setter: setHeight },
+    { name: "fillColor", type: "string", value: fillColor, setter: setFillColor },
+    { name: "strokeColor", type: "string", value: strokeColor, setter: setStrokeColor },
+    { name: "strokeWidth", type: "number", value: strokeWidth, setter: setStrokeWidth },
+    { name: "rotate", type: "string", value: rotate, setter: setRotate },
+    { name: "notch", type: "number", value: notch, setter: setNotch },
+    { name: "transition", type: "number", value: transition, setter: setTransition }
+  ];
 
-  const stripExport = (code: string) =>
-    code
-      .replace(/^\s*export\s+default\s+/m, '')
-      .replace(/^\s*export\s+(const|function|class)\s+/gm, '$1 ')
-      .replace(/^\s*export\s+\{[^}]*\};?\s*$/gm, '');
-
-  const usageCode = stripExport(safeCode(ComponentUsageCodeRaw).trim());
-  const definitionCode = stripExport(safeCode(ComponentDefinitionCodeRaw));
-  const styleCode = safeCode(ComponentStyleCodeRaw);
+  useEffect(() => {
+    const props: string[] = [];
+    if (width !== "") props.push(`width={${width}}`);
+    if (height !== "") props.push(`height={${height}}`);
+    if (fillColor) props.push(`fillColor="${fillColor}"`);
+    if (strokeColor) props.push(`strokeColor="${strokeColor}"`);
+    if (strokeWidth !== "") props.push(`strokeWidth={${strokeWidth}}`);
+    if (rotate !== "") props.push(`rotate={${typeof rotate === "number" ? rotate : `"${rotate}"`}}`);
+    if (notch !== "") props.push(`notch={${notch}}`);
+    if (transition !== "") props.push(`transition={${transition}}`);
+    setCode(`<Arrow ${props.join(" ")} />`);
+  }, [width, height, fillColor, strokeColor, strokeWidth, rotate, notch, transition]);
 
   return (
-    <div className="CodeShowcase" id={`CodeShowcase-${Name}`}>
-      <h2 className="section-title">{Name}</h2>
-
-      <div className="live-preview" id={`live-preview-${Name}`}>
-        {ComponentInstance || (
-          <div style={{ color: 'red' }}>ComponentInstance is missing.</div>
-        )}
-      </div>
-
-      <div className="code-sections">
-        <div className="live-preview-section">
-          <h3>Usage</h3>
-          <CodeBlock code={usageCode} language={language} />
+    <div style={{ minHeight: "100vh", background: "#000", color: "#fff", padding: "24px" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", display: "grid", gap: "24px" }}>
+        <h2>Arrow Playground</h2>
+        <div style={{ height: "160px", border: "1px solid #222", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Arrow
+            width={width === "" ? undefined : width}
+            height={height === "" ? undefined : height}
+            fillColor={fillColor}
+            strokeColor={strokeColor}
+            strokeWidth={strokeWidth === "" ? undefined : strokeWidth}
+            rotate={rotate as any}
+            notch={notch === "" ? undefined : notch}
+            transition={transition === "" ? undefined : transition}
+          />
         </div>
-
-        <div className="live-preview-section">
-          <h3>Definition</h3>
-          <CodeBlock code={definitionCode} language={language} />
-        </div>
-
-        <div className="live-preview-section">
-          <h3>Style</h3>
-          <CodeBlock code={styleCode} language="css" />
+        <div style={{ display: "grid", gap: "24px" }}>
+          <PropsEditor fields={fields} />
+          <CodeBlock code={code} language="tsx" />
         </div>
       </div>
     </div>

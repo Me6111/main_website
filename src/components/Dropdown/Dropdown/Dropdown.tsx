@@ -22,6 +22,7 @@ interface DropdownProps {
   forceOpen?: boolean;
   parentRememberList?: string[];
   isRoot?: boolean;
+  DropdownOption?: (props: { label: string; onClick?: () => void; isOpen?: boolean }) => React.ReactNode;
 }
 
 const DropdownRegistry: Map<string, () => void> = new Map();
@@ -90,6 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   forceOpen = false,
   parentRememberList,
   isRoot = false,
+  DropdownOption,
 }) => {
   const [open, setOpen] = useState(forceOpen);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -173,11 +175,16 @@ const Dropdown: React.FC<DropdownProps> = ({
             forceOpen={childInitiallyOpen}
             parentRememberList={triggerItem.RememberOpenedMenus ? OpenedMenus[index] : undefined}
             isRoot={false}
+            DropdownOption={DropdownOption}
           />
         );
       }
 
-      if (item.element) return <div key={childIndex}>{item.element}</div>;
+      if (item.element)
+        return DropdownOption
+          ? <div key={childIndex}>{DropdownOption({ label: item.label, isOpen: false })}</div>
+          : <div key={childIndex}>{item.element}</div>;
+
       return <div key={childIndex}>{item.label}</div>;
     });
 
@@ -197,7 +204,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       <div onClick={toggleDropdown}>
-        {triggerItem.element || triggerItem.label}
+        {DropdownOption
+          ? DropdownOption({ label: triggerItem.label, onClick: toggleDropdown, isOpen: open })
+          : triggerItem.element || triggerItem.label}
       </div>
       {open && triggerItem.children && (
         <DropdownOptionsListWrapper

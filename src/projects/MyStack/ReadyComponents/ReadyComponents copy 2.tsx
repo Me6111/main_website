@@ -25,6 +25,7 @@ const ListOfElementsForUsingLater = {
 };
 
 const ReadyComponents = () => {
+      <CodeShowcase/>
 
 
 
@@ -71,7 +72,7 @@ const ReadyComponents = () => {
         overflowY: 'auto',
       }}
     >
-      <CodeShowcase/>
+      {renderedSlides}
     </div>
   );
 
