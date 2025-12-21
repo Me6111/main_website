@@ -4,15 +4,17 @@ interface SliderProps {
   a_10: React.ReactNode
   a_11: React.ReactNode
   orientation?: 'horizontal' | 'vertical'
+  a_10Style?: React.CSSProperties
 }
 
-const Slider: React.FC<SliderProps> = ({ a_10, a_11, orientation = 'vertical' }) => {
+const Slider: React.FC<SliderProps> = ({ a_10, a_11, orientation = 'vertical', a_10Style }) => {
   const isHorizontal = orientation === 'horizontal'
 
   return (
     <div className='Slider' style={{ height: '100%', overflow: 'hidden', overflowY: 'auto' }}>
-      <div className="a_0" style={{ position: 'relative' }}>
-        <div className="a_10" style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none' }}>
+      <div className="a_0" style={{ position: 'relative', display: 'flex', flexDirection: 'row' }}>
+
+        <div className="a_10" style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', ...a_10Style }}>
           {a_10}
         </div>
 
@@ -29,6 +31,7 @@ const Slider: React.FC<SliderProps> = ({ a_10, a_11, orientation = 'vertical' })
         >
           {a_11}
         </div>
+
       </div>
     </div>
   )

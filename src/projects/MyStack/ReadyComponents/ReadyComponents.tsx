@@ -1,91 +1,150 @@
-import React, { useState } from 'react';
-import Slider from '../../../components/Slider/Slider';
-import CodeShowcase from '../../../components/CodeShowcase/CodeShowcase';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar/Sidebar';
+import Footer from '../../../Footer';
+import Slider from '../../../components/Slider/Slider';
+import Catalogue from './Catalogue';
+import CodeShowcase from '../../../components/CodeShowcase/CodeShowcase';
 
-import Dropdown_ComponentsCatalogue from './Dropdown_ComponentsCatalogue';
+import Arrow, { exampleArrowProps, arrowPropOptions } from '../../../components/Icons/Arrow/Arrow';
+import HamburgerButton, { exampleHamburgerProps } from '../../../components/Icons/HamburgerButton/HamburgerButton';
+import Dropdown, { exampleDropdownProps, dropdownPropOptions } from '../../../components/Dropdown/Dropdown/Dropdown';
 
+import img0 from './images/0.png';
+import img1 from './images/1.png';
+import img2 from './images/2.png';
+import img3 from './images/3.png';
 
-import HamburgerButton_Config from '../../../components/Icons/HamburgerButton/HamburgerButton.config';
-import Arrow_Config from '../../../components/Icons/Arrow/Arrow.config';
-import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
-import Dropdown_Config from '../../../components/Dropdown/Dropdown/Dropdown.config';
-import OptionItemConfig from '../../../components/Dropdown/OptionItem/OptionItem.config';
-import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
+const fields = [
+  { Image: img0, header1: 'Maksym Pawlowski', p: 'Software Developer', buttonLabel: 'Learn More' },
+  { Image: img1, header1: 'Perfect UI', p: 'Get beauty and functionality', buttonLabel: 'Learn More' },
+  { Image: img2, header1: 'Solid Construction', p: 'Make it strong like nature itself', buttonLabel: 'Learn More' },
+  { Image: img3, header1: 'Scalability', p: 'Make it ready to grow', buttonLabel: 'Learn More' },
+];
 
-const ListOfElementsForUsingLater = {
-  Arrow: Arrow_Config,
-
-
-  HamburgerButton: HamburgerButton_Config,
-  Dropdown_Config: Dropdown_Config,
-  OptionItem: OptionItemConfig,
-  CopyButton: CopyButton,
-  CheckBox: CheckBox_Config,
+const componentsMap = {
+  Arrow: { component: Arrow, exampleProps: exampleArrowProps, propOptions: arrowPropOptions },
+  Hamburger: { component: HamburgerButton, exampleProps: exampleHamburgerProps },
+  Dropdown: { component: Dropdown, exampleProps: exampleDropdownProps, propOptions: dropdownPropOptions },
 };
 
-const ReadyComponents = () => {
+const MainPage = ({ orientation = 'vertical' }) => {
+  const [clickedValue, setClickedValue] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 1024);
+  const isHorizontal = orientation === 'horizontal';
+  const catalogueItems = Object.keys(componentsMap);
 
-
-
-
-
-
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const a_10_content = (
-    <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-      <Sidebar
-        Style__Sidebar_Field={{
-          backgroundColor: 'rgba(0, 0, 0, 0.58)',
-          width: '300px',
-          height: '100vh',
-          position: 'relative',
-          top: 0,
-          right: 0,
-          zIndex: 11,
-        }}
-        OpenButton={false}
-        Opened={true}
-        content={
-
-
-
-            <Dropdown_ComponentsCatalogue/>
-
-        }
-      />
-    </div>
+    <Sidebar
+      Style__Sidebar_Field={{
+        backgroundColor: 'rgba(0,0,0,0.463)',
+        color: '#eee',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 11,
+        transition: 'width 0.3s ease',
+        overflow: 'hidden',
+      }}
+      Style__Sidebar_FieldOpened={{ width: '300px' }}
+      Style__Sidebar_FieldClosed={{ width: '0' }}
+      Style__Sidebar_Button={
+        isDesktop ? { display: 'none' } : { position: 'relative' }
+      }
+      OpenButton={true}
+      Opened={isDesktop}
+      ButtonElement={<HamburgerButton />}
+      content={<Catalogue items={catalogueItems} onItemClick={setClickedValue} />}
+    />
   );
 
-
-
-
-
-
-  const a_11_content = (
+  const a_11_content = clickedValue ? (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        color: 'white',
+        fontSize: '36px',
+        textAlign: 'center',
         height: '100vh',
-        overflowY: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
       }}
     >
-      <CodeShowcase/>
+      {clickedValue}
+      {componentsMap[clickedValue] && (
+        <CodeShowcase
+          component={componentsMap[clickedValue].component}
+          exampleProps={componentsMap[clickedValue].exampleProps}
+          propOptions={componentsMap[clickedValue].propOptions}
+        />
+      )}
     </div>
+  ) : (
+    <>
+      <div style={{ width: '100%' }}>
+        {fields.map((field, index) => (
+          <div
+            key={index}
+            style={{
+              flex: isHorizontal ? '0 0 100vw' : 'none',
+              width: isHorizontal ? '100vw' : '100%',
+              height: isHorizontal ? '100%' : '100vh',
+              background: `url(${field.Image}) no-repeat center center`,
+              backgroundSize: 'cover',
+              border: '1px solid white',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white',
+                textAlign: 'center',
+                height: '100%',
+              }}
+            >
+              <h1 style={{ fontSize: '36px', fontWeight: 'bold' }}>{field.header1}</h1>
+              <p style={{ fontSize: '18px', marginBottom: '20px' }}>{field.p}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </>
   );
 
   return (
-    <main>
-      <div className="s0" style={{ backgroundColor: 'rgba(246, 236, 202, 1)' }}>
-        <Slider
-          a_10={a_10_content}
-          a_11={a_11_content}
-          orientation="vertical"
-        />
-      </div>
-    </main>
+    <Slider
+      a_10Style={
+
+        isDesktop ? {         
+          width: '400px',
+        height: '100vh',
+        top: '0',
+        position: 'sticky',
+        overflow: 'hidden',
+        pointerEvents: 'all', } : {           width: '0',
+ }
+
+
+      }
+      a_10={a_10_content}
+      a_11={a_11_content}
+      orientation={orientation}
+    />
   );
 };
 
-export default ReadyComponents;
+export default MainPage;

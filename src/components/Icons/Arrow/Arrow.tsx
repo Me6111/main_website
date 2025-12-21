@@ -1,21 +1,36 @@
 import React from "react";
 
-type Dir = number | "top" | "bottom" | "left" | "right";
+export type Dir = "top" | "bottom" | "left" | "right";
 
 export interface Props {
   width?: number;
   height?: number;
   notch?: number;
-  rotate?: Dir;
+  direction?: Dir;
+  directionDegrees?: number;
   strokeWidth?: number;
   strokeColor?: string;
   fillColor?: string;
   transition?: number;
-  style?: React.CSSProperties;
 }
 
-const directionToDegrees = (dir: Dir = "top") => {
-  if (typeof dir === "number") return dir;
+export const arrowPropOptions = {
+  direction: ["top", "bottom", "left", "right"] as Dir[],
+};
+
+export const exampleArrowProps: Props = {
+  width: 50,
+  height: 30,
+  notch: 0,
+  direction: "top",
+  directionDegrees: 25,
+  strokeWidth: 0.25,
+  strokeColor: "white",
+  fillColor: "red",
+  transition: 0.25,
+};
+
+const directionToDegrees = (dir: Dir) => {
   switch (dir) {
     case "right":
       return 90;
@@ -29,54 +44,56 @@ const directionToDegrees = (dir: Dir = "top") => {
 };
 
 const Arrow: React.FC<Props> = ({
-  width = 12,
-  height = 8,
-  notch = 0,
-  rotate = "top",
-  strokeWidth = 0.25,
-  strokeColor = "black",
-  fillColor = "none",
-  transition = 0.25,
-  style = {}
+  width,
+  height,
+  notch,
+  direction,
+  directionDegrees,
+  strokeWidth,
+  strokeColor,
+  fillColor,
+  transition,
 }) => {
-  const rotateDeg = directionToDegrees(rotate);
-  const cx = width / 2;
-  const cy = height / 2;
+  const w = width ?? 12;
+  const h = height ?? 8;
+  const n = notch ?? 0;
+  const sw = strokeWidth ?? 0.25;
+  const sc = strokeColor ?? "black";
+  const fc = fillColor ?? "none";
+  const tr = transition ?? 0.25;
+
+  const rotateDeg =
+    typeof directionDegrees === "number"
+      ? directionDegrees
+      : direction
+      ? directionToDegrees(direction)
+      : 0;
+
+  const cx = w / 2;
+  const cy = h / 2;
 
   const polygonPoints = [
-    `${cx},${cy - height / 2}`,
-    `${cx - width / 2},${cy + height / 2}`,
-    `${cx},${cy + height / 2 - notch}`,
-    `${cx + width / 2},${cy + height / 2}`
+    `${cx},${cy - h / 2}`,
+    `${cx - w / 2},${cy + h / 2}`,
+    `${cx},${cy + h / 2 - n}`,
+    `${cx + w / 2},${cy + h / 2}`,
   ].join(" ");
 
   return (
-    <div
-      style={{
-        width,
-        height,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        ...style
-      }}
-    >
+    <div style={{ width: w, height: h, display: "flex", justifyContent: "center", alignItems: "center" }}>
       <svg
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
+        width={w}
+        height={h}
+        viewBox={`0 0 ${w} ${h}`}
         xmlns="http://www.w3.org/2000/svg"
         style={{
           display: "block",
           transform: `rotate(${rotateDeg}deg)`,
           transformOrigin: "center",
-          transition: `all ${transition}s ease`
+          transition: `all ${tr}s ease`,
         }}
       >
-        <polygon
-          points={polygonPoints}
-          style={{ fill: fillColor, stroke: strokeColor, strokeWidth }}
-        />
+        <polygon points={polygonPoints} style={{ fill: fc, stroke: sc, strokeWidth: sw }} />
       </svg>
     </div>
   );

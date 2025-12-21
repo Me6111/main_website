@@ -1,7 +1,6 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-
 import CopyButton from '../Buttons/CopyButton/CopyButton';
 import './CodeBlock.css';
 
@@ -11,7 +10,14 @@ interface CodeBlockProps {
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code, language }) => {
-  const safeCode = typeof code === 'string' ? code.trim() : '';
+  const safeCode =
+    typeof code === 'string'
+      ? code
+          .split(/;\s*/g)
+          .map(line => line.trim())
+          .filter(line => line.length > 0)
+          .join('\n')
+      : '';
 
   return (
     <div className="code-block-wrapper">
@@ -19,7 +25,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code, language }) => {
         <span className="language-label">{language}</span>
         <CopyButton textToCopy={safeCode} size={18} />
       </div>
-
       <div>
         <SyntaxHighlighter language={language} style={vscDarkPlus} showLineNumbers>
           {safeCode}

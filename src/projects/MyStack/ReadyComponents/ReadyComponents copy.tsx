@@ -1,167 +1,75 @@
 import React, { useState } from 'react';
-import './ReadyComponents.css';
-import ReadyComponentsMain from './ReadyComponentsMain.png';
 import Slider from '../../../components/Slider/Slider';
-import CodeShowcase from './CodeShowcase/CodeShowcase';
+import CodeShowcase from '../../../components/CodeShowcase/CodeShowcase';
+import Sidebar from '../../../components/Sidebar/Sidebar';
+
+import Dropdown_ComponentsCatalogue from './Dropdown_ComponentsCatalogue';
+
 
 import HamburgerButton_Config from '../../../components/Icons/HamburgerButton/HamburgerButton.config';
 import Arrow_Config from '../../../components/Icons/Arrow/Arrow.config';
 import CheckBox_Config from '../../../components/CheckBox/CheckBox_Config';
-
-import LearnMoreButtonConfig from '../../../components/Buttons/LearnMoreButton/LearnMoreButton.config';
-import MainMenuConfig from '../../../components/MainMenu/MainMenu.config';
-
-import InputField0_Config from '../../../components/Dropdown/InputField/InputField0.config'
-import InputField1_Config from '../../../components/Dropdown/InputField/InputField1.config'
-import InputField2_Config from '../../../components/Dropdown/InputField/InputField2.config'
-
-
-import Dropdown0_Config from '../../../components/Dropdown/Dropdown/Dropdown0.config'
-import Dropdown1_Config from '../../../components/Dropdown/Dropdown/Dropdown1.config'
-import Dropdown_Config from '../../../components/Dropdown/Dropdown/Dropdown.config'
-
-import OptionItemConfig from '../../../components/Dropdown/OptionItem/OptionItem.config'
-
-
-
-
-
-import Slider_new2_Config from '../../../components/Slider/Slider_new2/Slider.config';
-
-
-
-import SliderConfig_0 from '../../../components/Slider/Sliders/Slider_0/Slider.config_0';
-import SliderConfig_1 from '../../../components/Slider/Sliders/Slider_1/Slider.config_1';
-import SliderConfig_2 from '../../../components/Slider/Sliders/Slider_2/Slider.config_2';
-import SliderConfig_3 from '../../../components/Slider/Sliders/Slider_3/Slider.config_3';
-
-
+import Dropdown_Config from '../../../components/Dropdown/Dropdown/Dropdown.config';
+import OptionItemConfig from '../../../components/Dropdown/OptionItem/OptionItem.config';
 import CopyButton from '../../../components/Buttons/CopyButton/CopyButton.config';
-import CodeBlockConfig from '../../../components/CodeBlock/CodeBlock.config';
 
-
-
-SliderConfig_0.Name = 'Slider 0';
-SliderConfig_1.Name = 'Slider 1';
-SliderConfig_2.Name = 'Slider 2';
-SliderConfig_3.Name = 'Slider 3';
-
-
-const codeShowcaseConfigs = {   
-  HamburgerButton: HamburgerButton_Config,
-  Slider_new2_Config: Slider_new2_Config,
-
-  Dropdown_Config: Dropdown_Config,
-
-    //SidebarDropdown: SidebarDropdown,
-
-
-
-
-
-
-
-    OptionItem: OptionItemConfig,
-
-
-
-
-
-
-
-  //Slider_3: SliderConfig_3,
-  //Slider_0: SliderConfig_0,
-  //Slider_1: SliderConfig_1,
-  //Slider_2: SliderConfig_2,
-  //Slider_4: SliderConfig_4,
-
-  CopyButton: CopyButton,
-
-
-
-
-
-
-
-  CheckBox: CheckBox_Config,
-
-
+const ListOfElementsForUsingLater = {
   Arrow: Arrow_Config,
 
 
-
-
-
-
-
-
-
-
-
-  /*
-  Dropdown_0: Dropdown0_Config,
-
-  */
-
-
-
-  //Dropdown_1: Dropdown1_Config,
-
-
-
-  /*
-  InputField_0: InputField0_Config,
-  InputField_1: InputField1_Config,
-  InputField_2: InputField2_Config,
-
-
-
-
-
-
-
-
-  NavBar: NavBarConfig,
-  NavOptions: NavOptionsConfig,
-  NavOption: NavOptionConfig,
-  LearnMoreButton: LearnMoreButtonConfig,
-  MainMenu: MainMenuConfig,
-
-
-  CodeBlock: CodeBlockConfig,
-
-  */
+  HamburgerButton: HamburgerButton_Config,
+  Dropdown_Config: Dropdown_Config,
+  OptionItem: OptionItemConfig,
+  CopyButton: CopyButton,
+  CheckBox: CheckBox_Config,
 };
 
 const ReadyComponents = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
 
-  const renderedSlides = Object.entries(codeShowcaseConfigs).map(([key, config], index) => (
-    <CodeShowcase
-      key={key}
-      Name={config.Name}
-      ComponentUsageCodeRaw={config.ComponentUsageCodeRaw}
-      ComponentDefinitionCodeRaw={config.ComponentDefinitionCodeRaw}
-      ComponentStyleCodeRaw={config.ComponentStyleCodeRaw}
-      language={config.language}
-      dependencies={config.dependencies}
-      ComponentInstance={config.ComponentInstance}
-      isActive={activeIndex === index}
-    />
-  ));
+  const a_10_content = (
+    <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+      <Sidebar
+        Style__Sidebar_Field={{
+          backgroundColor: 'rgba(255, 255, 255, 0.58)',
+          width: '300px',
+          height: '100vh',
+          position: 'relative',
+          top: 0,
+          right: 0,
+          zIndex: 11,
+        }}
+        OpenButton={false}
+        Opened={true}
+        content={ 
+          <Dropdown_ComponentsCatalogue/>
+        }
+      />
+    </div>
+  );
+
+
+
+  const a_11_content = (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        overflowY: 'auto',
+      }}
+    >
+      <CodeShowcase/>
+    </div>
+  );
 
   return (
     <main>
-
-      <div className="s0">
-      <Slider
-        Unique_Slider_Name="readyComponents-slider"
-        gap={500}
-        slideWidths={{ active: 100, left: 100, right: 100 }}
-        slides={renderedSlides}
-        NavType={{ NavType: 'arrows', Type: 0, Style: 0 }}
-      />
-
+      <div className="s0" style={{ backgroundColor: 'rgba(246, 236, 202, 1)' }}>
+        <Slider
+          a_10={a_10_content}
+          a_11={a_11_content}
+          orientation="vertical"
+        />
       </div>
     </main>
   );

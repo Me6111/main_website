@@ -4,6 +4,7 @@ const Sidebar = ({
   Style__Sidebar_Field,
   Style__Sidebar_FieldOpened,
   Style__Sidebar_FieldClosed,
+  Style__Sidebar_Button,
   content,
   OpenButton = false,
   Opened = false,
@@ -23,6 +24,7 @@ const Sidebar = ({
             zIndex: 1000,
             pointerEvents: 'all',
             cursor: 'pointer',
+            ...Style__Sidebar_Button,
           }}
           onClick={() => setOpened(!opened)}
         >
@@ -36,7 +38,6 @@ const Sidebar = ({
           overflow: 'hidden',
           ...Style__Sidebar_Field,
           ...(opened ? Style__Sidebar_FieldOpened : Style__Sidebar_FieldClosed),
-          backgroundColor: Style__Sidebar_Field.backgroundColor,
         }}
       >
         {content}

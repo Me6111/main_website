@@ -1,0 +1,14 @@
+  const catalogue = [
+    { title: 'Concepts', items: ['Overview', 'Composition', 'Animation', 'Color Mode', 'Server Component', 'Testing'] },
+    { title: 'Layout', items: ['Aspect Ratio', 'Bleed', 'Box', 'Center (Absolute)', 'Center', 'Container', 'Flex', 'Float', 'Grid', 'Group', 'Scroll Area', 'Separator', 'SimpleGrid', 'Splitter', 'Stack', 'Wrap'] },
+    { title: 'Typography', items: ['Blockquote', 'Code', 'Code Block', 'Em', 'Heading', 'Highlight', 'Kbd', 'Link', 'Link Overlay', 'List', 'Mark', 'Prose', 'Text'] },
+    { title: 'Buttons', items: ['Button', 'Close Button', 'Icon Button', 'Download Trigger'] },
+    { title: 'Forms', items: ['Checkbox', 'Checkbox Card', 'Color Picker', 'Color Swatch', 'Editable', 'Field', 'Fieldset', 'File Upload', 'Input', 'Number Input', 'Password Input', 'Pin Input', 'Radio Card', 'Radio', 'Rating', 'Segmented Control', 'Select (Native)', 'Switch', 'Slider', 'Textarea', 'Tags Input'] },
+    { title: 'Collections', items: ['Combobox', 'Listbox', 'Select', 'Tree View'] },
+    { title: 'Overlays', items: ['Action Bar', 'Dialog', 'Drawer', 'Hover Card', 'Menu', 'Overlay Manager', 'Popover', 'Toggle Tip', 'Tooltip'] },
+    { title: 'Disclosure', items: ['Accordion', 'Breadcrumb', 'Carousel', 'Collapsible', 'Pagination', 'Steps', 'Tabs'] },
+    { title: 'Feedback', items: ['Alert', 'Empty State', 'Progress Circle', 'Progress', 'Skeleton', 'Spinner', 'Status', 'Toast'] },
+    { title: 'Data Display', items: ['Avatar', 'Badge', 'Card', 'Clipboard', 'Image', 'Data List', 'Icon', 'QR Code', 'Stat', 'Table', 'Tag', 'Timeline'] },
+    { title: 'Internationalization', items: ['LocaleProvider', 'FormatNumber', 'FormatByte'] },
+    { title: 'Utilities', items: ['Checkmark', 'ClientOnly', 'EnvironmentProvider', 'For', 'Presence', 'Portal', 'Radiomark', 'Show', 'Skip Nav', 'Visually Hidden', 'Theme'] },
+  ];
