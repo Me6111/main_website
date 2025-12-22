@@ -77,7 +77,6 @@ const MainPage = ({ orientation = 'vertical' }) => {
         flexDirection: 'column',
       }}
     >
-      {clickedValue}
       {componentsMap[clickedValue] && (
         <CodeShowcase
           component={componentsMap[clickedValue].component}

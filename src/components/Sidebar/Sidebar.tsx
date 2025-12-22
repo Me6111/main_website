@@ -13,7 +13,7 @@ const Sidebar = ({
   const [opened, setOpened] = useState(Opened);
 
   return (
-    <div className="Sidebar" style={{ position: 'relative' }}>
+    <div className="Sidebar" style={{ position: 'fixed' }}>
       {OpenButton && (
         <div
           className="Sidebar_Button"

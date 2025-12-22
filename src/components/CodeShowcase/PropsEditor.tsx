@@ -14,6 +14,7 @@ const PropsEditor: React.FC<{ fields: InputField<any>[] }> = ({ fields }) => {
         margin: 0,
         display: "flex",
         flexDirection: "column",
+        alignItems: 'center',
         gap: "12px"
       }}
     >
